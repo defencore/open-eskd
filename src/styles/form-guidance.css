@@ -1,0 +1,105 @@
+.form-guide-intro {
+  margin: -10px 0 22px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #536373;
+}
+.guided-field {
+  position: relative;
+  min-width: 0;
+  margin-bottom: 18px;
+}
+.guided-field.full {
+  grid-column: 1 / -1;
+}
+.guided-field > .field {
+  margin: 0;
+}
+.guided-field > .field > span {
+  min-height: 24px;
+  padding-right: 30px;
+}
+.field-info {
+  position: absolute;
+  top: -2px;
+  right: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  padding: 4px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: #537493;
+  cursor: pointer;
+}
+.field-info .icon {
+  width: 18px;
+  height: 18px;
+}
+.field-info:hover,
+.field-info[aria-expanded='true'] {
+  background: #eaf2fa;
+  color: #24517a;
+}
+.field-info:focus-visible {
+  outline: 2px solid #5a87b2;
+  outline-offset: 2px;
+}
+.info-tooltip {
+  position: fixed;
+  z-index: 100;
+  width: 400px;
+  max-width: calc(100vw - 24px);
+  overflow: auto;
+  padding: 16px 18px;
+  border: 1px solid #b9c9d9;
+  border-radius: 5px;
+  background: #fff;
+  box-shadow: 0 6px 24px #223a5426;
+  color: #435669;
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.info-tooltip[hidden] {
+  display: none;
+}
+.info-tooltip-title {
+  display: block;
+  color: #253e56;
+  font-size: 14px;
+}
+.info-tooltip p {
+  margin: 8px 0;
+}
+.info-examples-title {
+  display: block;
+  margin-top: 12px;
+  font-size: 12px;
+}
+.info-tooltip ul {
+  margin: 5px 0 12px;
+  padding-left: 18px;
+}
+.info-tooltip li + li {
+  margin-top: 6px;
+}
+.info-tooltip code {
+  font-family: inherit;
+  color: #305b82;
+  white-space: pre-line;
+}
+.info-tooltip .guide-rule {
+  margin-bottom: 0;
+  padding-top: 10px;
+  border-top: 1px solid #e1e8ef;
+  font-size: 12px;
+}
+.field input:disabled,
+.field select:disabled {
+  background: #f3f5f7;
+  color: #536373;
+}

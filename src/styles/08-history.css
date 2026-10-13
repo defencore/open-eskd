@@ -1,0 +1,159 @@
+.history-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(310px, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.stack > .panel {
+  margin: 0;
+}
+.history-item {
+  position: relative;
+  padding: 20px 20px 20px 42px;
+  border-bottom: 1px solid var(--line);
+}
+.history-item:last-child {
+  border-bottom: 0;
+}
+.history-item:before {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #6388ab;
+  left: 20px;
+  top: 25px;
+}
+.history-item:after {
+  content: '';
+  position: absolute;
+  left: 23px;
+  top: 34px;
+  bottom: -25px;
+  width: 1px;
+  background: #d7e1ec;
+}
+.history-item:last-child:after {
+  display: none;
+}
+.history-item-top {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 9px;
+}
+.history-item-top strong {
+  font-size: 14px;
+  font-weight: 600;
+  font-family: Consolas, monospace;
+}
+.history-item p {
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 0 0 9px;
+}
+.history-item small {
+  font-size: 12px;
+  color: var(--muted);
+}
+.history-item-actions {
+  display: flex;
+  gap: 17px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+.branch-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--line);
+}
+.branch-row:last-child {
+  border-bottom: 0;
+}
+.branch-row > .icon {
+  width: 16px;
+  height: 16px;
+  color: #6683a0;
+}
+.branch-row strong {
+  display: block;
+  font-weight: 600;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+.branch-row small {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.branch-row .badge,
+.branch-row .icon-button {
+  margin-left: auto;
+  flex: none;
+}
+.manufacturing-summary {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+.manufacturing-summary strong {
+  font-size: 21px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-right: 6px;
+}
+.facility-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.facility-header .icon {
+  color: #597996;
+  width: 19px;
+  height: 19px;
+}
+.facility-header small {
+  margin-left: auto;
+}
+.manufacturing-facility .component-sub {
+  font-size: 12px;
+}
+.settings-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  align-items: start;
+}
+.settings-note {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0 0 18px;
+}
+.storage-meter {
+  margin: 0 0 21px;
+}
+.storage-meter strong {
+  font-size: 24px;
+  display: block;
+  margin-bottom: 7px;
+  font-weight: 500;
+}
+.storage-meter small {
+  font-size: 13px;
+  color: var(--muted);
+}

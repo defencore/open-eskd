@@ -1,0 +1,98 @@
+@media print {
+  .sidebar,
+  .topbar,
+  .title-actions,
+  .workspace-toolbar,
+  .workflow-nav,
+  .demo-notice,
+  .inspector,
+  .button,
+  .icon-button,
+  .text-link,
+  .footer-note,
+  .hint,
+  .banner-notice,
+  dialog,
+  #toasts,
+  .start-panel,
+  .example-line,
+  .structure-help {
+    display: none !important;
+  }
+  .main-shell {
+    width: 100%;
+    margin: 0;
+  }
+  .page {
+    padding: 0;
+    max-width: none;
+  }
+  .panel {
+    border: 1px solid #999;
+    border-radius: 0;
+    box-shadow: none;
+    break-inside: avoid;
+  }
+  .panel-header {
+    background: white;
+  }
+  .structure-layout,
+  .history-layout,
+  .settings-grid {
+    display: block;
+  }
+  .table-wrap {
+    overflow: visible;
+  }
+  .table,
+  .structure-table,
+  .manufacturing-facility .table {
+    font-size: 11px;
+    min-width: 0;
+  }
+  .table th {
+    font-size: 10px;
+  }
+  .table td,
+  .table th {
+    padding: 8px;
+  }
+  .table .optional,
+  .table .mobile-hide {
+    display: table-cell;
+  }
+  .table tr {
+    break-inside: avoid;
+  }
+  .badge {
+    background: white !important;
+    border: 1px solid #ccc;
+    font-size: 10px;
+  }
+  .component-name {
+    font-size: 11px;
+  }
+  .table .code {
+    font-size: 10px;
+  }
+  .print-only {
+    display: block;
+  }
+  .panel-footer {
+    background: white;
+  }
+  .page-title-row {
+    margin-bottom: 15px;
+  }
+  h1 {
+    font-size: 22px;
+  }
+  body {
+    background: white;
+  }
+}
+@media print {
+  .inspector-back {
+    display: none;
+  }
+}

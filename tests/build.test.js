@@ -1,0 +1,91 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { readFile, mkdir, readdir, writeFile } from 'node:fs/promises';
+import path from 'node:path';
+import { Script } from 'node:vm';
+import { buildSite, root, output } from '../scripts/build.mjs';
+import { read } from '../src/files/zip/reader.js';
+
+test('production artifacts are portable, deterministic and ready for the custom domain', async () => {
+  const example = await readFile(path.join(root, 'examples/quick-start.json'));
+  await mkdir(output, { recursive: true });
+  await writeFile(path.join(output, 'stale-artifact.txt'), 'Old build');
+  const first = await buildSite();
+  const html = await readFile(path.join(output, 'index.html'), 'utf8');
+  assert.match(html, /src="app.js" defer/);
+  assert.match(html, /href="app.css"/);
+  for (const match of html.matchAll(/(?:src|href)="([^"#]+)"/g))
+    assert((await readFile(path.join(output, match[1]))).length > 0);
+  assert.equal(
+    await readFile(path.join(output, 'CNAME'), 'utf8'),
+    'eskd.defencore.com\n',
+  );
+  assert.equal(await readFile(path.join(output, '.nojekyll'), 'utf8'), '');
+  const standalone = await readFile(
+    path.join(output, 'open-eskd.html'),
+    'utf8',
+  );
+  assert(!/<(?:script|link)[^>]+(?:src|href)="(?!data:)/.test(standalone));
+  assert(!standalone.includes('src="assets/icon.svg"'));
+  assert.match(standalone, /data:image\/svg\+xml;base64/);
+  assert.match(standalone, /<template id="license-text">/);
+  assert(
+    standalone.includes(
+      'TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION',
+    ),
+  );
+  assert(standalone.includes('Open ESKD contributors'));
+  assert(html.includes('<template id="license-text">'));
+  const inlineScript = standalone.match(/<script>([\s\S]*?)<\/script>/)?.[1];
+  assert(inlineScript, 'The portable application script must be embedded');
+  assert.doesNotThrow(
+    () => new Script(inlineScript),
+    'Inlining must preserve JavaScript dollar signs and valid syntax',
+  );
+  const zip = await read(
+    new Blob([await readFile(path.join(output, 'open-eskd-offline.zip'))]),
+  );
+  assert(zip.some((entry) => entry.name === 'open-eskd/open-eskd.html'));
+  assert(zip.some((entry) => entry.name === 'open-eskd/docs/WORKFLOW.md'));
+  assert(
+    zip.some((entry) => entry.name === 'open-eskd/examples/quick-start.json'),
+  );
+  assert(zip.some((entry) => entry.name === 'open-eskd/LICENSE'));
+  assert(
+    zip.some((entry) => entry.name === 'open-eskd/schema/project-v6.json'),
+  );
+  const guide = zip.find((entry) => entry.name === 'open-eskd/README.md');
+  assert.match(new TextDecoder().decode(guide.data), /open-eskd.html/);
+  assert(
+    !zip.some((entry) =>
+      /DEPLOYMENT|ARCHITECTURE|CONTRIBUTING|node_modules|src\//.test(
+        entry.name,
+      ),
+    ),
+  );
+  assert.deepEqual(
+    (await readdir(output)).sort(),
+    [
+      'LICENSE',
+      'NOTICE',
+      'schema',
+      '.nojekyll',
+      'CNAME',
+      'app.css',
+      'app.js',
+      'assets',
+      'index.html',
+      'manifest.webmanifest',
+      'open-eskd-offline.zip',
+      'open-eskd.html',
+      'sw.js',
+    ].sort(),
+  );
+  assert.deepEqual(await readdir(path.join(output, 'assets')), ['icon.svg']);
+  assert.deepEqual(
+    await readFile(path.join(root, 'examples/quick-start.json')),
+    example,
+  );
+  const second = await buildSite();
+  assert.equal(first.version, second.version);
+});

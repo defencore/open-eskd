@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#285c8c" />
+    <meta
+      name="description"
+      content="An offline workspace for engineering projects, product structures, documentation and revision history."
+    />
+    <title>Open ESKD — Engineering workspace</title>
+    <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="stylesheet" href="app.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div id="app">
+      <div class="boot">Open ESKD <span>Loading workspace…</span></div>
+    </div>
+    <dialog id="modal"></dialog>
+    <div id="toasts" role="status" aria-live="polite"></div>
+    <input
+      id="import-input"
+      type="file"
+      accept=".json,.zip,application/json,application/zip"
+      hidden
+    />
+    <input
+      id="file-check-input"
+      type="file"
+      accept=".json,application/json"
+      hidden
+    />
+  </body>
+</html>

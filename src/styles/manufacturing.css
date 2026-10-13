@@ -1,0 +1,279 @@
+.manufacturing-tabs,
+.route-toolbar,
+.production-card-actions,
+.manufacturing-plan-tools {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.manufacturing-plan-tools .search {
+  width: 360px;
+  max-width: 100%;
+}
+.manufacturing-order-note {
+  margin-bottom: 18px;
+}
+.route-editor {
+  margin-top: 18px;
+}
+.route-toolbar {
+  margin-top: 14px;
+  margin-bottom: 8px;
+}
+.route-step {
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  margin-top: 12px;
+}
+.route-step > summary {
+  padding: 12px 14px;
+  background: #f6f8fb;
+  color: var(--ink);
+}
+.route-step-body {
+  padding: 14px;
+}
+.route-step-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 5px;
+  margin-bottom: 12px;
+}
+[data-action='route-up'] .icon {
+  transform: rotate(-90deg);
+}
+[data-action='route-down'] .icon {
+  transform: rotate(90deg);
+}
+.production-card {
+  margin-bottom: 14px;
+}
+.production-card > summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+  background: #f7f9fb;
+  cursor: pointer;
+}
+.production-card > summary::before {
+  content: '▸';
+  color: #4d6b88;
+}
+.production-card[open] > summary::before {
+  content: '▾';
+}
+.production-card summary strong {
+  display: block;
+  font-size: 14px;
+}
+.production-card summary small {
+  display: block;
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.production-card summary .badge {
+  margin-left: auto;
+  flex: none;
+}
+.production-number {
+  background: #e8eef5;
+  border-radius: 4px;
+  padding: 5px 8px;
+  font-size: 12px;
+}
+.production-card h3 {
+  font-size: 15px;
+  margin: 18px 0 13px;
+}
+.production-card h4 {
+  font-size: 13px;
+  margin: 15px 0 9px;
+}
+.route-preparation,
+.operation-plan dl {
+  display: grid;
+  gap: 12px;
+  font-size: 13px;
+  line-height: 1.65;
+}
+.operation-body dl {
+  display: grid;
+  gap: 12px;
+  font-size: 13px;
+  line-height: 1.65;
+}
+.operation-body dl > div {
+  display: grid;
+  grid-template-columns: 160px minmax(0, 1fr);
+  gap: 16px;
+}
+.operation-body dt {
+  color: var(--muted);
+}
+.operation-body dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.operation-body p,
+.operation-references {
+  font-size: 13px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+.operation-references {
+  padding-left: 20px;
+  margin-top: 16px;
+}
+.route-links {
+  margin-top: 16px;
+}
+.route-links > summary {
+  color: var(--muted);
+  font-size: 13px;
+}
+.route-link-section {
+  border-top: 1px solid var(--line);
+  padding: 12px 0;
+}
+.route-link-section h4 {
+  margin: 0 0 12px;
+  font-size: 13px;
+}
+.route-link-row {
+  border: 1px solid var(--line);
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+.route-link-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 8px;
+}
+.route-reference-status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  font-size: 12px;
+}
+.reference-changed {
+  color: #a63826;
+}
+.route-validation {
+  margin: 12px 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.route-validation.reference-changed {
+  color: #a63826;
+}
+.route-preparation > div,
+.operation-plan dl > div {
+  display: grid;
+  grid-template-columns: 160px minmax(0, 1fr);
+  gap: 16px;
+}
+.route-preparation dt,
+.operation-plan dt {
+  color: var(--muted);
+}
+.route-preparation dd,
+.operation-plan dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.required-components,
+.required-documents {
+  font-size: 13px;
+  line-height: 1.7;
+  padding-left: 20px;
+}
+.required-components li + li,
+.required-documents li + li {
+  margin-top: 6px;
+}
+.required-components strong {
+  margin-left: 10px;
+}
+.operation-plan {
+  padding-left: 22px;
+}
+.operation-plan > li {
+  padding: 0 0 18px 8px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 18px;
+}
+.operation-plan > li:last-child {
+  margin-bottom: 0;
+  border-bottom: 0;
+}
+.operation-plan h4 {
+  margin-top: 0;
+}
+.operation-plan p {
+  font-size: 13px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 760px) {
+  .production-card > summary {
+    flex-wrap: wrap;
+    padding: 13px;
+  }
+  .production-card summary .badge {
+    margin-left: 36px;
+  }
+  .route-preparation > div,
+  .operation-plan dl > div {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+  .operation-body dl > div {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+  .route-step-body {
+    padding: 12px;
+  }
+}
+@media print {
+  .manufacturing-tabs,
+  .manufacturing-plan-tools,
+  .production-card-actions {
+    display: none;
+  }
+  .production-card > summary {
+    background: white;
+  }
+  .production-card {
+    break-inside: auto;
+  }
+  .operation-plan > li {
+    break-inside: avoid;
+  }
+}
+.diff-value {
+  display: block;
+  white-space: pre-wrap;
+  margin-top: 5px;
+}
+
+.production-doc-name {
+  display: none;
+}
+@media print {
+  .production-doc-name {
+    display: inline;
+  }
+  .info-tooltip,
+  .field-info {
+    display: none !important;
+  }
+}

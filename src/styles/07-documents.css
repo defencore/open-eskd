@@ -1,0 +1,71 @@
+.document-drop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 22px;
+  background: #fff;
+  border: 1px dashed #aebfd0;
+  border-radius: 4px;
+  margin-bottom: 21px;
+}
+.document-drop.drag {
+  background: #e9f2fc;
+  border-color: #3578b2;
+}
+.document-drop h2 {
+  font-size: 16px;
+}
+.document-drop p {
+  margin: 6px 0 13px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.upload-target {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  font-size: 12px;
+  color: #566575;
+}
+.upload-target select {
+  max-width: 370px;
+  min-width: 210px;
+  background: #fff;
+  border: 1px solid #bdc8d3;
+  border-radius: 4px;
+  padding: 8px;
+  font-size: 13px;
+}
+.document-ext {
+  font-size: 10px;
+  font-family: Consolas, monospace;
+  width: 34px;
+  height: 38px;
+  border: 1px solid #cfdae4;
+  border-radius: 2px;
+  background: #f7f9fc;
+  display: grid;
+  place-content: center;
+  color: #597794;
+  flex: none;
+}
+.file-name {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 170px;
+}
+.file-name strong {
+  display: block;
+  font-weight: 500;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+.file-name small {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 3px;
+  overflow-wrap: anywhere;
+}

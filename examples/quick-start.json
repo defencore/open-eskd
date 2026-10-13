@@ -1,0 +1,271 @@
+{
+  "schema": "open-eskd",
+  "schemaVersion": 6,
+  "id": "b66a64c0-5054-4516-b2d0-21679fea2cc3",
+  "createdAt": "2026-10-12T02:57:10.527Z",
+  "updatedAt": "2026-10-12T02:57:10.528Z",
+  "activeBranch": "main",
+  "branches": {
+    "main": {
+      "head": "e3021e6b-240c-465d-a75f-316cd352ba9e",
+      "working": {
+        "meta": {
+          "name": "Quick-start example",
+          "designation": "EX.001.000",
+          "description": "A small assembly for exploring revisions and manufacturing quantities.",
+          "owner": "Example engineer"
+        },
+        "components": [
+          {
+            "id": "example-assembly",
+            "parentId": null,
+            "name": "Mounting assembly",
+            "designation": "EX.001.000",
+            "type": "assembly",
+            "quantity": 2,
+            "status": "draft",
+            "revision": "A",
+            "material": "",
+            "manufacturer": "Assembly workshop",
+            "process": "Assembly and inspection",
+            "owner": "Example engineer",
+            "notes": "",
+            "unit": "pcs",
+            "definitionId": "example-assembly",
+            "source": null,
+            "baseRevisionId": null,
+            "manufacturing": {
+              "technology": "assembly",
+              "stock": "",
+              "preparation": "Use the approved drawing and inspection instruction.",
+              "steps": [
+                {
+                  "id": "example-example-assembly-prepare",
+                  "operation": "prepare",
+                  "instructions": "Prepare the documented material or child components.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Verify identification and revision.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                },
+                {
+                  "id": "example-example-assembly-make",
+                  "operation": "assembly",
+                  "instructions": "Follow the approved manufacturing or assembly document.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Inspect against the approved drawing.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                }
+              ]
+            }
+          },
+          {
+            "id": "example-part",
+            "parentId": "example-assembly",
+            "name": "Mounting bracket",
+            "designation": "EX.001.001",
+            "type": "part",
+            "quantity": 4,
+            "status": "draft",
+            "revision": "A",
+            "material": "Aluminium 6061-T6",
+            "manufacturer": "Mechanical workshop",
+            "process": "CNC milling",
+            "owner": "Example engineer",
+            "notes": "Total requirement: 8 brackets for 2 assemblies.",
+            "unit": "pcs",
+            "definitionId": "example-part",
+            "source": null,
+            "baseRevisionId": null,
+            "manufacturing": {
+              "technology": "milling",
+              "stock": "",
+              "preparation": "Use the approved drawing and inspection instruction.",
+              "steps": [
+                {
+                  "id": "example-example-part-prepare",
+                  "operation": "prepare",
+                  "instructions": "Prepare the documented material or child components.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Verify identification and revision.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                },
+                {
+                  "id": "example-example-part-make",
+                  "operation": "milling",
+                  "instructions": "Follow the approved manufacturing or assembly document.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Inspect against the approved drawing.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                }
+              ]
+            }
+          }
+        ],
+        "documents": []
+      }
+    }
+  },
+  "commits": {
+    "5af06569-1968-483c-abba-f06c87cbdac5": {
+      "id": "5af06569-1968-483c-abba-f06c87cbdac5",
+      "parents": [],
+      "author": "Example engineer",
+      "message": "Project created",
+      "version": "0.1.0",
+      "status": "draft",
+      "createdAt": "2026-10-12T02:57:10.527Z",
+      "snapshot": {
+        "meta": {
+          "name": "Quick-start example",
+          "designation": "EX.001.000",
+          "description": "A small assembly for exploring revisions and manufacturing quantities.",
+          "owner": "Example engineer"
+        },
+        "components": [],
+        "documents": []
+      }
+    },
+    "e3021e6b-240c-465d-a75f-316cd352ba9e": {
+      "id": "e3021e6b-240c-465d-a75f-316cd352ba9e",
+      "parents": [
+        "5af06569-1968-483c-abba-f06c87cbdac5"
+      ],
+      "author": "Example engineer",
+      "message": "Initial assembly and bracket",
+      "version": "0.2.0",
+      "status": "draft",
+      "createdAt": "2026-10-12T02:57:10.528Z",
+      "snapshot": {
+        "meta": {
+          "name": "Quick-start example",
+          "designation": "EX.001.000",
+          "description": "A small assembly for exploring revisions and manufacturing quantities.",
+          "owner": "Example engineer"
+        },
+        "components": [
+          {
+            "id": "example-assembly",
+            "parentId": null,
+            "name": "Mounting assembly",
+            "designation": "EX.001.000",
+            "type": "assembly",
+            "quantity": 2,
+            "status": "draft",
+            "revision": "A",
+            "material": "",
+            "manufacturer": "Assembly workshop",
+            "process": "Assembly and inspection",
+            "owner": "Example engineer",
+            "notes": "",
+            "unit": "pcs",
+            "definitionId": "example-assembly",
+            "source": null,
+            "baseRevisionId": null,
+            "manufacturing": {
+              "technology": "assembly",
+              "stock": "",
+              "preparation": "Use the approved drawing and inspection instruction.",
+              "steps": [
+                {
+                  "id": "example-example-assembly-prepare",
+                  "operation": "prepare",
+                  "instructions": "Prepare the documented material or child components.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Verify identification and revision.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                },
+                {
+                  "id": "example-example-assembly-make",
+                  "operation": "assembly",
+                  "instructions": "Follow the approved manufacturing or assembly document.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Inspect against the approved drawing.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                }
+              ]
+            }
+          },
+          {
+            "id": "example-part",
+            "parentId": "example-assembly",
+            "name": "Mounting bracket",
+            "designation": "EX.001.001",
+            "type": "part",
+            "quantity": 4,
+            "status": "draft",
+            "revision": "A",
+            "material": "Aluminium 6061-T6",
+            "manufacturer": "Mechanical workshop",
+            "process": "CNC milling",
+            "owner": "Example engineer",
+            "notes": "Total requirement: 8 brackets for 2 assemblies.",
+            "unit": "pcs",
+            "definitionId": "example-part",
+            "source": null,
+            "baseRevisionId": null,
+            "manufacturing": {
+              "technology": "milling",
+              "stock": "",
+              "preparation": "Use the approved drawing and inspection instruction.",
+              "steps": [
+                {
+                  "id": "example-example-part-prepare",
+                  "operation": "prepare",
+                  "instructions": "Prepare the documented material or child components.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Verify identification and revision.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                },
+                {
+                  "id": "example-example-part-make",
+                  "operation": "milling",
+                  "instructions": "Follow the approved manufacturing or assembly document.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Inspect against the approved drawing.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                }
+              ]
+            }
+          }
+        ],
+        "documents": []
+      }
+    }
+  },
+  "kind": "project",
+  "catalog": {},
+  "production": [],
+  "fileCheck": null
+}

@@ -1,0 +1,24 @@
+name: Windows filesystem checks
+on:
+  workflow_call:
+permissions:
+  contents: read
+jobs:
+  powershell:
+    runs-on: windows-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [powershell, pwsh]
+    env:
+      ESKD_PS_ENGINE: ${{ matrix.engine }}
+      ESKD_REQUIRE_POWERSHELL: '1'
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: node --test tests/powershell.test.js

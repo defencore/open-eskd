@@ -1,0 +1,55 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+button {
+  cursor: pointer;
+  color: inherit;
+}
+button,
+a,
+input,
+select,
+textarea {
+  outline-offset: 3px;
+}
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid #3479bc;
+}
+a {
+  color: var(--green);
+}
+svg {
+  flex: none;
+  vertical-align: middle;
+}
+.icon {
+  width: 19px;
+  height: 19px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.boot {
+  display: grid;
+  place-content: center;
+  min-height: 100vh;
+  gap: 15px;
+  font-size: 26px;
+  font-weight: 600;
+}
+.boot span {
+  font-size: 14px;
+  color: var(--muted);
+}

@@ -1,0 +1,45 @@
+.catalog-revision {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line);
+}
+.catalog-revision:last-child {
+  border: 0;
+}
+.catalog-revision small {
+  display: block;
+  color: var(--muted);
+  margin-top: 6px;
+}
+.catalog-revision p {
+  margin: 8px 0;
+  font-size: 13px;
+}
+.catalog-revision > div > span:not(.badge) {
+  font-size: 12px;
+  color: var(--muted);
+}
+.catalog-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 8px;
+}
+.catalog-revision .catalog-buttons {
+  flex-direction: column;
+}
+.inspector .catalog-buttons .button {
+  white-space: normal;
+  text-align: left;
+  justify-content: flex-start;
+}
+@media (max-width: 760px) {
+  .catalog-revision {
+    flex-direction: column;
+  }
+  .catalog-revision .catalog-buttons {
+    flex-direction: row;
+  }
+}

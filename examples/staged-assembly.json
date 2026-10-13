@@ -1,0 +1,1027 @@
+{
+  "schema": "open-eskd",
+  "schemaVersion": 6,
+  "kind": "project",
+  "catalog": {},
+  "id": "d28d4974-a25d-4336-afdf-84de28996381",
+  "createdAt": "2026-10-13T01:29:25.580Z",
+  "updatedAt": "2026-10-13T01:29:25.588Z",
+  "activeBranch": "main",
+  "branches": {
+    "main": {
+      "head": "5fc93a5c-aa9c-4a47-b688-e5c87bb82db2",
+      "working": {
+        "meta": {
+          "name": "Staged mechanical assembly",
+          "designation": "MECH.001.000.000",
+          "description": "Illustrative staged workflow: print and drill a housing; machine and install a tube; manufacture and match a piston afterward; cut, drill and bend a bracket; join the final assembly. Actual drawings and engineering criteria are required before manufacturing.",
+          "owner": "Example engineering team"
+        },
+        "components": [
+          {
+            "id": "demo-product",
+            "definitionId": "demo-product",
+            "source": null,
+            "baseRevisionId": null,
+            "parentId": null,
+            "name": "Mechanical assembly",
+            "designation": "MECH.001.000.000",
+            "type": "assembly",
+            "quantity": 1,
+            "unit": "pcs",
+            "revision": "A",
+            "status": "draft",
+            "owner": "Example engineering team",
+            "material": "",
+            "manufacturer": "Assembly workshop",
+            "process": "",
+            "manufacturing": {
+              "technology": "assembly",
+              "stock": "",
+              "preparation": "Review the actual drawing revision, material, tooling and inspection instruction before starting.",
+              "steps": [
+                {
+                  "id": "demo-product-operation-1",
+                  "operation": "fastening",
+                  "instructions": "Perform this operation according to the reviewed drawing and process instruction. Replace this illustrative instruction with the actual work definition.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                },
+                {
+                  "id": "demo-product-operation-2",
+                  "operation": "inspect",
+                  "instructions": "Perform this operation according to the reviewed drawing and process instruction. Replace this illustrative instruction with the actual work definition.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                }
+              ]
+            },
+            "notes": ""
+          },
+          {
+            "id": "demo-insert",
+            "definitionId": "demo-insert",
+            "source": null,
+            "baseRevisionId": null,
+            "parentId": "demo-product",
+            "name": "Tube and piston assembly",
+            "designation": "MECH.001.100.000",
+            "type": "assembly",
+            "quantity": 1,
+            "unit": "pcs",
+            "revision": "A",
+            "status": "draft",
+            "owner": "Example engineering team",
+            "material": "",
+            "manufacturer": "Assembly workshop",
+            "process": "",
+            "manufacturing": {
+              "technology": "assembly",
+              "stock": "",
+              "preparation": "Review the actual drawing revision, material, tooling and inspection instruction before starting.",
+              "steps": [
+                {
+                  "id": "demo-insert-operation-1",
+                  "operation": "pressFit",
+                  "instructions": "Install the completed tube in the printed housing according to the actual assembly drawing. Verify the installed condition before piston work begins.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [],
+                  "componentInputs": [
+                    {
+                      "componentId": "demo-housing",
+                      "revision": "A",
+                      "catalogRevisionId": null,
+                      "quantity": 1,
+                      "usage": "input"
+                    },
+                    {
+                      "componentId": "demo-tube",
+                      "revision": "A",
+                      "catalogRevisionId": null,
+                      "quantity": 1,
+                      "usage": "input"
+                    }
+                  ],
+                  "documents": [
+                    {
+                      "documentId": "935aff42-00d3-4743-9eb9-6d01d6c82d7f",
+                      "revision": "A",
+                      "path": "documents/staged-assembly-demo.txt",
+                      "sha256": "d3369701eaf5747b5cfa044ca49ee2dce66e6ce3f94ec8e794b3dbb91b05dc80"
+                    }
+                  ]
+                },
+                {
+                  "id": "demo-insert-operation-2",
+                  "operation": "assembly",
+                  "instructions": "Install the completed and matched piston according to the actual assembly drawing.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [],
+                  "componentInputs": [
+                    {
+                      "componentId": "demo-piston",
+                      "revision": "A",
+                      "catalogRevisionId": null,
+                      "quantity": 1,
+                      "usage": "input"
+                    }
+                  ],
+                  "documents": []
+                },
+                {
+                  "id": "demo-insert-operation-3",
+                  "operation": "inspect",
+                  "instructions": "Perform this operation according to the reviewed drawing and process instruction. Replace this illustrative instruction with the actual work definition.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                }
+              ]
+            },
+            "notes": ""
+          },
+          {
+            "id": "demo-housing",
+            "definitionId": "demo-housing",
+            "source": null,
+            "baseRevisionId": null,
+            "parentId": "demo-insert",
+            "name": "Printed housing",
+            "designation": "MECH.001.100.001",
+            "type": "part",
+            "quantity": 1,
+            "unit": "pcs",
+            "revision": "A",
+            "status": "draft",
+            "owner": "Example engineering team",
+            "material": "Polymer grade specified by drawing",
+            "manufacturer": "Printing workshop",
+            "process": "",
+            "manufacturing": {
+              "technology": "printing3d",
+              "stock": "Printing material specified by the process",
+              "preparation": "Review the actual drawing revision, material, tooling and inspection instruction before starting.",
+              "steps": [
+                {
+                  "id": "demo-housing-operation-1",
+                  "operation": "printing3d",
+                  "instructions": "Perform this operation according to the reviewed drawing and process instruction. Replace this illustrative instruction with the actual work definition.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                },
+                {
+                  "id": "demo-housing-operation-2",
+                  "operation": "drilling",
+                  "instructions": "Perform this operation according to the reviewed drawing and process instruction. Replace this illustrative instruction with the actual work definition.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                },
+                {
+                  "id": "demo-housing-operation-3",
+                  "operation": "inspect",
+                  "instructions": "Perform this operation according to the reviewed drawing and process instruction. Replace this illustrative instruction with the actual work definition.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                }
+              ]
+            },
+            "notes": ""
+          },
+          {
+            "id": "demo-tube",
+            "definitionId": "demo-tube",
+            "source": null,
+            "baseRevisionId": null,
+            "parentId": "demo-insert",
+            "name": "Duralumin tube",
+            "designation": "MECH.001.100.002",
+            "type": "part",
+            "quantity": 1,
+            "unit": "pcs",
+            "revision": "A",
+            "status": "draft",
+            "owner": "Example engineering team",
+            "material": "Aluminium alloy grade specified by drawing",
+            "manufacturer": "Machine workshop",
+            "process": "",
+            "manufacturing": {
+              "technology": "turning",
+              "stock": "Bar or tube blank as specified by drawing",
+              "preparation": "Review the actual drawing revision, material, tooling and inspection instruction before starting.",
+              "steps": [
+                {
+                  "id": "demo-tube-operation-1",
+                  "operation": "turning",
+                  "instructions": "Perform this operation according to the reviewed drawing and process instruction. Replace this illustrative instruction with the actual work definition.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                },
+                {
+                  "id": "demo-tube-operation-2",
+                  "operation": "drilling",
+                  "instructions": "Perform this operation according to the reviewed drawing and process instruction. Replace this illustrative instruction with the actual work definition.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                },
+                {
+                  "id": "demo-tube-operation-3",
+                  "operation": "inspect",
+                  "instructions": "Perform this operation according to the reviewed drawing and process instruction. Replace this illustrative instruction with the actual work definition.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                }
+              ]
+            },
+            "notes": ""
+          },
+          {
+            "id": "demo-piston",
+            "definitionId": "demo-piston",
+            "source": null,
+            "baseRevisionId": null,
+            "parentId": "demo-insert",
+            "name": "Matched piston",
+            "designation": "MECH.001.100.003",
+            "type": "part",
+            "quantity": 1,
+            "unit": "pcs",
+            "revision": "A",
+            "status": "draft",
+            "owner": "Example engineering team",
+            "material": "Material specified by drawing",
+            "manufacturer": "Machine workshop",
+            "process": "",
+            "manufacturing": {
+              "technology": "turning",
+              "stock": "Blank specified by drawing",
+              "preparation": "Review the actual drawing revision, material, tooling and inspection instruction before starting.",
+              "steps": [
+                {
+                  "id": "demo-piston-operation-1",
+                  "operation": "turning",
+                  "instructions": "Perform this operation according to the reviewed drawing and process instruction. Replace this illustrative instruction with the actual work definition.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [
+                    {
+                      "componentId": "demo-insert",
+                      "operationId": "demo-insert-operation-1",
+                      "revision": "A",
+                      "catalogRevisionId": null
+                    }
+                  ],
+                  "componentInputs": [],
+                  "documents": []
+                },
+                {
+                  "id": "demo-piston-operation-2",
+                  "operation": "fitting",
+                  "instructions": "Match the piston to the selected installed tube using the actual controlled dimensions and acceptance criteria. The tube placement identifies the intended pair.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [],
+                  "componentInputs": [
+                    {
+                      "componentId": "demo-tube",
+                      "revision": "A",
+                      "catalogRevisionId": null,
+                      "quantity": 1,
+                      "usage": "reference"
+                    }
+                  ],
+                  "documents": []
+                },
+                {
+                  "id": "demo-piston-operation-3",
+                  "operation": "inspect",
+                  "instructions": "Perform this operation according to the reviewed drawing and process instruction. Replace this illustrative instruction with the actual work definition.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                }
+              ]
+            },
+            "notes": ""
+          },
+          {
+            "id": "demo-bracket",
+            "definitionId": "demo-bracket",
+            "source": null,
+            "baseRevisionId": null,
+            "parentId": "demo-product",
+            "name": "Sheet-metal bracket",
+            "designation": "MECH.001.000.001",
+            "type": "part",
+            "quantity": 1,
+            "unit": "pcs",
+            "revision": "A",
+            "status": "draft",
+            "owner": "Example engineering team",
+            "material": "Sheet grade specified by drawing",
+            "manufacturer": "Machine workshop",
+            "process": "",
+            "manufacturing": {
+              "technology": "sheetMetal",
+              "stock": "Sheet blank with dimensions and condition from drawing",
+              "preparation": "Review the actual drawing revision, material, tooling and inspection instruction before starting.",
+              "steps": [
+                {
+                  "id": "demo-bracket-operation-1",
+                  "operation": "cutStock",
+                  "instructions": "Perform this operation according to the reviewed drawing and process instruction. Replace this illustrative instruction with the actual work definition.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                },
+                {
+                  "id": "demo-bracket-operation-2",
+                  "operation": "drilling",
+                  "instructions": "Perform this operation according to the reviewed drawing and process instruction. Replace this illustrative instruction with the actual work definition.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                },
+                {
+                  "id": "demo-bracket-operation-3",
+                  "operation": "bending",
+                  "instructions": "Perform this operation according to the reviewed drawing and process instruction. Replace this illustrative instruction with the actual work definition.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                },
+                {
+                  "id": "demo-bracket-operation-4",
+                  "operation": "inspect",
+                  "instructions": "Perform this operation according to the reviewed drawing and process instruction. Replace this illustrative instruction with the actual work definition.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                }
+              ]
+            },
+            "notes": ""
+          },
+          {
+            "id": "demo-fasteners",
+            "definitionId": "demo-fasteners",
+            "source": null,
+            "baseRevisionId": null,
+            "parentId": "demo-product",
+            "name": "Fasteners",
+            "designation": "MECH.001.000.002",
+            "type": "standard",
+            "quantity": 4,
+            "unit": "pcs",
+            "revision": "A",
+            "status": "draft",
+            "owner": "Example engineering team",
+            "material": "",
+            "manufacturer": "Machine workshop",
+            "process": "",
+            "manufacturing": {
+              "technology": "purchase",
+              "stock": "",
+              "preparation": "Review the actual drawing revision, material, tooling and inspection instruction before starting.",
+              "steps": [
+                {
+                  "id": "demo-fasteners-operation-1",
+                  "operation": "purchase",
+                  "instructions": "Perform this operation according to the reviewed drawing and process instruction. Replace this illustrative instruction with the actual work definition.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                },
+                {
+                  "id": "demo-fasteners-operation-2",
+                  "operation": "inspect",
+                  "instructions": "Perform this operation according to the reviewed drawing and process instruction. Replace this illustrative instruction with the actual work definition.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                }
+              ]
+            },
+            "notes": ""
+          }
+        ],
+        "documents": [
+          {
+            "id": "935aff42-00d3-4743-9eb9-6d01d6c82d7f",
+            "name": "staged-assembly-demo.txt",
+            "path": "documents/staged-assembly-demo.txt",
+            "componentId": "demo-insert",
+            "kind": "instructions",
+            "revision": "A",
+            "sha256": "d3369701eaf5747b5cfa044ca49ee2dce66e6ce3f94ec8e794b3dbb91b05dc80",
+            "required": true
+          }
+        ]
+      }
+    }
+  },
+  "commits": {
+    "e5241dcd-e248-4027-90fa-9c03533a917a": {
+      "id": "e5241dcd-e248-4027-90fa-9c03533a917a",
+      "parents": [],
+      "author": "Example engineering team",
+      "message": "Project created",
+      "version": "0.1.0",
+      "status": "draft",
+      "createdAt": "2026-10-13T01:29:25.580Z",
+      "snapshot": {
+        "meta": {
+          "name": "Staged mechanical assembly",
+          "designation": "MECH.001.000.000",
+          "description": "Illustrative staged workflow: print and drill a housing; machine and install a tube; manufacture and match a piston afterward; cut, drill and bend a bracket; join the final assembly. Actual drawings and engineering criteria are required before manufacturing.",
+          "owner": "Example engineering team"
+        },
+        "components": [],
+        "documents": []
+      }
+    },
+    "5fc93a5c-aa9c-4a47-b688-e5c87bb82db2": {
+      "id": "5fc93a5c-aa9c-4a47-b688-e5c87bb82db2",
+      "parents": [
+        "e5241dcd-e248-4027-90fa-9c03533a917a"
+      ],
+      "author": "Example engineering team",
+      "message": "Define staged manufacture with explicit operation prerequisites and revision-controlled inputs.",
+      "version": "0.2.0",
+      "status": "draft",
+      "createdAt": "2026-10-13T01:29:25.588Z",
+      "snapshot": {
+        "meta": {
+          "name": "Staged mechanical assembly",
+          "designation": "MECH.001.000.000",
+          "description": "Illustrative staged workflow: print and drill a housing; machine and install a tube; manufacture and match a piston afterward; cut, drill and bend a bracket; join the final assembly. Actual drawings and engineering criteria are required before manufacturing.",
+          "owner": "Example engineering team"
+        },
+        "components": [
+          {
+            "id": "demo-product",
+            "definitionId": "demo-product",
+            "source": null,
+            "baseRevisionId": null,
+            "parentId": null,
+            "name": "Mechanical assembly",
+            "designation": "MECH.001.000.000",
+            "type": "assembly",
+            "quantity": 1,
+            "unit": "pcs",
+            "revision": "A",
+            "status": "draft",
+            "owner": "Example engineering team",
+            "material": "",
+            "manufacturer": "Assembly workshop",
+            "process": "",
+            "manufacturing": {
+              "technology": "assembly",
+              "stock": "",
+              "preparation": "Review the actual drawing revision, material, tooling and inspection instruction before starting.",
+              "steps": [
+                {
+                  "id": "demo-product-operation-1",
+                  "operation": "fastening",
+                  "instructions": "Perform this operation according to the reviewed drawing and process instruction. Replace this illustrative instruction with the actual work definition.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                },
+                {
+                  "id": "demo-product-operation-2",
+                  "operation": "inspect",
+                  "instructions": "Perform this operation according to the reviewed drawing and process instruction. Replace this illustrative instruction with the actual work definition.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                }
+              ]
+            },
+            "notes": ""
+          },
+          {
+            "id": "demo-insert",
+            "definitionId": "demo-insert",
+            "source": null,
+            "baseRevisionId": null,
+            "parentId": "demo-product",
+            "name": "Tube and piston assembly",
+            "designation": "MECH.001.100.000",
+            "type": "assembly",
+            "quantity": 1,
+            "unit": "pcs",
+            "revision": "A",
+            "status": "draft",
+            "owner": "Example engineering team",
+            "material": "",
+            "manufacturer": "Assembly workshop",
+            "process": "",
+            "manufacturing": {
+              "technology": "assembly",
+              "stock": "",
+              "preparation": "Review the actual drawing revision, material, tooling and inspection instruction before starting.",
+              "steps": [
+                {
+                  "id": "demo-insert-operation-1",
+                  "operation": "pressFit",
+                  "instructions": "Install the completed tube in the printed housing according to the actual assembly drawing. Verify the installed condition before piston work begins.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [],
+                  "componentInputs": [
+                    {
+                      "componentId": "demo-housing",
+                      "revision": "A",
+                      "catalogRevisionId": null,
+                      "quantity": 1,
+                      "usage": "input"
+                    },
+                    {
+                      "componentId": "demo-tube",
+                      "revision": "A",
+                      "catalogRevisionId": null,
+                      "quantity": 1,
+                      "usage": "input"
+                    }
+                  ],
+                  "documents": [
+                    {
+                      "documentId": "935aff42-00d3-4743-9eb9-6d01d6c82d7f",
+                      "revision": "A",
+                      "path": "documents/staged-assembly-demo.txt",
+                      "sha256": "d3369701eaf5747b5cfa044ca49ee2dce66e6ce3f94ec8e794b3dbb91b05dc80"
+                    }
+                  ]
+                },
+                {
+                  "id": "demo-insert-operation-2",
+                  "operation": "assembly",
+                  "instructions": "Install the completed and matched piston according to the actual assembly drawing.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [],
+                  "componentInputs": [
+                    {
+                      "componentId": "demo-piston",
+                      "revision": "A",
+                      "catalogRevisionId": null,
+                      "quantity": 1,
+                      "usage": "input"
+                    }
+                  ],
+                  "documents": []
+                },
+                {
+                  "id": "demo-insert-operation-3",
+                  "operation": "inspect",
+                  "instructions": "Perform this operation according to the reviewed drawing and process instruction. Replace this illustrative instruction with the actual work definition.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                }
+              ]
+            },
+            "notes": ""
+          },
+          {
+            "id": "demo-housing",
+            "definitionId": "demo-housing",
+            "source": null,
+            "baseRevisionId": null,
+            "parentId": "demo-insert",
+            "name": "Printed housing",
+            "designation": "MECH.001.100.001",
+            "type": "part",
+            "quantity": 1,
+            "unit": "pcs",
+            "revision": "A",
+            "status": "draft",
+            "owner": "Example engineering team",
+            "material": "Polymer grade specified by drawing",
+            "manufacturer": "Printing workshop",
+            "process": "",
+            "manufacturing": {
+              "technology": "printing3d",
+              "stock": "Printing material specified by the process",
+              "preparation": "Review the actual drawing revision, material, tooling and inspection instruction before starting.",
+              "steps": [
+                {
+                  "id": "demo-housing-operation-1",
+                  "operation": "printing3d",
+                  "instructions": "Perform this operation according to the reviewed drawing and process instruction. Replace this illustrative instruction with the actual work definition.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                },
+                {
+                  "id": "demo-housing-operation-2",
+                  "operation": "drilling",
+                  "instructions": "Perform this operation according to the reviewed drawing and process instruction. Replace this illustrative instruction with the actual work definition.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                },
+                {
+                  "id": "demo-housing-operation-3",
+                  "operation": "inspect",
+                  "instructions": "Perform this operation according to the reviewed drawing and process instruction. Replace this illustrative instruction with the actual work definition.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                }
+              ]
+            },
+            "notes": ""
+          },
+          {
+            "id": "demo-tube",
+            "definitionId": "demo-tube",
+            "source": null,
+            "baseRevisionId": null,
+            "parentId": "demo-insert",
+            "name": "Duralumin tube",
+            "designation": "MECH.001.100.002",
+            "type": "part",
+            "quantity": 1,
+            "unit": "pcs",
+            "revision": "A",
+            "status": "draft",
+            "owner": "Example engineering team",
+            "material": "Aluminium alloy grade specified by drawing",
+            "manufacturer": "Machine workshop",
+            "process": "",
+            "manufacturing": {
+              "technology": "turning",
+              "stock": "Bar or tube blank as specified by drawing",
+              "preparation": "Review the actual drawing revision, material, tooling and inspection instruction before starting.",
+              "steps": [
+                {
+                  "id": "demo-tube-operation-1",
+                  "operation": "turning",
+                  "instructions": "Perform this operation according to the reviewed drawing and process instruction. Replace this illustrative instruction with the actual work definition.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                },
+                {
+                  "id": "demo-tube-operation-2",
+                  "operation": "drilling",
+                  "instructions": "Perform this operation according to the reviewed drawing and process instruction. Replace this illustrative instruction with the actual work definition.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                },
+                {
+                  "id": "demo-tube-operation-3",
+                  "operation": "inspect",
+                  "instructions": "Perform this operation according to the reviewed drawing and process instruction. Replace this illustrative instruction with the actual work definition.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                }
+              ]
+            },
+            "notes": ""
+          },
+          {
+            "id": "demo-piston",
+            "definitionId": "demo-piston",
+            "source": null,
+            "baseRevisionId": null,
+            "parentId": "demo-insert",
+            "name": "Matched piston",
+            "designation": "MECH.001.100.003",
+            "type": "part",
+            "quantity": 1,
+            "unit": "pcs",
+            "revision": "A",
+            "status": "draft",
+            "owner": "Example engineering team",
+            "material": "Material specified by drawing",
+            "manufacturer": "Machine workshop",
+            "process": "",
+            "manufacturing": {
+              "technology": "turning",
+              "stock": "Blank specified by drawing",
+              "preparation": "Review the actual drawing revision, material, tooling and inspection instruction before starting.",
+              "steps": [
+                {
+                  "id": "demo-piston-operation-1",
+                  "operation": "turning",
+                  "instructions": "Perform this operation according to the reviewed drawing and process instruction. Replace this illustrative instruction with the actual work definition.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [
+                    {
+                      "componentId": "demo-insert",
+                      "operationId": "demo-insert-operation-1",
+                      "revision": "A",
+                      "catalogRevisionId": null
+                    }
+                  ],
+                  "componentInputs": [],
+                  "documents": []
+                },
+                {
+                  "id": "demo-piston-operation-2",
+                  "operation": "fitting",
+                  "instructions": "Match the piston to the selected installed tube using the actual controlled dimensions and acceptance criteria. The tube placement identifies the intended pair.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [],
+                  "componentInputs": [
+                    {
+                      "componentId": "demo-tube",
+                      "revision": "A",
+                      "catalogRevisionId": null,
+                      "quantity": 1,
+                      "usage": "reference"
+                    }
+                  ],
+                  "documents": []
+                },
+                {
+                  "id": "demo-piston-operation-3",
+                  "operation": "inspect",
+                  "instructions": "Perform this operation according to the reviewed drawing and process instruction. Replace this illustrative instruction with the actual work definition.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                }
+              ]
+            },
+            "notes": ""
+          },
+          {
+            "id": "demo-bracket",
+            "definitionId": "demo-bracket",
+            "source": null,
+            "baseRevisionId": null,
+            "parentId": "demo-product",
+            "name": "Sheet-metal bracket",
+            "designation": "MECH.001.000.001",
+            "type": "part",
+            "quantity": 1,
+            "unit": "pcs",
+            "revision": "A",
+            "status": "draft",
+            "owner": "Example engineering team",
+            "material": "Sheet grade specified by drawing",
+            "manufacturer": "Machine workshop",
+            "process": "",
+            "manufacturing": {
+              "technology": "sheetMetal",
+              "stock": "Sheet blank with dimensions and condition from drawing",
+              "preparation": "Review the actual drawing revision, material, tooling and inspection instruction before starting.",
+              "steps": [
+                {
+                  "id": "demo-bracket-operation-1",
+                  "operation": "cutStock",
+                  "instructions": "Perform this operation according to the reviewed drawing and process instruction. Replace this illustrative instruction with the actual work definition.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                },
+                {
+                  "id": "demo-bracket-operation-2",
+                  "operation": "drilling",
+                  "instructions": "Perform this operation according to the reviewed drawing and process instruction. Replace this illustrative instruction with the actual work definition.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                },
+                {
+                  "id": "demo-bracket-operation-3",
+                  "operation": "bending",
+                  "instructions": "Perform this operation according to the reviewed drawing and process instruction. Replace this illustrative instruction with the actual work definition.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                },
+                {
+                  "id": "demo-bracket-operation-4",
+                  "operation": "inspect",
+                  "instructions": "Perform this operation according to the reviewed drawing and process instruction. Replace this illustrative instruction with the actual work definition.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                }
+              ]
+            },
+            "notes": ""
+          },
+          {
+            "id": "demo-fasteners",
+            "definitionId": "demo-fasteners",
+            "source": null,
+            "baseRevisionId": null,
+            "parentId": "demo-product",
+            "name": "Fasteners",
+            "designation": "MECH.001.000.002",
+            "type": "standard",
+            "quantity": 4,
+            "unit": "pcs",
+            "revision": "A",
+            "status": "draft",
+            "owner": "Example engineering team",
+            "material": "",
+            "manufacturer": "Machine workshop",
+            "process": "",
+            "manufacturing": {
+              "technology": "purchase",
+              "stock": "",
+              "preparation": "Review the actual drawing revision, material, tooling and inspection instruction before starting.",
+              "steps": [
+                {
+                  "id": "demo-fasteners-operation-1",
+                  "operation": "purchase",
+                  "instructions": "Perform this operation according to the reviewed drawing and process instruction. Replace this illustrative instruction with the actual work definition.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                },
+                {
+                  "id": "demo-fasteners-operation-2",
+                  "operation": "inspect",
+                  "instructions": "Perform this operation according to the reviewed drawing and process instruction. Replace this illustrative instruction with the actual work definition.",
+                  "inputs": "",
+                  "equipment": "",
+                  "facility": "",
+                  "check": "Record the acceptance criteria from the controlled drawing or inspection instruction.",
+                  "dependsOn": [],
+                  "componentInputs": [],
+                  "documents": []
+                }
+              ]
+            },
+            "notes": ""
+          }
+        ],
+        "documents": [
+          {
+            "id": "935aff42-00d3-4743-9eb9-6d01d6c82d7f",
+            "name": "staged-assembly-demo.txt",
+            "path": "documents/staged-assembly-demo.txt",
+            "componentId": "demo-insert",
+            "kind": "instructions",
+            "revision": "A",
+            "sha256": "d3369701eaf5747b5cfa044ca49ee2dce66e6ce3f94ec8e794b3dbb91b05dc80",
+            "required": true
+          }
+        ]
+      }
+    }
+  },
+  "production": [],
+  "fileCheck": null
+}

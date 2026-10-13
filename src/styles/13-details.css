@@ -1,0 +1,30 @@
+.variant-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 17px;
+}
+.variant-actions .button:last-child {
+  flex-basis: 100%;
+}
+.text-preview {
+  font-family: Consolas, monospace;
+  font-size: 13px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.8;
+  margin: 0;
+}
+.inspector-back {
+  display: none;
+}
+.structure-layout,
+.inspector {
+  scroll-margin-top: 80px;
+}
+.version-context small {
+  display: block;
+  color: #577897;
+  font-size: 11px;
+  margin-top: 3px;
+}

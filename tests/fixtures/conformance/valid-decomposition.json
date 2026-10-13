@@ -1,0 +1,88 @@
+{
+  "schema": "open-eskd",
+  "schemaVersion": 6,
+  "kind": "project",
+  "catalog": {},
+  "id": "example-project",
+  "createdAt": "2026-10-13T00:00:00.000Z",
+  "updatedAt": "2026-10-13T00:00:00.000Z",
+  "activeBranch": "main",
+  "branches": {
+    "main": {
+      "head": "initial",
+      "working": {
+        "meta": {
+          "name": "Inspection fixture",
+          "designation": "FIX.001",
+          "description": "",
+          "owner": "Example engineer",
+          "workflow": "decomposition"
+        },
+        "components": [
+          {
+            "id": "housing",
+            "definitionId": "housing",
+            "source": null,
+            "baseRevisionId": null,
+            "parentId": null,
+            "name": "Housing",
+            "designation": "FIX.001.001",
+            "type": "part",
+            "quantity": 1,
+            "unit": "pcs",
+            "revision": "A",
+            "status": "draft",
+            "owner": "Example engineer",
+            "material": "",
+            "manufacturer": "",
+            "process": "",
+            "manufacturing": {
+              "technology": "",
+              "stock": "",
+              "preparation": "",
+              "steps": []
+            },
+            "notes": "",
+            "provenance": {
+              "basis": "observed",
+              "confidence": "measured",
+              "reference": "documents/measurement.pdf",
+              "notes": "One inspected sample; example data."
+            }
+          }
+        ],
+        "documents": []
+      }
+    }
+  },
+  "commits": {
+    "initial": {
+      "id": "initial",
+      "parents": [],
+      "author": "Example engineer",
+      "message": "Project created",
+      "version": "0.1.0",
+      "status": "draft",
+      "createdAt": "2026-10-13T00:00:00.000Z",
+      "snapshot": {
+        "meta": {
+          "name": "Inspection fixture",
+          "designation": "FIX.001",
+          "description": "",
+          "owner": "Example engineer",
+          "workflow": "design"
+        },
+        "components": [],
+        "documents": []
+      }
+    }
+  },
+  "production": [],
+  "fileCheck": null,
+  "extensions": {
+    "org.example.quality": {
+      "profile": "inspection-v1",
+      "sampleCount": 1
+    }
+  }
+}

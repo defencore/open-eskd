@@ -1,0 +1,19 @@
+:root {
+  --bg: #f2f4f7;
+  --surface: #fff;
+  --ink: #202b36;
+  --muted: #657383;
+  --line: #d8dee6;
+  --green: #285c8c;
+  --green-soft: #eaf1f8;
+  --amber: #936619;
+  --amber-soft: #fff7e6;
+  --red: #a73c34;
+  --sidebar: 238px;
+  font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  font-size: 14px;
+  line-height: 1.5;
+  font-synthesis: none;
+}

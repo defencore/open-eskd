@@ -1,0 +1,823 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eskd.defencore.com/schema/project-v6.json",
+  "title": "Open ESKD project manifest",
+  "description": "Client-independent engineering configuration, external file references and production records. See the conformance specification for semantic requirements.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "open-eskd" },
+    "schemaVersion": { "const": 6 },
+    "kind": { "type": "string", "enum": ["project", "component"] },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100,
+      "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+    },
+    "createdAt": {
+      "type": "string",
+      "minLength": 20,
+      "maxLength": 24,
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,3})?Z$"
+    },
+    "updatedAt": {
+      "type": "string",
+      "minLength": 20,
+      "maxLength": 24,
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,3})?Z$"
+    },
+    "activeBranch": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100,
+      "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+    },
+    "branches": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 100,
+        "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+      },
+      "additionalProperties": { "$ref": "#/$defs/branch" },
+      "maxProperties": 100,
+      "minProperties": 1
+    },
+    "commits": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 100,
+        "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+      },
+      "additionalProperties": { "$ref": "#/$defs/commit" },
+      "maxProperties": 5000,
+      "minProperties": 1
+    },
+    "catalog": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 100,
+        "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+      },
+      "additionalProperties": { "$ref": "#/$defs/catalogRevision" },
+      "maxProperties": 5000
+    },
+    "production": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/batch" },
+      "maxItems": 1000
+    },
+    "fileCheck": {
+      "anyOf": [{ "$ref": "#/$defs/fileCheck" }, { "type": "null" }]
+    },
+    "extensions": { "$ref": "#/$defs/extensions" }
+  },
+  "required": [
+    "schema",
+    "schemaVersion",
+    "kind",
+    "id",
+    "createdAt",
+    "updatedAt",
+    "activeBranch",
+    "branches",
+    "commits",
+    "catalog",
+    "production",
+    "fileCheck"
+  ],
+  "$defs": {
+    "extensions": {
+      "type": "object",
+      "maxProperties": 16,
+      "propertyNames": {
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 120,
+        "pattern": "^(?:[a-z][a-z0-9-]*\\.)+[a-z][a-z0-9-]*$"
+      },
+      "additionalProperties": { "$ref": "#/$defs/jsonValue" }
+    },
+    "jsonValue": {
+      "anyOf": [
+        { "type": "null" },
+        { "type": "boolean" },
+        { "type": "number" },
+        { "type": "string" },
+        { "type": "array", "items": { "$ref": "#/$defs/jsonValue" } },
+        {
+          "type": "object",
+          "propertyNames": {
+            "not": { "enum": ["__proto__", "prototype", "constructor"] }
+          },
+          "additionalProperties": { "$ref": "#/$defs/jsonValue" }
+        }
+      ]
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "basis": {
+          "type": "string",
+          "enum": ["designed", "observed", "supplier", "unspecified"]
+        },
+        "confidence": {
+          "type": "string",
+          "enum": ["unverified", "measured", "documented"]
+        },
+        "reference": { "type": "string", "minLength": 0, "maxLength": 1000 },
+        "notes": { "type": "string", "minLength": 0, "maxLength": 2000 }
+      },
+      "required": ["basis", "confidence", "reference", "notes"]
+    },
+    "meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "designation": { "type": "string", "minLength": 0, "maxLength": 200 },
+        "description": { "type": "string", "minLength": 0, "maxLength": 10000 },
+        "owner": { "type": "string", "minLength": 0, "maxLength": 200 },
+        "workflow": { "type": "string", "enum": ["design", "decomposition"] },
+        "extensions": { "$ref": "#/$defs/extensions" }
+      },
+      "required": ["name", "designation", "description", "owner"]
+    },
+    "snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "meta": { "$ref": "#/$defs/meta" },
+        "components": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/component" },
+          "maxItems": 10000
+        },
+        "documents": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/document" },
+          "maxItems": 10000
+        }
+      },
+      "required": ["meta", "components", "documents"]
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "revisionId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+        },
+        "componentId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+        },
+        "rootId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+        }
+      },
+      "required": ["revisionId", "componentId", "rootId"]
+    },
+    "component": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+        },
+        "definitionId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+        },
+        "source": {
+          "anyOf": [{ "$ref": "#/$defs/source" }, { "type": "null" }]
+        },
+        "baseRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100,
+              "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+            },
+            { "type": "null" }
+          ]
+        },
+        "parentId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100,
+              "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+            },
+            { "type": "null" }
+          ]
+        },
+        "name": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "designation": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "type": {
+          "type": "string",
+          "enum": [
+            "assembly",
+            "part",
+            "standard",
+            "purchased",
+            "material",
+            "complex",
+            "set"
+          ]
+        },
+        "quantity": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1000000
+        },
+        "unit": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "revision": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "status": { "type": "string", "enum": ["draft", "review", "released"] },
+        "owner": { "type": "string", "minLength": 0, "maxLength": 200 },
+        "material": { "type": "string", "minLength": 0, "maxLength": 200 },
+        "manufacturer": { "type": "string", "minLength": 0, "maxLength": 200 },
+        "process": { "type": "string", "minLength": 0, "maxLength": 1000 },
+        "manufacturing": { "$ref": "#/$defs/manufacturing" },
+        "notes": { "type": "string", "minLength": 0, "maxLength": 10000 },
+        "provenance": { "$ref": "#/$defs/provenance" },
+        "extensions": { "$ref": "#/$defs/extensions" }
+      },
+      "required": [
+        "id",
+        "definitionId",
+        "source",
+        "baseRevisionId",
+        "parentId",
+        "name",
+        "designation",
+        "type",
+        "quantity",
+        "unit",
+        "revision",
+        "status",
+        "owner",
+        "material",
+        "manufacturer",
+        "process",
+        "manufacturing",
+        "notes"
+      ]
+    },
+    "document": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+        },
+        "name": { "type": "string", "minLength": 1, "maxLength": 300 },
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 800,
+          "pattern": "^(?!/)(?!.*[\\\\\\u0000-\\u001f\\u007f<>:\"|?*])[^/]+(?:/[^/]+)*$"
+        },
+        "componentId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100,
+              "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+            },
+            { "type": "null" }
+          ]
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "drawing",
+            "assemblyDrawing",
+            "specification",
+            "model",
+            "schematic",
+            "instructions",
+            "test",
+            "image",
+            "other"
+          ]
+        },
+        "revision": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "sha256": {
+          "anyOf": [
+            { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+            { "type": "null" }
+          ]
+        },
+        "required": { "type": "boolean" },
+        "extensions": { "$ref": "#/$defs/extensions" }
+      },
+      "required": [
+        "id",
+        "name",
+        "path",
+        "componentId",
+        "kind",
+        "revision",
+        "sha256",
+        "required"
+      ]
+    },
+    "dependency": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "componentId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+        },
+        "operationId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+        },
+        "revision": { "type": "string", "minLength": 0, "maxLength": 100 },
+        "catalogRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100,
+              "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+            },
+            { "type": "null" }
+          ]
+        }
+      },
+      "required": [
+        "componentId",
+        "operationId",
+        "revision",
+        "catalogRevisionId"
+      ]
+    },
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "componentId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+        },
+        "revision": { "type": "string", "minLength": 0, "maxLength": 100 },
+        "catalogRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100,
+              "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+            },
+            { "type": "null" }
+          ]
+        },
+        "quantity": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1000000
+        },
+        "usage": { "type": "string", "enum": ["input", "reference"] }
+      },
+      "required": [
+        "componentId",
+        "revision",
+        "catalogRevisionId",
+        "quantity",
+        "usage"
+      ]
+    },
+    "documentLink": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "documentId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+        },
+        "revision": { "type": "string", "minLength": 0, "maxLength": 100 },
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 800,
+          "pattern": "^(?!/)(?!.*[\\\\\\u0000-\\u001f\\u007f<>:\"|?*])[^/]+(?:/[^/]+)*$"
+        },
+        "sha256": {
+          "anyOf": [
+            { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+            { "type": "null" }
+          ]
+        }
+      },
+      "required": ["documentId", "revision", "path", "sha256"]
+    },
+    "operation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+        },
+        "operation": {
+          "type": "string",
+          "enum": [
+            "prepare",
+            "cutStock",
+            "printing3d",
+            "milling",
+            "turning",
+            "drilling",
+            "casting",
+            "laserCutting",
+            "bending",
+            "postProcess",
+            "deburr",
+            "heatTreatment",
+            "surfaceTreatment",
+            "assembly",
+            "pressFit",
+            "fitting",
+            "fastening",
+            "inspect",
+            "test",
+            "pack",
+            "purchase",
+            "other"
+          ]
+        },
+        "instructions": { "type": "string", "minLength": 0, "maxLength": 2000 },
+        "inputs": { "type": "string", "minLength": 0, "maxLength": 2000 },
+        "equipment": { "type": "string", "minLength": 0, "maxLength": 2000 },
+        "facility": { "type": "string", "minLength": 0, "maxLength": 2000 },
+        "check": { "type": "string", "minLength": 0, "maxLength": 2000 },
+        "dependsOn": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/dependency" },
+          "maxItems": 100
+        },
+        "componentInputs": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/input" },
+          "maxItems": 100
+        },
+        "documents": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/documentLink" },
+          "maxItems": 50
+        },
+        "extensions": { "$ref": "#/$defs/extensions" }
+      },
+      "required": [
+        "id",
+        "operation",
+        "instructions",
+        "inputs",
+        "equipment",
+        "facility",
+        "check",
+        "dependsOn",
+        "componentInputs",
+        "documents"
+      ]
+    },
+    "manufacturing": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "technology": {
+          "type": "string",
+          "enum": [
+            "",
+            "printing3d",
+            "milling",
+            "turning",
+            "casting",
+            "laserCutting",
+            "sheetMetal",
+            "assembly",
+            "purchase",
+            "other"
+          ]
+        },
+        "stock": { "type": "string", "minLength": 0, "maxLength": 2000 },
+        "preparation": { "type": "string", "minLength": 0, "maxLength": 2000 },
+        "steps": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/operation" },
+          "maxItems": 100
+        },
+        "extensions": { "$ref": "#/$defs/extensions" }
+      },
+      "required": ["technology", "stock", "preparation", "steps"]
+    },
+    "branch": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "head": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+        },
+        "working": { "$ref": "#/$defs/snapshot" }
+      },
+      "required": ["head", "working"]
+    },
+    "commit": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+        },
+        "parents": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100,
+            "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+          },
+          "maxItems": 2
+        },
+        "author": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "message": { "type": "string", "minLength": 1, "maxLength": 10000 },
+        "version": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "status": { "type": "string", "enum": ["draft", "review", "released"] },
+        "createdAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 24,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,3})?Z$"
+        },
+        "snapshot": { "$ref": "#/$defs/snapshot" },
+        "extensions": { "$ref": "#/$defs/extensions" }
+      },
+      "required": [
+        "id",
+        "parents",
+        "author",
+        "message",
+        "version",
+        "status",
+        "createdAt",
+        "snapshot"
+      ]
+    },
+    "catalogRevision": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+        },
+        "itemId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+        },
+        "parents": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100,
+            "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+          },
+          "maxItems": 1
+        },
+        "label": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "author": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "message": { "type": "string", "minLength": 0, "maxLength": 10000 },
+        "status": { "type": "string", "enum": ["draft", "review", "released"] },
+        "createdAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 24,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,3})?Z$"
+        },
+        "snapshot": { "$ref": "#/$defs/snapshot" },
+        "extensions": { "$ref": "#/$defs/extensions" }
+      },
+      "required": [
+        "id",
+        "itemId",
+        "parents",
+        "label",
+        "author",
+        "message",
+        "status",
+        "createdAt",
+        "snapshot"
+      ]
+    },
+    "batch": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+        },
+        "name": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "mode": { "type": "string", "enum": ["prototype", "series"] },
+        "quantity": { "type": "integer", "minimum": 1, "maximum": 1000000 },
+        "author": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "createdAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 24,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,3})?Z$"
+        },
+        "commitId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+        },
+        "version": { "type": "string", "minLength": 0, "maxLength": 100 },
+        "branch": { "type": "string", "minLength": 0, "maxLength": 100 },
+        "snapshot": { "$ref": "#/$defs/snapshot" },
+        "results": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/result" },
+          "maxItems": 100000
+        },
+        "extensions": { "$ref": "#/$defs/extensions" }
+      },
+      "required": [
+        "id",
+        "name",
+        "mode",
+        "quantity",
+        "author",
+        "createdAt",
+        "commitId",
+        "version",
+        "branch",
+        "snapshot",
+        "results"
+      ]
+    },
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+        },
+        "createdAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 24,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,3})?Z$"
+        },
+        "componentId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+        },
+        "operationId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+        },
+        "accepted": { "type": "number", "minimum": 0 },
+        "rejected": { "type": "number", "minimum": 0, "maximum": 1000000 },
+        "operator": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "notes": { "type": "string", "minLength": 0, "maxLength": 2000 },
+        "evidencePath": {
+          "anyOf": [
+            { "const": "" },
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 800,
+              "pattern": "^(?!/)(?!.*[\\\\\\u0000-\\u001f\\u007f<>:\"|?*])[^/]+(?:/[^/]+)*$"
+            }
+          ]
+        },
+        "extensions": { "$ref": "#/$defs/extensions" }
+      },
+      "required": [
+        "id",
+        "createdAt",
+        "componentId",
+        "operationId",
+        "accepted",
+        "rejected",
+        "operator",
+        "notes",
+        "evidencePath"
+      ]
+    },
+    "fileCheck": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": { "const": "open-eskd-file-check-1" },
+        "projectId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+        },
+        "fingerprint": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "checkedAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 24,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,3})?Z$"
+        },
+        "files": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/fileCheckEntry" },
+          "maxItems": 10000
+        }
+      },
+      "required": ["schema", "projectId", "fingerprint", "checkedAt", "files"]
+    },
+    "fileCheckEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 800,
+          "pattern": "^(?!/)(?!.*[\\\\\\u0000-\\u001f\\u007f<>:\"|?*])[^/]+(?:/[^/]+)*$"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "present",
+            "verified",
+            "missing",
+            "placeholder",
+            "empty",
+            "mismatch",
+            "unsafe",
+            "unreadable",
+            "hash-unavailable"
+          ]
+        }
+      },
+      "required": ["path", "status"]
+    }
+  }
+}

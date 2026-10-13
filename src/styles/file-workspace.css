@@ -1,0 +1,28 @@
+.file-workflow-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 30px;
+  padding-left: 22px;
+  color: var(--muted);
+}
+.file-workspace {
+  margin: 20px 0;
+}
+.script-preview {
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  min-height: 300px;
+  resize: vertical;
+  white-space: pre;
+  overflow: auto;
+}
+.file-workspace code {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 700px) {
+  .file-workflow-steps {
+    display: block;
+  }
+  .file-workflow-steps li {
+    margin: 8px 0;
+  }
+}

@@ -1,0 +1,34 @@
+.mobile-menu,
+.mobile-shade,
+.print-only {
+  display: none;
+}
+.muted {
+  color: var(--muted);
+}
+.nowrap {
+  white-space: nowrap;
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.eyebrow {
+  font-size: 12px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.sample-pill,
+.version-chip {
+  font-size: 12px;
+  color: #59758f;
+}
+.version-chip {
+  font-family: Consolas, monospace;
+}
+.revision-summary strong {
+  color: var(--ink);
+}
