@@ -3,6 +3,8 @@
 The production hostname is `eskd.defencore.com`. The repository is `defencore/open-eskd`.
 The build outputs static files only. Project data never enters the build or the deployment artifact.
 
+The hosted and portable HTML include a Content Security Policy that permits the application bundle, inline portable code and its own service worker, while blocking third-party scripts and application network connections. A reverse proxy may inject analytics markup; the application policy prevents those external scripts from running. Prefer disabling automatic analytics injection at the proxy as well. The offline ZIP preserves the original distribution bytes when a proxy transforms HTML responses.
+
 ## Repository configuration
 
 1. Push the source and lockfile to the `main` branch of the GitHub repository.

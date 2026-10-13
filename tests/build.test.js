@@ -36,6 +36,16 @@ test('production artifacts are portable, deterministic and ready for the custom 
   );
   assert(standalone.includes('Open ESKD contributors'));
   assert(html.includes('<template id="license-text">'));
+  for (const artifact of [html, standalone]) {
+    const policy = artifact.match(
+      /http-equiv="Content-Security-Policy"\s+content="([^"]+)"/,
+    )?.[1];
+    assert(policy, 'Both application builds must include the privacy policy');
+    assert(policy.includes("script-src 'self' 'unsafe-inline'"));
+    assert(policy.includes("connect-src 'none'"));
+    assert(policy.includes("worker-src 'self'"));
+    assert(!policy.includes('https:'));
+  }
   const inlineScript = standalone.match(/<script>([\s\S]*?)<\/script>/)?.[1];
   assert(inlineScript, 'The portable application script must be embedded');
   assert.doesNotThrow(
