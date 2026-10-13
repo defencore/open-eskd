@@ -178,7 +178,11 @@ test('PowerShell scripts quote paths, protect markers with CreateNew and use lit
   const scripts = await E.filesystemScripts(project(), 'powershell', true);
   assert(scripts.create.includes("''s $(touch HACKED)"));
   assert(scripts.create.includes('FileMode]::CreateNew'));
-  assert(scripts.check.includes('Get-FileHash -LiteralPath'));
+  assert(
+    scripts.check.includes('[System.Security.Cryptography.SHA256]::Create()'),
+  );
+  assert(scripts.check.includes('$algorithm.ComputeHash($stream)'));
+  assert(!scripts.check.includes('Get-FileHash'));
   assert(scripts.check.includes('ConvertTo-Json'));
   assert(
     !/Remove-Item|Set-Content|FileMode\]::Create\b/.test(

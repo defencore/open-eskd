@@ -74,10 +74,17 @@ export function generatePowerShell(
   elseif (-not [System.IO.File]::Exists($file)) { $status = 'unsafe' }
   elseif ((Get-Item -LiteralPath $file -Force).Length -eq 0) { $status = 'empty' }
   else {
+    $stream = $null
+    $algorithm = $null
     try {
-      $stream = [System.IO.File]::OpenRead($file); $stream.Dispose()
-      if ($expected) { if ((Get-FileHash -LiteralPath $file -Algorithm SHA256).Hash.ToLowerInvariant() -eq $expected) { $status = 'verified' } else { $status = 'mismatch' } }
+      $stream = [System.IO.File]::OpenRead($file)
+      if ($expected) {
+        $algorithm = [System.Security.Cryptography.SHA256]::Create()
+        $actual = [System.BitConverter]::ToString($algorithm.ComputeHash($stream)).Replace('-', '').ToLowerInvariant()
+        if ($actual -eq $expected) { $status = 'verified' } else { $status = 'mismatch' }
+      }
     } catch { $status = 'unreadable' }
+    finally { if ($algorithm) { $algorithm.Dispose() }; if ($stream) { $stream.Dispose() } }
   }
   [Console]::Error.WriteLine($status + ': ' + $relative)
   $results += [pscustomobject]@{ path = $relative; status = $status }

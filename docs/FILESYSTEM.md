@@ -27,7 +27,7 @@ Bash 3.2 or newer is supported, including the Bash distributed with macOS. Hash 
 
 The subshell enables Bash's no-clobber protection only for this output file. A failed completeness check returns status 1 but still emits valid JSON; operational errors return 2. Paste mode also runs inside a subshell, so shell options and exit calls do not change or close the surrounding interactive shell.
 
-Windows PowerShell 5.1 and PowerShell 7 scripts use literal paths, .NET filesystem methods and `Get-FileHash`. Downloaded `.ps1` files contain a UTF-8 BOM for Windows PowerShell 5.1. The generated script can also be pasted into an open PowerShell session. Do not change machine execution policy just to run it.
+Windows PowerShell 5.1 and PowerShell 7 scripts use literal paths, .NET filesystem methods and streaming SHA-256. Hashing reads the file stream directly, including Unicode and punctuation in filenames, and disposes both the stream and hash algorithm. Downloaded `.ps1` files contain a UTF-8 BOM for Windows PowerShell 5.1. The generated script can also be pasted into an open PowerShell session. Do not change machine execution policy just to run it.
 
 ```powershell
 ./check-files.ps1 | Out-File -LiteralPath verification-new.json -Encoding utf8 -NoClobber
@@ -37,7 +37,7 @@ PowerShell prints JSON and diagnostics without terminating the host session. Imp
 
 PowerShell is not installed in the macOS development environment. Its generator is checked locally for escaping, literal paths, reparse-point guards and exclusive marker creation. The reusable Windows CI suite executes creation, repeated creation, verification and junction checks in Windows PowerShell and PowerShell 7; Pages deployment waits for that suite. A local skip is not a Windows execution result. Bash scripts are executed in disposable test directories, including repeated creation, Unicode names, shell-like filenames, missing files, placeholders, empty files, hashes and symlinks.
 
-Relevant platform documentation: [Bash redirections](https://www.gnu.org/software/bash/manual/html_node/Redirections.html), [PowerShell Get-Item](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-item?view=powershell-5.1), [Get-FileHash](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/get-filehash?view=powershell-7.5).
+Relevant platform documentation: [Bash redirections](https://www.gnu.org/software/bash/manual/html_node/Redirections.html), [PowerShell Get-Item](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-item?view=powershell-5.1), [HashAlgorithm.ComputeHash](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hashalgorithm.computehash).
 
 ## Current-format exchange
 
