@@ -109,12 +109,25 @@ export async function buildSite() {
   const digest = createHash('sha256');
   for (const file of assets)
     digest.update(await readFile(path.join(output, file)));
+  for (const file of [
+    ...publishedDocuments,
+    ...offlineDocuments.map((document) => document.source),
+  ])
+    digest.update(await readFile(path.join(root, file)));
+  digest.update(await readFile(fileURLToPath(import.meta.url)));
   const template = await readFile(
     path.join(root, 'scripts/templates/service-worker.js'),
     'utf8',
   );
   digest.update(template);
   const version = digest.digest('hex').slice(0, 16);
+  let hosted = html.replace(
+    '<html lang="uk">',
+    `<html lang="uk" data-build="${version}">`,
+  );
+  for (const file of assets.filter((file) => file !== 'index.html'))
+    hosted = hosted.replaceAll(`="${file}"`, `="${file}?build=${version}"`);
+  await writeFile(path.join(output, 'index.html'), hosted);
   await writeFile(
     path.join(output, 'sw.js'),
     template.replace('__BUILD_HASH__', version),

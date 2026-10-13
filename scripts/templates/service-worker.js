@@ -1,4 +1,5 @@
-const CACHE = 'open-eskd-__BUILD_HASH__';
+const BUILD = '__BUILD_HASH__';
+const CACHE = 'open-eskd-' + BUILD;
 const ASSETS = [
   './',
   './index.html',
@@ -7,11 +8,16 @@ const ASSETS = [
   './manifest.webmanifest',
   './assets/icon.svg',
 ];
+function cacheURL(name) {
+  const url = new URL(name, self.registration.scope);
+  url.searchParams.set('build', BUILD);
+  return url.href;
+}
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches
       .open(CACHE)
-      .then((cache) => cache.addAll(ASSETS))
+      .then((cache) => cache.addAll(ASSETS.map(cacheURL)))
       .then(() => self.skipWaiting()),
   );
 });
@@ -31,21 +37,24 @@ self.addEventListener('activate', (event) => {
 });
 self.addEventListener('fetch', (event) => {
   const request = event.request;
+  const url = new URL(request.url);
   if (
     request.method !== 'GET' ||
-    new URL(request.url).origin !== self.location.origin
+    url.origin !== self.location.origin ||
+    (url.search && url.search !== '?build=' + BUILD)
   )
     return;
   // Bundles belong to the installed worker, so an update never mixes old and new assets.
-  const asset = ASSETS.some(
-    (name) => new URL(name, self.registration.scope).href === request.url,
+  const asset = ASSETS.find(
+    (name) => new URL(name, self.registration.scope).pathname === url.pathname,
   );
   if (!asset) return;
+  const key = cacheURL(asset);
   // Development previews always show the current local build.
   if (['localhost', '127.0.0.1', '[::1]'].includes(self.location.hostname)) {
     event.respondWith(
       fetch(request).catch(() =>
-        caches.open(CACHE).then((cache) => cache.match(request)),
+        caches.open(CACHE).then((cache) => cache.match(key)),
       ),
     );
     return;
@@ -53,6 +62,6 @@ self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches
       .open(CACHE)
-      .then(async (cache) => (await cache.match(request)) || fetch(request)),
+      .then(async (cache) => (await cache.match(key)) || fetch(request)),
   );
 });

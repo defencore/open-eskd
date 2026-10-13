@@ -2,7 +2,7 @@
 
 Audit scope: Open ESKD 3.0, schema 6, EN/UA interface and static GitHub Pages artifacts. The checks use synthetic project metadata and illustrative files, never production engineering data.
 
-The completed local validation reports 187 tests: 184 passed, 3 skipped because PowerShell is unavailable, and 0 failed. Lint, formatting, schema synchronization and the production build also passed.
+The completed local validation reports 190 tests: 187 passed, 3 skipped because PowerShell is unavailable, and 0 failed. Lint, formatting, schema synchronization and the production build also passed. Deployment regressions additionally cover build-specific cache URLs, offline fallback and isolation from unrelated resources and caches.
 
 ## Functional coverage
 

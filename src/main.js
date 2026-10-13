@@ -224,7 +224,9 @@ async function start() {
     location.protocol !== 'file:' &&
     'serviceWorker' in navigator
   )
-    navigator.serviceWorker.register('./sw.js').catch(() => {});
+    navigator.serviceWorker
+      .register('./sw.js?build=' + document.documentElement.dataset.build)
+      .catch(() => {});
 }
 start().catch((error) => {
   document.querySelector('#app').innerHTML =

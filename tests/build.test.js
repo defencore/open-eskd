@@ -12,10 +12,13 @@ test('production artifacts are portable, deterministic and ready for the custom 
   await writeFile(path.join(output, 'stale-artifact.txt'), 'Old build');
   const first = await buildSite();
   const html = await readFile(path.join(output, 'index.html'), 'utf8');
-  assert.match(html, /src="app.js" defer/);
-  assert.match(html, /href="app.css"/);
+  assert.match(html, /src="app.js\?build=[a-f0-9]{16}" defer/);
+  assert.match(html, /href="app.css\?build=[a-f0-9]{16}"/);
+  assert(html.includes(`data-build="${first.version}"`));
   for (const match of html.matchAll(/(?:src|href)="([^"#]+)"/g))
-    assert((await readFile(path.join(output, match[1]))).length > 0);
+    assert(
+      (await readFile(path.join(output, match[1].split('?')[0]))).length > 0,
+    );
   assert.equal(
     await readFile(path.join(output, 'CNAME'), 'utf8'),
     'eskd.defencore.com\n',

@@ -34,6 +34,8 @@ Open `http://localhost:8080/`. The preview server exposes only `dist/`. `PORT=80
 
 The service worker caches a complete application build. Its cache key changes with asset content and worker logic, and caches from previous builds are removed after a successful installation. It does not cache or transmit project documents. Refresh after an application update. Localhost previews prefer the network while retaining an offline fallback.
 
+The hosted HTML and service worker use build-specific resource URLs. This prevents a reverse proxy's older JavaScript or worker response from being mixed with a newer release. When downloading the portable HTML or offline ZIP through a caching proxy, append `?build=<data-build>` using the identifier in the hosted HTML, or purge the proxy cache after deployment. The build identifier does not contain project data.
+
 Storage belongs to a browser origin. Data on `localhost`, the GitHub default URL, the custom domain and a local HTML file are separate workspaces. Export a project ZIP before changing the address and import it at the new address.
 
 `dist/open-eskd.html` embeds the application, styles and icon for portable use without network dependencies. Browser restrictions can prevent persistent storage for local files; the app then shows a session-only notice and supports exporting the current work.
