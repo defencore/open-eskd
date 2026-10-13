@@ -21,4 +21,4 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci --ignore-scripts
-      - run: node --test tests/powershell.test.js
+      - run: node --test --test-reporter=spec --test-reporter=./scripts/lib/github-test-reporter.mjs --test-reporter-destination=stdout --test-reporter-destination=stdout tests/powershell.test.js
