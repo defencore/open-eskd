@@ -36,10 +36,11 @@ export async function filesystemScripts(
   if (!['bash', 'powershell'].includes(platform))
     throw new Error('Choose Bash or PowerShell.');
   const inventory = C.fileInventory(C.working(project));
+  const projectId = project.id;
   const fingerprint = await configurationFingerprint(project);
   return platform === 'powershell'
-    ? generatePowerShell(project, inventory, fingerprint, placeholders)
-    : generateBash(project, inventory, fingerprint, placeholders);
+    ? generatePowerShell(projectId, inventory, fingerprint, placeholders)
+    : generateBash(projectId, inventory, fingerprint, placeholders);
 }
 
 export async function acceptFileCheck(project, report) {

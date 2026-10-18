@@ -1,4 +1,5 @@
 import * as C from '../domain/index.js';
+import { isExampleProject } from '../application/example-project.js';
 
 import { icon } from '../ui/icons.js';
 import { esc } from '../shared/html.js';
@@ -38,6 +39,7 @@ export function createShell(context) {
         inProject
           ? `<div class="sidebar-project"><span>${esc(s.meta.designation || t('project'))}</span><strong>${esc(s.meta.name)}</strong></div><div class="nav-label">${esc(t('projectNavigation'))}</div><nav class="nav" aria-label="${esc(t('projectNavigation'))}">${navigation(
               [
+                ...(isExampleProject(p) ? [['exampleGuide', 'info']] : []),
                 ['structure', 'tree'],
                 ['catalog', 'box'],
                 ['documents', 'file'],
@@ -61,6 +63,7 @@ export function createShell(context) {
     if (!project()) return renderProjects();
     return (
       {
+        exampleGuide: context.renderExampleGuide,
         overview: renderOverview,
         structure: renderStructure,
         documents: renderDocuments,
@@ -88,7 +91,7 @@ export function createShell(context) {
   function titleRow(view, actions = '') {
     const s = snapshot(),
       p = project();
-    return `<div class="page-title-row"><div><h1>${esc(view === 'overview' ? s.meta.name : t(view))}</h1><p class="subtitle">${esc(view === 'overview' ? s.meta.designation : t(view + 'Subtitle'))}</p></div><div class="title-actions">${actions}</div></div>${p.id === state.demoId ? `<div class="demo-notice">${icon('info')}<span>${esc(t('demoNotice'))}</span>${button('newProject', 'new-project', 'plus')}</div>` : ''}`;
+    return `<div class="page-title-row"><div><h1>${esc(view === 'overview' ? s.meta.name : t(view))}</h1><p class="subtitle">${esc(view === 'overview' ? s.meta.designation : t(view + 'Subtitle'))}</p></div><div class="title-actions">${actions}</div></div>${isExampleProject(p) && view !== 'exampleGuide' ? `<div class="demo-notice">${icon('info')}<span>${esc(t('demoNotice'))}</span>${button('exampleGuide', 'nav', 'info', false, 'data-view="exampleGuide"')}</div>` : ''}`;
   }
 
   function storageNotice() {

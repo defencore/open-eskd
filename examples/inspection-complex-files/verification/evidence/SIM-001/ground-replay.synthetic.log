@@ -1,0 +1,4 @@
+SYNTHETIC DATASET SIM-001 - not a real workstation test or operational log.
+case=GROUND-001 purpose=offline-restore-review status=not-executed example_only=true
+case=GROUND-002 purpose=evidence-index-portability status=not-executed example_only=true
+Unexecuted cases remain open. Do not interpret this fixture as a successful restoration or release approval.

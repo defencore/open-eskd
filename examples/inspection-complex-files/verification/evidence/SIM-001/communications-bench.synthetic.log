@@ -1,0 +1,6 @@
+SYNTHETIC DATASET SIM-001 - no real radio equipment, transmission or operating settings.
+case=COM-001 scope=module-identity accepted=2 rejected=0 interpretation=training-only
+case=COM-002 scope=interface-document-reference accepted=2 rejected=0 interpretation=training-only
+case=COM-003 scope=bench-interface-label accepted=1 rejected=1 issue=example-label-mismatch interpretation=training-only
+Disposition: retain the rejected outcome. Controlled rework and retest are still open; a replacement catalog revision does not alter this frozen batch.
+Video references in the manifest are absent optional placeholders, not recordings of these fictional events.

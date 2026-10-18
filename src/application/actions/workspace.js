@@ -11,8 +11,6 @@ export function createWorkspaceActions(context) {
   const helpModal = (...args) => context.helpModal(...args);
   const navigate = (...args) => context.navigate(...args);
   const selectProject = (...args) => context.selectProject(...args);
-  const persist = (...args) => context.persist(...args);
-  const demoProject = (...args) => context.demoProject(...args);
 
   const snapshot = (...args) => context.snapshot(...args);
   async function handleAction(name, el) {
@@ -86,22 +84,6 @@ export function createWorkspaceActions(context) {
       case 'delete-project':
         confirmation('deleteProject', 'deleteProjectText', 'delete-project');
         break;
-      case 'demo': {
-        let demo = state.projects.find((p) => p.id === state.demoId);
-        if (!demo) {
-          try {
-            demo = await demoProject();
-            state.projects.push(demo);
-            state.demoId = demo.id;
-            preference('eskd-demo', demo.id);
-            await persist(demo);
-          } finally {
-            /* The dispatcher releases the busy state. */
-          }
-        }
-        selectProject(demo.id);
-        break;
-      }
       default:
         return false;
     }

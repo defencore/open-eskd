@@ -1,7 +1,7 @@
 import { readiness } from './readiness.js';
 import { STATUSES } from './constants.js';
 import { clone, uid, now, own } from './objects.js';
-import { assert, text } from './constraints.js';
+import { assert, text, validId } from './constraints.js';
 import { validateSnapshot } from './snapshot-validation.js';
 import { working } from './project.js';
 
@@ -29,12 +29,12 @@ export function commit(
       STATUSES.includes(status),
     'Invalid version metadata.',
   );
-  if (parents)
+  if (parents !== undefined)
     assert(
       Array.isArray(parents) &&
         parents.length <= 2 &&
         new Set(parents).size === parents.length &&
-        parents.every((id) => own(project.commits, id)),
+        parents.every((id) => validId(id) && own(project.commits, id)),
       'Invalid parent versions.',
     );
   assert(
@@ -50,7 +50,7 @@ export function commit(
   const branch = project.branches[project.activeBranch];
   const record = {
     id,
-    parents: parents || [branch.head],
+    parents: parents === undefined ? [branch.head] : parents,
     author,
     message,
     version,
@@ -74,12 +74,16 @@ export function createBranch(
     'The project has reached the 100-branch limit.',
   );
   assert(
-    /^[\p{L}\p{N}._/-]{1,100}$/u.test(name) &&
+    text(name, 100) &&
+      /^[\p{L}\p{N}._/-]{1,100}$/u.test(name) &&
       !['__proto__', 'constructor', 'prototype'].includes(name),
     'Use letters, numbers, dots, dashes or slashes for branch names.',
   );
   assert(!own(project.branches, name), 'This branch already exists.');
-  assert(own(project.commits, from), 'Missing source version.');
+  assert(
+    validId(from) && own(project.commits, from),
+    'Missing source version.',
+  );
   project.branches[name] = {
     head: from,
     working: clone(project.commits[from].snapshot),

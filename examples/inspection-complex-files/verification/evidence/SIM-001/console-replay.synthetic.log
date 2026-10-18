@@ -1,0 +1,5 @@
+SYNTHETIC DATASET SIM-001 - not a real equipment log or flight record.
+2026-01-18T10:15:00Z example_case=SW-001 release_reference=1.2.0 manifest_identity=matched outcome=synthetic-pass
+2026-01-18T10:16:00Z example_case=SW-002 dependency_inventory=present outcome=synthetic-pass
+2026-01-18T10:17:00Z example_case=SW-003 replay_source=SIM-001 outcome=synthetic-pass
+All statements are fabricated for training. Real firmware provenance, compatibility and acceptance remain outstanding.

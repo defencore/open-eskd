@@ -39,6 +39,28 @@ const offlineDocuments = [
   { source: 'docs/PRODUCTION.md', destination: 'docs/PRODUCTION.md' },
   { source: 'docs/MANUFACTURING.md', destination: 'docs/MANUFACTURING.md' },
   { source: 'docs/STAGED_ASSEMBLY.md', destination: 'docs/STAGED_ASSEMBLY.md' },
+  { source: 'docs/COMPLEX_EXAMPLE.md', destination: 'docs/COMPLEX_EXAMPLE.md' },
+  {
+    source: 'examples/inspection-complex.json',
+    destination: 'examples/inspection-complex.json',
+  },
+  ...[
+    'README.md',
+    'verification/system-bench-test-plan.md',
+    'verification/requirements-verification-matrix.csv',
+    'verification/changes/CHG-002_telemetry-adapter-substitution.md',
+    'verification/evidence/SIM-001/dataset-manifest.json',
+    'verification/evidence/SIM-001/telemetry.synthetic.csv',
+    'verification/evidence/SIM-001/battery-identity.synthetic.csv',
+    'verification/evidence/SIM-001/bracket-inspection.synthetic.csv',
+    'verification/evidence/SIM-001/console-replay.synthetic.log',
+    'verification/evidence/SIM-001/ground-replay.synthetic.log',
+    'verification/evidence/SIM-001/communications-bench.synthetic.log',
+    'verification/evidence/SIM-001/evidence-index.md',
+  ].map((file) => ({
+    source: `examples/inspection-complex-files/${file}`,
+    destination: `examples/inspection-complex-files/${file}`,
+  })),
   {
     source: 'examples/quick-start.json',
     destination: 'examples/quick-start.json',

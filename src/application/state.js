@@ -3,7 +3,7 @@ import { strings } from '../i18n/index.js';
 export function createState() {
   const lang = readPreference('eskd-language', 'ua');
   return {
-    lang: strings[lang] ? lang : 'ua',
+    lang: Object.hasOwn(strings, lang) ? lang : 'ua',
     author: readPreference('eskd-author', ''),
     projects: [],
     projectId: null,
@@ -24,7 +24,6 @@ export function createState() {
     unsaved: new Map(),
     rejected: [],
     busy: false,
-    demoId: null,
     mergePlan: null,
     pendingImport: null,
     restoreId: null,

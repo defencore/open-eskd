@@ -1,0 +1,16 @@
+{
+  "dataset": "SIM-001",
+  "synthetic": true,
+  "purpose": "Learning project organization and traceability only",
+  "origin": "Manually fabricated text fixtures",
+  "realEquipmentUsed": false,
+  "realTestApproval": false,
+  "baseline": "0.2.0-mvp-a",
+  "telemetryCatalogRevision": "example-telemetry-revision-a",
+  "firmwareReleaseReference": "1.2.0",
+  "absentMedia": [
+    "video/bench-interface.placeholder.mp4",
+    "video/bracket-inspection.placeholder.mp4",
+    "images/bench-overview.placeholder.jpg"
+  ]
+}

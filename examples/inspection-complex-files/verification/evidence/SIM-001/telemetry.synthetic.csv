@@ -1,0 +1,4 @@
+dataset,sequence,source,record_type,example_label,synthetic
+SIM-001,1,replay-generator,interface_identity,ADAPTER-A,true
+SIM-001,2,replay-generator,document_reference,SUP.410.010_A,true
+SIM-001,3,replay-generator,review_state,TRAINING-ONLY,true

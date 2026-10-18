@@ -361,11 +361,6 @@
     width: 22px;
     height: 22px;
   }
-  .example-line {
-    flex-wrap: wrap;
-    gap: 6px;
-    font-size: 12px;
-  }
   .projects-table {
     min-width: 460px;
   }

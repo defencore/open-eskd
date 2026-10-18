@@ -146,6 +146,45 @@ test('component-completion prerequisites include input inspection results', () =
   });
   C.validateProject(p);
 });
+test('an assembly inspection requires complete child routes even without an assembly operation', () => {
+  const p = project(),
+    s = C.working(p);
+  s.components[0].parentId = 'system';
+  s.components.push(
+    C.component({
+      id: 'system',
+      type: 'assembly',
+      name: 'Integrated system',
+      designation: 'SYS.1',
+      manufacturing: C.manufacturing({
+        steps: [C.operation({ id: 'accept', operation: 'inspect' })],
+      }),
+    }),
+  );
+  const b = batch(p),
+    accept = () =>
+      C.recordResult(p, b.id, {
+        componentId: 'system',
+        operationId: 'accept',
+        accepted: 3,
+        rejected: 0,
+        operator: 'Inspector',
+        notes: '',
+      });
+  const parent = C.batchTasks(b).find((task) => task.component.id === 'system');
+  assert.deepEqual(
+    C.productionPrerequisites(b, parent).map((task) => task.step.id),
+    ['print', 'drill'],
+  );
+  assert.throws(accept, /prerequisite/);
+  assert.equal(b.results.length, 0);
+  result(p, b, 'print', 6);
+  assert.throws(accept, /prerequisite/);
+  result(p, b, 'drill', 6);
+  accept();
+  assert.equal(C.taskResult(b, C.operationKey('system', 'accept')).accepted, 3);
+  C.validateProject(p);
+});
 test('independent production result records merge and conflicting cumulative quantities are rejected', () => {
   const p = project(),
     b = batch(p),

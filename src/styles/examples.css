@@ -1,0 +1,157 @@
+.example-intro {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 22px 24px;
+  border-left: 3px solid var(--green);
+}
+.example-intro h2 {
+  margin: 4px 0 8px;
+}
+.example-intro p {
+  margin: 0;
+  max-width: 760px;
+  color: var(--muted);
+}
+.example-intro > div:last-child {
+  flex-shrink: 0;
+}
+.example-intro .eyebrow {
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 600;
+}
+.example-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 14px;
+}
+.example-tags span {
+  padding: 3px 8px;
+  background: var(--green-soft);
+  border-radius: 3px;
+  font-size: 12px;
+}
+.example-disclaimer {
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  color: var(--muted);
+  background: var(--surface);
+}
+.example-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 28px;
+}
+.example-stats > div {
+  padding: 14px 18px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 4px;
+}
+.example-stats strong,
+.example-stats span {
+  display: block;
+}
+.example-stats strong {
+  font-size: 24px;
+  font-weight: 600;
+}
+.example-stats span {
+  color: var(--muted);
+}
+.example-guide-section {
+  margin-bottom: 24px;
+}
+.example-guide-section h2 {
+  margin-bottom: 4px;
+}
+.example-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+.example-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 20px;
+  margin: 0;
+}
+.example-card-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.example-card-heading span {
+  color: var(--muted);
+  font-size: 12px;
+}
+.example-card h3 {
+  margin: 0;
+  font-size: 15px;
+}
+.example-card p {
+  color: var(--muted);
+  margin: 10px 0 14px;
+  flex: 1;
+}
+.example-card small {
+  margin-bottom: 8px;
+}
+.example-workflow,
+.example-next {
+  padding: 22px 24px;
+}
+.example-workflow h2,
+.example-next h2 {
+  margin-top: 0;
+}
+.example-destinations > div {
+  display: grid;
+  grid-template-columns: 210px minmax(0, 1fr);
+  align-items: start;
+  gap: 18px;
+  border-top: 1px solid var(--line);
+  padding: 14px 0;
+}
+.example-destinations .btn {
+  justify-content: flex-start;
+}
+.example-destinations p {
+  color: var(--muted);
+  margin: 4px 0 0;
+}
+.example-next ol {
+  padding-left: 22px;
+}
+.example-next li {
+  margin-bottom: 10px;
+  padding-left: 4px;
+}
+.example-next > p {
+  color: var(--muted);
+}
+@media (max-width: 760px) {
+  .example-intro {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .example-grid {
+    grid-template-columns: 1fr;
+  }
+  .example-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .example-destinations > div {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}

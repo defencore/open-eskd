@@ -1,0 +1,6 @@
+requirement,statement,procedure,configuration_reference,evidence_reference,state,synthetic
+CFG-001,Each software release has a manifest and dependency inventory,software/aircraft/1.2.0/configuration-index.md,0.2.0-mvp-a,verification/evidence/SIM-001/console-replay.synthetic.log,training-example-only,true
+COM-003,The recorded interface label matches the selected supplier module revision,verification/communications/ATL.400.000_A_bench-plan.md,example-telemetry-revision-a,verification/evidence/SIM-001/communications-bench.synthetic.log,open-after-synthetic-rejection,true
+BRK-001,Preparation identity agrees with the controlled component record,hardware/tracker/ATL.510.010_A_bracket.pdf,0.2.0-mvp-a,verification/evidence/SIM-001/bracket-inspection.synthetic.csv,training-replacement-recorded,true
+GROUND-001,Offline restore and evidence portability are reviewed,software/ground/0.6.0/release-manifest.json,0.2.1-ground-variant,verification/evidence/SIM-001/ground-replay.synthetic.log,not-executed,true
+SYS-001,All required subsystem results and real approvals are available,verification/system-bench-test-plan.md,0.3.0-interface-b,,open,true

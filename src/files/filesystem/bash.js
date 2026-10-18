@@ -1,6 +1,6 @@
 const bashQuote = (value) => "'" + value.replace(/'/g, "'\\''") + "'";
 
-export function generateBash(project, inventory, fingerprint, placeholders) {
+export function generateBash(projectId, inventory, fingerprint, placeholders) {
   const preamble = `#!/usr/bin/env bash
 # Open ESKD: run from the project directory, or pass its path as the first argument.
 # No deletion or replacement of existing files. Requires Bash 3.2 or newer.
@@ -55,7 +55,7 @@ eskd_directory() {
     "printf '%s\\n' 'Directories created; existing files preserved. Move your real files into these directories.'\n)\n";
   const header = JSON.stringify({
     schema: 'open-eskd-file-check-1',
-    projectId: project.id,
+    projectId,
     fingerprint,
   }).slice(0, -1);
   const check =

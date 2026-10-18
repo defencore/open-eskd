@@ -1,4 +1,4 @@
-import { assert, keys, validDate } from './constraints.js';
+import { assert, keys, validDate, validHash } from './constraints.js';
 import { validFilePath } from './file-paths.js';
 export function validateFileCheck(project) {
   if (project.fileCheck !== null) {
@@ -7,7 +7,7 @@ export function validateFileCheck(project) {
     assert(
       check.schema === 'open-eskd-file-check-1' &&
         check.projectId === project.id &&
-        /^[a-f0-9]{64}$/.test(check.fingerprint) &&
+        validHash(check.fingerprint) &&
         validDate(check.checkedAt) &&
         Array.isArray(check.files) &&
         check.files.length <= 10000,

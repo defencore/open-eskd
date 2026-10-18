@@ -17,6 +17,16 @@ The browser needs no access to CAD file bytes. File verification is an imported 
 
 [Local-file workflow](docs/FILESYSTEM.md) · [Production](docs/PRODUCTION.md) · [Manufacturing](docs/MANUFACTURING.md) · [Staged assembly example](docs/STAGED_ASSEMBLY.md)
 
+## Learn with a complete complex
+
+Choose **Explore the example** on the project screen. Its EN/UA learning guide links directly to a civilian inspection UAV, control console, ground station, communications, antenna tracker, battery service, purchased launch-assist and recovery systems, software configurations and verification evidence.
+
+The example has 54 elements, 75 file references, four saved versions, two branches, two published component revisions and a synthetic MVP work order. Follow a telemetry component replacement from revision A to B while the earlier batch retains its original configuration. Software manifests, requirements, test plans, optional video paths and explicitly synthetic logs show how to organize evidence without loading large files into the browser.
+
+The guide explains how to create your own project from an empty structure. Opening the example again preserves your edits; every saved example copy remains selectable in the project list. The offline package includes the guide, stable JSON and small synthetic text fixtures. Media and engineering binaries are not supplied.
+
+[Complex example walkthrough](docs/COMPLEX_EXAMPLE.md) · [Example JSON](examples/inspection-complex.json) · [Synthetic companion files](examples/inspection-complex-files/README.md)
+
 ## Versioned engineering
 
 Branches support parallel engineering alternatives and three-way merge review. Independently published component revisions can be pinned, reused in repeated occurrences, compared and explicitly updated. Manufacturing links retain expected component/document revisions, paths and optional hashes. Invalid dependencies, cycles, missing referenced targets and silent changes to pinned definitions are rejected.

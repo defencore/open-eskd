@@ -1,0 +1,5 @@
+dataset,case,operation,accepted,rejected,disposition,synthetic
+SIM-001,NCR-001,preparation,3,1,identity-label-mismatch-retain-rejected-record,true
+SIM-001,NCR-001-REPLACEMENT,preparation,1,0,replacement-identity-reviewed,true
+SIM-001,BRK-002,cutting,4,0,illustrative-result-no-real-part-made,true
+SIM-001,BRK-003,inspection,4,0,illustrative-result-no-real-part-inspected,true

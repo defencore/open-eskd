@@ -1,12 +1,14 @@
-import en from './en.js';
-import uk from './uk.js';
-import workflowEn from './workflow-en.js';
-import workflowUk from './workflow-uk.js';
-import foundationEn from './foundation-en.js';
-import foundationUk from './foundation-uk.js';
-export const strings = {
-  en: { ...en, ...workflowEn, ...foundationEn },
-  ua: { ...uk, ...workflowUk, ...foundationUk },
+import { translationModules } from './modules.js';
+
+export const strings = Object.fromEntries(
+  ['en', 'ua'].map((language) => [
+    language,
+    Object.assign({}, ...translationModules.map((module) => module[language])),
+  ]),
+);
+
+export const translate = (lang, key) => {
+  const dictionary = Object.hasOwn(strings, lang) ? strings[lang] : strings.en;
+  if (Object.hasOwn(dictionary, key)) return dictionary[key];
+  return Object.hasOwn(strings.en, key) ? strings.en[key] : key;
 };
-export const translate = (lang, key) =>
-  strings[lang]?.[key] ?? strings.en[key] ?? key;

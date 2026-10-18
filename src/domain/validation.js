@@ -52,6 +52,7 @@ export function validateProject(project) {
   assert(
     Object.keys(project.branches).length > 0 &&
       Object.keys(project.branches).length <= 100 &&
+      text(project.activeBranch, 100) &&
       own(project.branches, project.activeBranch),
     'Invalid active branch.',
   );
@@ -85,7 +86,9 @@ export function validateProject(project) {
     ]);
     validateExtensions(commit.extensions);
     assert(
-      commit.parents.every((p) => own(project.commits, p) && p !== id),
+      commit.parents.every(
+        (p) => validId(p) && own(project.commits, p) && p !== id,
+      ),
       'Missing parent version.',
     );
     for (const [key, limit] of Object.entries({
@@ -132,7 +135,10 @@ export function validateProject(project) {
         !['__proto__', 'constructor', 'prototype'].includes(name),
       'Invalid branch name.',
     );
-    assert(branch && own(project.commits, branch.head), 'Missing branch head.');
+    assert(
+      branch && validId(branch.head) && own(project.commits, branch.head),
+      'Missing branch head.',
+    );
     keys(branch, ['head', 'working']);
     validateSnapshot(branch.working, project.catalog);
   }

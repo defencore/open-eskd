@@ -1,0 +1,4 @@
+dataset,example_asset,document_reference,service_state,synthetic
+SIM-001,BAT-DEMO-01,SUP.610.010_A,not-inspected,true
+SIM-001,BAT-DEMO-02,SUP.610.010_A,not-inspected,true
+SIM-001,CHG-DEMO-01,SUP.610.020_A,not-inspected,true

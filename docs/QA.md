@@ -2,7 +2,11 @@
 
 Audit scope: Open ESKD 3.0, schema 6, EN/UA interface and static GitHub Pages artifacts. The checks use synthetic project metadata and illustrative files, never production engineering data.
 
-The completed local validation reports 190 tests: 187 passed, 3 skipped because PowerShell is unavailable, and 0 failed. Lint, formatting, schema synchronization and the production build also passed. Deployment regressions additionally cover build-specific cache URLs, offline fallback and isolation from unrelated resources and caches.
+The completed local validation reports 224 tests: 221 passed, 3 skipped because PowerShell is unavailable, and 0 failed. Lint, formatting, schema synchronization and the production build also passed. Deployment regressions additionally cover build-specific cache URLs, offline fallback and isolation from unrelated resources and caches.
+
+The modular refactor audit also covers prototype-safe translation lookup, strict scalar history/catalog identities, inherited component-completion prerequisites, atomic production forms and consistent exports during concurrent edits. The complex example is checked against the formal schema and semantic validator in both languages; its shipped JSON is deterministic and its synthetic fixtures are explicitly identified. Locale-scoped immutable identities allow English and Ukrainian example revisions to coexist and be reused without catalog collisions.
+
+An isolated browser run verified the complex guide, direct software selection, A/B catalog, both engineering branches, frozen MVP quantities with retained rejection, optional video references, HTML export and reload persistence. The own-project action opens an empty creation form. EN/UA and a 390 px guide layout were checked; no application warnings/errors or horizontal page overflow were observed in that run. Independent imported example copies remain selectable in a regression test.
 
 ## Functional coverage
 

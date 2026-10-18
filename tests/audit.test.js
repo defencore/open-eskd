@@ -7,7 +7,8 @@ import { createCatalogController } from '../src/application/catalog/controller.j
 import { createStructureView } from '../src/ui/views/structure.js';
 import { createComponents } from '../src/ui/components.js';
 import { createDocumentsActions } from '../src/application/actions/documents.js';
-import { createProductionWorkspace } from '../src/ui/production-workspace.js';
+import { createProductionDialogs } from '../src/ui/production/dialogs.js';
+import { createProductionController } from '../src/application/production.js';
 import { parseList } from '../src/application/component-list.js';
 import { translate } from '../src/i18n/index.js';
 
@@ -319,7 +320,8 @@ test('large production targets are editable as a full accepted quantity', async 
     guidedField: (...args) => ctx.field(...args),
     guidedTextarea: (...args) => ctx.textarea(...args),
   });
-  await createProductionWorkspace(ctx).handleProductionAction('record-result', {
+  Object.assign(ctx, createProductionDialogs(ctx));
+  await createProductionController(ctx).handleAction('record-result', {
     dataset: { id: batch.id, component: 'housing', operation: 'print' },
   });
   assert(html.includes('value="2000000"'));

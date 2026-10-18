@@ -2,28 +2,35 @@
 
 ## Module layout
 
-| Directory                  | Responsibility                                                                                                            |
-| -------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| `src/domain/`              | Schema, validation, project state, revisions, history ancestry, structure traversal, readiness, diffs and three-way merge |
-| `src/files/zip/`           | Binary encoding, CRC32, path validation, limits, ZIP reading and writing                                                  |
-| `src/files/`               | JSON/ZIP project exchange, external file references, filesystem scripts, BOM and manufacturing exports                    |
-| `src/application/`         | Workspace state, initial assembly, designation suggestions, atomic pasted lists, navigation and persistence outcomes      |
-| `src/application/actions/` | User commands grouped by workspace, structure, documents, history and exchange                                            |
-| `src/application/forms/`   | Form validation and mutations grouped by feature                                                                          |
-| `src/storage/`             | IndexedDB transactions and optional browser preferences                                                                   |
-| `src/ui/views/`            | Individual workspace screens                                                                                              |
-| `src/ui/dialogs/`          | Project, component, documentation, revision and merge dialogs                                                             |
-| `src/ui/`                  | Shared markup, icons, feedback, shell, workflow navigation and events                                                     |
-| `src/i18n/`                | Complete English and Ukrainian dictionaries, translation lookup                                                           |
-| `src/styles/`              | Readable CSS grouped by interface responsibility, responsive and print rules                                              |
-| `src/data/`                | Explicitly requested demonstration project                                                                                |
-| `src/shared/`              | Pure HTML escaping used by UI and report exports                                                                          |
-| `schema/`                  | Generated JSON Schema for independent consumers                                                                           |
-| `public/`                  | Static HTML shell, local icon and web app manifest                                                                        |
-| `scripts/`                 | Build, production preview, development watcher and service-worker template                                                |
-| `.github/workflows/`       | Quality checks and GitHub Pages deployment                                                                                |
+| Directory                   | Responsibility                                                                                                            |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `src/domain/`               | Schema, validation, project state, revisions, history ancestry, structure traversal, readiness, diffs and three-way merge |
+| `src/bootstrap/`            | Startup, explicit feature composition, context services and command/form dispatch                                         |
+| `src/files/zip/`            | Binary encoding, CRC32, path validation, limits, ZIP reading and writing                                                  |
+| `src/files/`                | JSON/ZIP project exchange, external file references, filesystem scripts, BOM and manufacturing exports                    |
+| `src/files/report/`         | Frozen report context, document fields, structure, operations/results and standalone layout                               |
+| `src/application/`          | Workspace state, controllers, designation suggestions, atomic pasted lists, navigation and persistence outcomes           |
+| `src/application/actions/`  | User commands grouped by workspace, structure, documents, history and exchange                                            |
+| `src/application/forms/`    | Form validation and mutations grouped by feature                                                                          |
+| `src/storage/`              | IndexedDB transactions and optional browser preferences                                                                   |
+| `src/ui/views/`             | Individual workspace screens                                                                                              |
+| `src/ui/dialogs/`           | Project, component, documentation, revision and merge dialogs                                                             |
+| `src/ui/production/`        | Production screen and batch/result dialogs, coordinated by `src/application/production.js`                                |
+| `src/ui/`                   | Shared markup, icons, feedback, shell, workflow navigation and events                                                     |
+| `src/i18n/`                 | Complete English and Ukrainian dictionaries, translation lookup                                                           |
+| `src/styles/`               | Readable CSS grouped by interface responsibility, responsive and print rules                                              |
+| `src/data/complex-example/` | Deterministic localized learning scenario split into aircraft, ground, support, verification and history composition      |
+| `src/shared/`               | Pure HTML escaping used by UI and report exports                                                                          |
+| `schema/`                   | Generated JSON Schema for independent consumers                                                                           |
+| `public/`                   | Static HTML shell, local icon and web app manifest                                                                        |
+| `scripts/`                  | Build, production preview, development watcher and service-worker template                                                |
+| `.github/workflows/`        | Quality checks and GitHub Pages deployment                                                                                |
 
-`src/main.js` is the composition entry point. It creates state, binds UI feature factories to an explicit application context, opens storage and registers command/form handlers. Factories receive only the shared services they use. Lazy calls through the context let screens and dialogs request rendering without importing each other. The domain, exchange and storage layers do not depend on the DOM and are directly testable.
+`src/main.js` loads styles and starts the application. `src/bootstrap/start.js` opens storage and restores a validated navigation target; `context.js` supplies state-dependent services; `features.js` registers UI factories and rejects duplicate capabilities; `commands.js` composes controllers and serializes actions/forms. Failure always releases the command lock, and form submission restores each button's previous disabled state. Factories receive an explicit shared context and call only the services they use. Lazy context calls let screens and dialogs request rendering without importing each other. Domain, exchange and storage modules do not depend on the DOM and are directly testable.
+
+`src/i18n/modules.js` composes paired English/Ukrainian feature dictionaries. Tests check key parity, duplicate ownership, nonempty values and literal UI translation calls. Translation lookup uses own properties so unknown keys cannot expose object prototype values.
+
+`src/application/examples.js` opens or selects the learning project without overwriting edits. A namespaced example marker travels with JSON imports; no browser preference owns the only accessible example. All stored copies remain visible in the project list. The guide uses stable section IDs and handles removed elements without broken navigation. Shipped English JSON is deterministic; new workspace copies receive independent project IDs. Locale-specific immutable project/catalog/history/document/definition identities prevent translated snapshots from claiming the same revision identity; placement and operation anchors stay stable for navigation. All result events and companion logs are explicitly synthetic, and unavailable media paths remain optional.
 
 ## Browser runtime
 
@@ -89,9 +96,9 @@ The service worker installs a complete application cache keyed by a hash of its 
 
 ## External files and production
 
-`src/domain/file-paths.js` validates portable paths and inventories. `src/files/filesystem.js` generates Bash/PowerShell scripts, computes canonical configuration fingerprints and accepts verification reports. `src/files/report.js` creates escaped standalone HTML with relative links/images and optional facility filtering. UI orchestration lives in `src/ui/file-workspace.js`.
+`src/domain/file-paths.js` validates portable paths and inventories. `src/files/filesystem.js` generates Bash/PowerShell scripts, computes canonical configuration fingerprints and accepts verification reports. `src/files/report.js` orchestrates renderers under `src/files/report/` to create escaped standalone HTML with relative links/images and optional facility filtering. Report context captures the selected snapshot, batch and scalar metadata before asynchronous hashing; toolkit exports capture one project so all files describe the same configuration. UI orchestration lives in `src/ui/file-workspace.js`.
 
-`src/domain/production.js` owns batch/result mutations and immutable event merging; `production-validation.js` enforces quantities and dependency acceptance; `production-plan.js` derives indexed worklists and progress. File-check shape validation has its own module. `src/ui/production-workspace.js` provides batch issue/result forms and work-order exports. Production is outside engineering snapshots, while every batch stores its captured snapshot and baseline identity.
+`src/domain/production.js` owns batch/result mutations and immutable event merging; `production-validation.js` enforces quantities and dependency acceptance; `production-plan.js` derives indexed worklists and progress. File-check shape validation has its own module. `src/ui/production/view.js` renders the worklist and exports; `dialogs.js` renders batch/result forms; `src/application/production.js` validates cloned candidates before applying mutations. Production is outside engineering snapshots, while every batch stores its captured snapshot and baseline identity.
 
 Schema 6 has no runtime binary store or legacy format conversion. Compare-and-swap checks the raw record from the last acknowledged read. New browser tabs cannot silently overwrite unsupported records or another tab’s work.
 

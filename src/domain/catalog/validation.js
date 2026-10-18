@@ -45,6 +45,7 @@ export function validateCatalog(catalog) {
         record.parents.length <= 1 &&
         record.parents.every(
           (id) =>
+            validId(id) &&
             own(catalog, id) &&
             catalog[id].itemId === record.itemId &&
             id !== record.id,

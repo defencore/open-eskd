@@ -60,6 +60,10 @@ export function operationPlan(snapshot) {
       target.pending++;
     }
   }
+  function requireComponent(component, key) {
+    edge(complete(component.id), key);
+    nodes.get(key).prerequisites.push({ component, step: null, index: -1 });
+  }
   for (const component of ordered) {
     const steps = component.manufacturing.steps;
     const childComponents = children.get(component.id) || [];
@@ -97,8 +101,7 @@ export function operationPlan(snapshot) {
         ...implicit,
         ...step.componentInputs.map((ref) => components.get(ref.componentId)),
       ]) {
-        edge(complete(target.id), key);
-        node.prerequisites.push({ component: target, step: null, index: -1 });
+        requireComponent(target, key);
       }
     });
     if (steps.length) {
@@ -112,7 +115,7 @@ export function operationPlan(snapshot) {
         )
       ) {
         for (const child of childComponents)
-          edge(complete(child.id), operationKey(component.id, steps[0].id));
+          requireComponent(child, operationKey(component.id, steps[0].id));
       }
     }
   }

@@ -1,7 +1,7 @@
 const psQuote = (value) => "'" + value.replace(/'/g, "''") + "'";
 
 export function generatePowerShell(
-  project,
+  projectId,
   inventory,
   fingerprint,
   placeholders,
@@ -91,7 +91,7 @@ export function generatePowerShell(
 `,
       )
       .join('\n') +
-    `  [pscustomobject]@{ schema = 'open-eskd-file-check-1'; projectId = ${psQuote(project.id)}; fingerprint = ${psQuote(fingerprint)}; checkedAt = [DateTime]::UtcNow.ToString('yyyy-MM-ddTHH:mm:ssZ'); files = @($results) } | ConvertTo-Json -Depth 4
+    `  [pscustomobject]@{ schema = 'open-eskd-file-check-1'; projectId = ${psQuote(projectId)}; fingerprint = ${psQuote(fingerprint)}; checkedAt = [DateTime]::UtcNow.ToString('yyyy-MM-ddTHH:mm:ssZ'); files = @($results) } | ConvertTo-Json -Depth 4
 ` +
     ending;
   return { create, check, fingerprint, inventory };

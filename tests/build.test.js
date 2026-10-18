@@ -61,6 +61,16 @@ test('production artifacts are portable, deterministic and ready for the custom 
   assert(zip.some((entry) => entry.name === 'open-eskd/open-eskd.html'));
   assert(zip.some((entry) => entry.name === 'open-eskd/docs/WORKFLOW.md'));
   assert(
+    zip.some((entry) => entry.name === 'open-eskd/docs/COMPLEX_EXAMPLE.md'),
+  );
+  for (const file of [
+    'inspection-complex.json',
+    'inspection-complex-files/README.md',
+    'inspection-complex-files/verification/evidence/SIM-001/dataset-manifest.json',
+    'inspection-complex-files/verification/evidence/SIM-001/telemetry.synthetic.csv',
+  ])
+    assert(zip.some((entry) => entry.name === `open-eskd/examples/${file}`));
+  assert(
     zip.some((entry) => entry.name === 'open-eskd/examples/quick-start.json'),
   );
   assert(zip.some((entry) => entry.name === 'open-eskd/LICENSE'));

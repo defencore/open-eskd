@@ -1,12 +1,11 @@
 import {
   routeLinkIndex,
   routeLinkLines,
-} from '../domain/manufacturing-description.js';
-import * as C from '../domain/index.js';
-import * as E from '../files/index.js';
-import { esc } from '../shared/html.js';
+} from '../../domain/manufacturing-description.js';
+import * as C from '../../domain/index.js';
+import { esc } from '../../shared/html.js';
 
-export function createProductionWorkspace(context) {
+export function createProductionView(context) {
   const t = (...args) => context.t(...args);
   const state = context.state;
   const extra = (id) => `data-id="${esc(id)}"`;
@@ -88,104 +87,5 @@ export function createProductionWorkspace(context) {
         '',
       )}</tbody></table></div>${filtered.length > (state.productionLimit || 100) ? `<div class="panel-footer">${context.button('productionMore', 'production-more')}</div>` : ''}</section>`;
   }
-  function batchModal() {
-    context.showModal(
-      'newBatch',
-      `<p class="modal-description">${esc(t('batchFrozenHint'))}</p>${context.guidedField('batchName', 'name', '', 'required maxlength="200"')}${context.guidedSelect(
-        'batchMode',
-        'mode',
-        ['prototype', 'series'].map((value) => ({ value, label: t(value) })),
-        'prototype',
-      )}${context.guidedField('batchQuantity', 'quantity', 1, 'required min="1" max="1000000" step="1"', 'number')}${context.guidedField('batchAuthor', 'author', context.author(), 'required maxlength="200"')}`,
-      'production-batch',
-      'issueBatch',
-    );
-  }
-  function resultModal(el) {
-    const batch = context
-      .project()
-      .production.find((b) => b.id === el.dataset.id);
-    const task = C.batchTasks(batch).find(
-      (task) =>
-        task.component.id === el.dataset.component &&
-        task.step.id === el.dataset.operation,
-    );
-    const previous = C.taskResult(batch, task.key);
-    const remaining = task.quantity - previous.accepted;
-    context.showModal(
-      'recordResult',
-      `<input type="hidden" name="batchId" value="${esc(batch.id)}"><input type="hidden" name="componentId" value="${esc(task.component.id)}"><input type="hidden" name="operationId" value="${esc(task.step.id)}"><p>${esc(C.placementLabel(task.component, C.placementIndex(batch.snapshot)))} · ${esc(t('operation_' + task.step.operation))}</p><p>${esc(task.step.check || t('checkNotDefined'))}</p><p>${esc(t('remainingQuantity'))}: ${remaining} ${esc(task.component.unit)}</p><div class="form-grid">${context.guidedField('acceptedQuantity', 'accepted', remaining, `required min="0" max="${remaining}" step="any"`, 'number')}${context.guidedField('rejectedQuantity', 'rejected', 0, 'required min="0" max="1000000" step="any"', 'number')}</div>${context.guidedField('resultOperator', 'operator', context.author(), 'required maxlength="200"')}${context.guidedTextarea('resultNotes', 'notes', '', '', 'maxlength="2000"')}${context.guidedField('evidencePath', 'evidencePath', '', 'maxlength="800"')}`,
-      'production-result',
-    );
-  }
-  async function handleProductionAction(name, el) {
-    switch (name) {
-      case 'production-more':
-        state.productionLimit = (state.productionLimit || 100) + 100;
-        context.render();
-        break;
-      case 'new-batch':
-        batchModal();
-        break;
-      case 'record-result':
-        resultModal(el);
-        break;
-      case 'batch-report': {
-        const batch = context
-          .project()
-          .production.find((b) => b.id === el.dataset.id);
-        context.download(
-          await E.projectReport(
-            context.project(),
-            state.lang,
-            batch,
-            Object.hasOwn(el.dataset, 'facility') ? el.dataset.facility : null,
-          ),
-          'work-order_' +
-            E.safeName(batch.name) +
-            (Object.hasOwn(el.dataset, 'facility')
-              ? '_' + E.safeName(el.dataset.facility || 'unassigned')
-              : '') +
-            '.html',
-          'text/html;charset=utf-8',
-        );
-        break;
-      }
-      default:
-        return false;
-    }
-    return true;
-  }
-  async function handleProductionForm(form, data, get) {
-    if (!['production-batch', 'production-result'].includes(form.dataset.form))
-      return false;
-    const p = context.project(),
-      candidate = C.clone(p);
-    if (form.dataset.form === 'production-batch') {
-      const batch = C.createBatch(candidate, {
-        name: get('name'),
-        mode: get('mode'),
-        quantity: Number(get('quantity')),
-        author: get('author'),
-      });
-      state.batchId = batch.id;
-    } else
-      C.recordResult(candidate, get('batchId'), {
-        componentId: get('componentId'),
-        operationId: get('operationId'),
-        accepted: Number(get('accepted')),
-        rejected: Number(get('rejected')),
-        operator: get('operator'),
-        notes: get('notes'),
-        evidencePath: get('evidencePath'),
-      });
-    C.validateProject(candidate);
-    state.projects[state.projects.indexOf(p)] = candidate;
-    await context.persist(candidate);
-    context.closeModal();
-    context.render();
-    context.success(t('updated'));
-    return true;
-  }
-  return { renderProduction, handleProductionAction, handleProductionForm };
+  return { renderProduction };
 }

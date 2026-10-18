@@ -173,6 +173,39 @@ test('JSON and ZIP retain route order and preparation, and the manufacturing gui
   assert(E.csv(C.working(p)).includes('3D printing'));
 });
 
+test('manufacturing guides distinguish reused placements and retain complete evidence paths', () => {
+  let p = fixture();
+  p = E.registerDocuments(
+    p,
+    ['tests/bracket/inspection.mp4', 'tests/bracket/results.csv'],
+    'part',
+  );
+  const published = C.publishComponent(p, 'part', {
+    label: 'A',
+    author: 'Engineer',
+  });
+  const rootId = C.working(published.project).components.find(
+    (c) => c.parentId === null,
+  ).id;
+  const reused = C.useRevision(
+    published.project,
+    published.record.id,
+    rootId,
+    1,
+  );
+  const guide = E.manufacturingGuide(reused.project);
+  for (const text of [
+    'DRV.001.001 [1]',
+    'DRV.001.001 [2]',
+    'tests/bracket/inspection.mp4',
+    'tests/bracket/results.csv',
+  ])
+    assert(guide.includes(text), text);
+  const assembly = guide.split('## Component routes')[0];
+  assert(assembly.includes('DRV.001.001 [1]'));
+  assert(assembly.includes('DRV.001.001 [2]'));
+});
+
 test('catalog revisions freeze routes and checkout preserves old operations until a new revision is published', () => {
   const result = C.publishComponent(fixture(), 'part', {
     label: 'A',

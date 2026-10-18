@@ -56,6 +56,32 @@ test('one JSON retains identities, references and metadata only', async () => {
   );
   assert(!E.json(p).includes('"blobs"'));
 });
+test('pending toolkit exports retain one configuration across manifests, reports and platform scripts', async () => {
+  const p = fixture(),
+    original = C.clone(p),
+    pending = E.archive(p);
+  p.id = 'changed-after-export-start';
+  p.activeBranch = 'alternative';
+  C.working(p).meta.name = 'Concurrent project edit';
+  C.working(p).documents[0].path = 'drawings/new-file.pdf';
+  const zip = await pending,
+    entries = new Map(
+      (await Z.read(zip)).map((entry) => [
+        entry.name,
+        Z.decoder.decode(entry.data),
+      ]),
+    ),
+    fingerprint = await E.configurationFingerprint(original);
+  assert.deepEqual(JSON.parse(entries.get('project.json')), original);
+  assert(entries.get('report.html').includes(fingerprint));
+  assert(!entries.get('report.html').includes('Concurrent project edit'));
+  for (const name of ['check-files.sh', 'check-files.ps1']) {
+    assert(entries.get(name).includes(original.id));
+    assert(entries.get(name).includes(fingerprint));
+    assert(!entries.get(name).includes(p.id));
+    assert(!entries.get(name).includes('drawings/new-file.pdf'));
+  }
+});
 test('wrapped metadata ZIP imports and ordinary file archives are rejected', async () => {
   const p = fixture(),
     entries = await Z.read(await E.archive(p));

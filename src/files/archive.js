@@ -7,6 +7,7 @@ import { projectReport } from './report.js';
 
 export async function archive(project) {
   C.validateProject(project);
+  project = C.clone(project);
   const bash = await filesystemScripts(project, 'bash');
   const ps = await filesystemScripts(project, 'powershell');
   return Z.create([

@@ -9,7 +9,6 @@ export function createStructureActions(context) {
   const confirmation = (...args) => context.confirmation(...args);
   const componentModal = (...args) => context.componentModal(...args);
   const bulkModal = (...args) => context.bulkModal(...args);
-  const navigate = (...args) => context.navigate(...args);
   const t = (...args) => context.t(...args);
   const snapshot = (...args) => context.snapshot(...args);
 
@@ -87,18 +86,10 @@ export function createStructureActions(context) {
       }
       case 'inspect-close':
         closeModal();
-        navigate('structure');
-        state.selected = id || null;
-        render();
+        context.inspectComponent(id);
         break;
       case 'inspect':
-        if (state.view !== 'structure') navigate('structure');
-        state.selected = id || null;
-        render();
-        if (window.matchMedia('(max-width:760px)').matches)
-          document
-            .querySelector('.inspector')
-            ?.scrollIntoView({ block: 'start' });
+        context.inspectComponent(id);
         break;
       case 'back-to-structure':
         document

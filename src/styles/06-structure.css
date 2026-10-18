@@ -454,14 +454,6 @@
   margin: 0 0 17px;
   max-width: 390px;
 }
-.example-line {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  padding: 0 2px;
-  font-size: 13px;
-  color: var(--muted);
-}
 .projects-table th:first-child {
   width: 40%;
 }
