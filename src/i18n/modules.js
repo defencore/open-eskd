@@ -20,6 +20,8 @@ import manufacturingGuidanceEn from './manufacturing-guidance-en.js';
 import manufacturingGuidanceUk from './manufacturing-guidance-uk.js';
 import examplesEn from './examples-en.js';
 import examplesUk from './examples-uk.js';
+import verificationEn from './verification-en.js';
+import verificationUk from './verification-uk.js';
 
 export const translationModules = [
   { name: 'common', en: commonEn, ua: commonUk },
@@ -31,6 +33,7 @@ export const translationModules = [
   { name: 'manufacturing', en: manufacturingEn, ua: manufacturingUk },
   { name: 'production', en: productionEn, ua: productionUk },
   { name: 'examples', en: examplesEn, ua: examplesUk },
+  { name: 'verification', en: verificationEn, ua: verificationUk },
   { name: 'project-guidance', en: projectGuidanceEn, ua: projectGuidanceUk },
   {
     name: 'manufacturing-guidance',

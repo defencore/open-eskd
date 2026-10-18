@@ -1,0 +1,9 @@
+SYNTHETIC TRAINING STREAM - no real equipment or application execution.
+run=example-verification-ground-restore
+case=GST-001
+stream=observer
+configuration=example-commit-ground-variant
+exampleOutcome=passed
+realEquipmentUsed=false
+realApproval=false
+Media references are absent placeholders; this stream is manually fabricated.

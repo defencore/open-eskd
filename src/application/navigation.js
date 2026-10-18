@@ -2,12 +2,14 @@ import * as C from '../domain/index.js';
 
 import { preference } from '../storage/preferences.js';
 import { isExampleProject } from './example-project.js';
+import { createVerificationState } from './verification-state.js';
 
 const projectViews = new Set([
   'overview',
   'structure',
   'catalog',
   'documents',
+  'verification',
   'history',
   'manufacturing',
   'production',
@@ -40,6 +42,7 @@ export function createNavigation(context) {
 
   function selectProject(id, view = 'structure') {
     if (!state.projects.some((project) => project.id === id)) return;
+    Object.assign(state, createVerificationState());
     state.projectId = id;
     state.selected = null;
     state.batchId = null;

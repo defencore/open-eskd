@@ -1,5 +1,4 @@
 import { readFile, writeFile } from 'node:fs/promises';
-import * as C from '../src/domain/index.js';
 import * as E from '../src/files/index.js';
 import { checkConformance } from './lib/conformance.mjs';
 
@@ -96,7 +95,7 @@ async function main() {
       );
     if (config.command === 'inventory')
       artifact =
-        JSON.stringify(C.fileInventory(C.working(project)), null, 2) + '\n';
+        JSON.stringify(E.projectFileInventory(project), null, 2) + '\n';
     if (config.command === 'scripts') {
       const platform = config['--platform'];
       const kind = config['--kind'];

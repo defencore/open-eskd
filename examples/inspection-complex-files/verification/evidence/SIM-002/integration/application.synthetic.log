@@ -1,0 +1,9 @@
+SYNTHETIC TRAINING STREAM - no real equipment or application execution.
+run=example-verification-integration
+case=SYS-001
+stream=application
+configuration=example-commit-replacement-b
+exampleOutcome=blocked
+realEquipmentUsed=false
+realApproval=false
+Media references are absent placeholders; this stream is manually fabricated.

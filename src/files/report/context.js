@@ -2,6 +2,7 @@ import * as C from '../../domain/index.js';
 import { translate } from '../../i18n/index.js';
 import { routeLinkIndex } from '../../domain/manufacturing-description.js';
 import { configurationFingerprint } from '../filesystem.js';
+import { verificationReportRuns } from './verification.js';
 
 export async function reportContext(project, language, batch, facility) {
   C.validateProject(project);
@@ -18,6 +19,7 @@ export async function reportContext(project, language, batch, facility) {
       project.production.some((record) => C.equal(record, batch)),
       'Choose a batch from this project.',
     );
+  project = C.clone(project);
   batch = batch === null ? null : C.clone(batch);
   const t = (key) => translate(language, key),
     snapshot = batch ? batch.snapshot : C.clone(C.working(project)),
@@ -85,6 +87,7 @@ export async function reportContext(project, language, batch, facility) {
     documentsByComponent,
     components,
     issues,
+    verificationRuns: verificationReportRuns(project, batch, facility),
     index: routeLinkIndex(snapshot, t),
     heading: batch ? batch.name : snapshot.meta.name,
   };

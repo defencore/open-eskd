@@ -78,6 +78,8 @@ export function createFormGuidance(context) {
 
   function guidanceContent(label, value, selectedType = '') {
     let prefix = typeLabels.has(label) ? typeGuides[value] : guides[label];
+    if (label.startsWith('verification'))
+      prefix = 'guide' + label[0].toUpperCase() + label.slice(1);
     if (label === 'status') prefix = statusGuides[value];
     if (label === 'documentType' && value === 'image')
       prefix = 'guideFileImage';

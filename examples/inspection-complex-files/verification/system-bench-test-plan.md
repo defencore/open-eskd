@@ -22,6 +22,10 @@ This is an organizational template for a civilian inspection complex. It contain
 
 Record case identity, exact configuration, author, disposition and relative evidence paths. Video and photo paths in `SIM-001` are absent placeholders. Do not create empty MP4 files or relabel synthetic material as a real recording to satisfy a check.
 
+The verification journal's `SIM-002` exercise demonstrates eight independent attempts across `COM-003`, `SW-001`, `NCR-001`, `PWR-001`, `GST-001` and `SYS-001`. Each attempt groups a protocol, separate application and observer logs, a dataset, two absent camera references and an absent overview image. These manually fabricated attempts illustrate passed, failed, blocked and inconclusive outcomes; they are not executions of this plan. Failed attempts remain visible when a separate retest is appended.
+
+The `COM-003` retest at saved telemetry B is separate from the failed frozen MVP A run. It neither repairs the frozen configuration nor adds accepted quantities to the batch. The `NCR-001` replacement attempt retains the original failure under the same frozen batch. The `GST-001` demonstration belongs to the alternative ground-station branch. Use the configuration recorded on each attempt, rather than the project's currently selected branch, to interpret its evidence.
+
 ## Acceptance boundary
 
 All example components remain draft. Saved project versions may be under review, but none is released or certified. Metadata validity, a present file and a synthetic accepted quantity are separate facts; none establishes that a real product is safe, compliant or ready for manufacture.

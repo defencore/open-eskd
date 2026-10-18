@@ -76,7 +76,7 @@
     "fileCheck": {
       "anyOf": [{ "$ref": "#/$defs/fileCheck" }, { "type": "null" }]
     },
-    "extensions": { "$ref": "#/$defs/extensions" }
+    "extensions": { "$ref": "#/$defs/projectExtensions" }
   },
   "required": [
     "schema",
@@ -100,9 +100,179 @@
         "type": "string",
         "minLength": 3,
         "maxLength": 120,
-        "pattern": "^(?:[a-z][a-z0-9-]*\\.)+[a-z][a-z0-9-]*$"
+        "pattern": "^(?:[a-z][a-z0-9-]*\\.)+[a-z][a-z0-9-]*$",
+        "not": { "const": "org.openeskd.verification" }
       },
       "additionalProperties": { "$ref": "#/$defs/jsonValue" }
+    },
+    "projectExtensions": {
+      "type": "object",
+      "maxProperties": 16,
+      "propertyNames": {
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 120,
+        "pattern": "^(?:[a-z][a-z0-9-]*\\.)+[a-z][a-z0-9-]*$"
+      },
+      "properties": {
+        "org.openeskd.verification": { "$ref": "#/$defs/verification" }
+      },
+      "additionalProperties": { "$ref": "#/$defs/jsonValue" }
+    },
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "version": { "const": 1 },
+        "runs": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/verificationRun" },
+          "maxItems": 1000
+        }
+      },
+      "required": ["version", "runs"]
+    },
+    "verificationRun": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+        },
+        "name": { "type": "string", "minLength": 1, "maxLength": 300 },
+        "testCase": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "procedurePath": {
+          "anyOf": [
+            { "const": "" },
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 800,
+              "pattern": "^(?!/)(?!.*[\\\\\\u0000-\\u001f\\u007f<>:\"|?*])[^/]+(?:/[^/]+)*$"
+            }
+          ]
+        },
+        "performedAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 24,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,3})?Z$"
+        },
+        "operator": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "componentId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100,
+              "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+            },
+            { "type": "null" }
+          ]
+        },
+        "commitId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+        },
+        "branch": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "batchId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100,
+              "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+            },
+            { "type": "null" }
+          ]
+        },
+        "operationId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100,
+              "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+            },
+            { "type": "null" }
+          ]
+        },
+        "retestOf": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100,
+              "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+            },
+            { "type": "null" }
+          ]
+        },
+        "outcome": {
+          "type": "string",
+          "enum": ["passed", "failed", "blocked", "inconclusive"]
+        },
+        "summary": { "type": "string", "minLength": 0, "maxLength": 10000 },
+        "artifacts": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/verificationArtifact" },
+          "maxItems": 1000
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "testCase",
+        "procedurePath",
+        "performedAt",
+        "operator",
+        "componentId",
+        "commitId",
+        "branch",
+        "batchId",
+        "operationId",
+        "retestOf",
+        "outcome",
+        "summary",
+        "artifacts"
+      ]
+    },
+    "verificationArtifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "^(?!__proto__$|constructor$|prototype$)[^\\s\\u0000-\\u001f\\u007f]+$"
+        },
+        "title": { "type": "string", "minLength": 1, "maxLength": 300 },
+        "kind": {
+          "type": "string",
+          "enum": ["video", "log", "protocol", "image", "dataset", "other"]
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 800,
+          "pattern": "^(?!/)(?!.*[\\\\\\u0000-\\u001f\\u007f<>:\"|?*])[^/]+(?:/[^/]+)*$"
+        },
+        "sha256": {
+          "anyOf": [
+            { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+            { "type": "null" }
+          ]
+        },
+        "required": { "type": "boolean" },
+        "notes": { "type": "string", "minLength": 0, "maxLength": 2000 }
+      },
+      "required": ["id", "title", "kind", "path", "sha256", "required", "notes"]
     },
     "jsonValue": {
       "anyOf": [
@@ -787,7 +957,7 @@
         "files": {
           "type": "array",
           "items": { "$ref": "#/$defs/fileCheckEntry" },
-          "maxItems": 10000
+          "maxItems": 21000
         }
       },
       "required": ["schema", "projectId", "fingerprint", "checkedAt", "files"]

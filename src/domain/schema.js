@@ -1,6 +1,11 @@
 import { SCHEMA, VERSION, TYPES, STATUSES, DOC_TYPES } from './constants.js';
 import { TECHNOLOGIES, OPERATIONS } from './manufacturing.js';
 import { WORKFLOWS, ORIGIN_BASES, ORIGIN_CONFIDENCE } from './provenance.js';
+import {
+  EVIDENCE_KINDS,
+  VERIFICATION_NAMESPACE,
+  VERIFICATION_OUTCOMES,
+} from './verification-constants.js';
 
 const string = (max = 10000, min = 0) => ({
   type: 'string',
@@ -16,7 +21,13 @@ const record = (properties, optional = [], extensions = true) => ({
   additionalProperties: false,
   properties: {
     ...properties,
-    ...(extensions ? { extensions: ref('extensions') } : {}),
+    ...(extensions
+      ? {
+          extensions: ref(
+            typeof extensions === 'string' ? extensions : 'extensions',
+          ),
+        }
+      : {}),
   },
   required: Object.keys(properties).filter((key) => !optional.includes(key)),
 });
@@ -55,20 +66,24 @@ export const projectSchema = {
   title: 'Open ESKD project manifest',
   description:
     'Client-independent engineering configuration, external file references and production records. See the conformance specification for semantic requirements.',
-  ...record({
-    schema: { const: SCHEMA },
-    schemaVersion: { const: VERSION },
-    kind: choice(['project', 'component']),
-    id,
-    createdAt: date,
-    updatedAt: date,
-    activeBranch: id,
-    branches: { ...dictionaries(ref('branch'), 100), minProperties: 1 },
-    commits: { ...dictionaries(ref('commit'), 5000), minProperties: 1 },
-    catalog: dictionaries(ref('catalogRevision'), 5000),
-    production: list(ref('batch'), 1000),
-    fileCheck: nullable(ref('fileCheck')),
-  }),
+  ...record(
+    {
+      schema: { const: SCHEMA },
+      schemaVersion: { const: VERSION },
+      kind: choice(['project', 'component']),
+      id,
+      createdAt: date,
+      updatedAt: date,
+      activeBranch: id,
+      branches: { ...dictionaries(ref('branch'), 100), minProperties: 1 },
+      commits: { ...dictionaries(ref('commit'), 5000), minProperties: 1 },
+      catalog: dictionaries(ref('catalogRevision'), 5000),
+      production: list(ref('batch'), 1000),
+      fileCheck: nullable(ref('fileCheck')),
+    },
+    [],
+    'projectExtensions',
+  ),
   $defs: {
     extensions: {
       type: 'object',
@@ -76,9 +91,64 @@ export const projectSchema = {
       propertyNames: {
         ...string(120, 3),
         pattern: '^(?:[a-z][a-z0-9-]*\\.)+[a-z][a-z0-9-]*$',
+        not: { const: VERIFICATION_NAMESPACE },
       },
       additionalProperties: ref('jsonValue'),
     },
+    projectExtensions: {
+      type: 'object',
+      maxProperties: 16,
+      propertyNames: {
+        ...string(120, 3),
+        pattern: '^(?:[a-z][a-z0-9-]*\\.)+[a-z][a-z0-9-]*$',
+      },
+      properties: {
+        [VERIFICATION_NAMESPACE]: ref('verification'),
+      },
+      additionalProperties: ref('jsonValue'),
+    },
+    verification: record(
+      {
+        version: { const: 1 },
+        runs: list(ref('verificationRun'), 1000),
+      },
+      [],
+      false,
+    ),
+    verificationRun: record(
+      {
+        id,
+        name: string(300, 1),
+        testCase: string(200, 1),
+        procedurePath: { anyOf: [{ const: '' }, path] },
+        performedAt: date,
+        operator: string(200, 1),
+        componentId: nullable(id),
+        commitId: id,
+        branch: string(100, 1),
+        batchId: nullable(id),
+        operationId: nullable(id),
+        retestOf: nullable(id),
+        outcome: choice(VERIFICATION_OUTCOMES),
+        summary: string(10000),
+        artifacts: list(ref('verificationArtifact'), 1000),
+      },
+      [],
+      false,
+    ),
+    verificationArtifact: record(
+      {
+        id,
+        title: string(300, 1),
+        kind: choice(EVIDENCE_KINDS),
+        path,
+        sha256: nullable(hash),
+        required: { type: 'boolean' },
+        notes: string(2000),
+      },
+      [],
+      false,
+    ),
     jsonValue: {
       anyOf: [
         ...['null', 'boolean', 'number', 'string'].map((type) => ({ type })),
@@ -248,7 +318,7 @@ export const projectSchema = {
         projectId: id,
         fingerprint: hash,
         checkedAt: date,
-        files: list(ref('fileCheckEntry'), 10000),
+        files: list(ref('fileCheckEntry'), 21000),
       },
       [],
       false,

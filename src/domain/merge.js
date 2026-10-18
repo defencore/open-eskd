@@ -1,5 +1,6 @@
 import { mergeProduction } from './production.js';
 import { mergeCatalog } from './catalog/exchange.js';
+import { mergeVerification, VERIFICATION_NAMESPACE } from './verification.js';
 import { clone, equal, own } from './objects.js';
 import { assert } from './constraints.js';
 import { validateProject } from './validation.js';
@@ -110,6 +111,7 @@ export function importHistory(local, incoming) {
   const candidate = clone(local);
   mergeCatalog(candidate, incoming);
   for (const [namespace, value] of Object.entries(incoming.extensions || {})) {
+    if (namespace === VERIFICATION_NAMESPACE) continue;
     assert(
       !candidate.extensions ||
         !own(candidate.extensions, namespace) ||
@@ -145,6 +147,7 @@ export function importHistory(local, incoming) {
     candidate.branches[newName] = clone(branch);
     names.push(newName);
   }
+  mergeVerification(candidate, incoming);
   validateProject(candidate);
   return { project: candidate, names };
 }

@@ -6,6 +6,7 @@ import { addSupport } from './support.js';
 import { addVerification } from './verification.js';
 import { createScenario } from './scenario.js';
 import { localizeExampleIdentities } from './locale.js';
+import { addVerificationRuns } from './verification-runs.js';
 import { EXAMPLE_NAMESPACE, SUPPLIED_EXAMPLE_PATHS } from './constants.js';
 
 export { COMPLEX_EXAMPLE_IDS, COMPLEX_EXAMPLE_SECTIONS } from './constants.js';
@@ -55,7 +56,7 @@ export function createComplexExample(lang = 'en') {
     document.extensions[EXAMPLE_NAMESPACE].supplied =
       SUPPLIED_EXAMPLE_PATHS.includes(document.path);
   const project = localizeExampleIdentities(
-    createScenario(initialProject(ctx), ctx),
+    addVerificationRuns(createScenario(initialProject(ctx), ctx), ctx),
     lang,
   );
   C.validateProject(project);

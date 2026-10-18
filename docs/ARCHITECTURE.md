@@ -8,7 +8,7 @@
 | `src/bootstrap/`            | Startup, explicit feature composition, context services and command/form dispatch                                         |
 | `src/files/zip/`            | Binary encoding, CRC32, path validation, limits, ZIP reading and writing                                                  |
 | `src/files/`                | JSON/ZIP project exchange, external file references, filesystem scripts, BOM and manufacturing exports                    |
-| `src/files/report/`         | Frozen report context, document fields, structure, operations/results and standalone layout                               |
+| `src/files/report/`         | Frozen report context, document fields, structure, operations/results, grouped test evidence and standalone layout        |
 | `src/application/`          | Workspace state, controllers, designation suggestions, atomic pasted lists, navigation and persistence outcomes           |
 | `src/application/actions/`  | User commands grouped by workspace, structure, documents, history and exchange                                            |
 | `src/application/forms/`    | Form validation and mutations grouped by feature                                                                          |
@@ -16,6 +16,7 @@
 | `src/ui/views/`             | Individual workspace screens                                                                                              |
 | `src/ui/dialogs/`           | Project, component, documentation, revision and merge dialogs                                                             |
 | `src/ui/production/`        | Production screen and batch/result dialogs, coordinated by `src/application/production.js`                                |
+| `src/ui/verification/`      | Searchable test journal, session dialogs and draft evidence editor, coordinated by application controllers                |
 | `src/ui/`                   | Shared markup, icons, feedback, shell, workflow navigation and events                                                     |
 | `src/i18n/`                 | Complete English and Ukrainian dictionaries, translation lookup                                                           |
 | `src/styles/`               | Readable CSS grouped by interface responsibility, responsive and print rules                                              |
@@ -30,7 +31,7 @@
 
 `src/i18n/modules.js` composes paired English/Ukrainian feature dictionaries. Tests check key parity, duplicate ownership, nonempty values and literal UI translation calls. Translation lookup uses own properties so unknown keys cannot expose object prototype values.
 
-`src/application/examples.js` opens or selects the learning project without overwriting edits. A namespaced example marker travels with JSON imports; no browser preference owns the only accessible example. All stored copies remain visible in the project list. The guide uses stable section IDs and handles removed elements without broken navigation. Shipped English JSON is deterministic; new workspace copies receive independent project IDs. Locale-specific immutable project/catalog/history/document/definition identities prevent translated snapshots from claiming the same revision identity; placement and operation anchors stay stable for navigation. All result events and companion logs are explicitly synthetic, and unavailable media paths remain optional.
+`src/application/examples.js` opens or selects the learning project without overwriting edits. A namespaced example marker travels with JSON imports; no browser preference owns the only accessible example. All stored copies remain visible in the project list. The guide uses stable section IDs and handles removed elements without broken navigation. Shipped English JSON is deterministic; new workspace copies receive independent project IDs. Locale-specific immutable project/catalog/history/document/definition identities prevent translated snapshots from claiming the same revision identity; placement and operation anchors stay stable for navigation. The verification profile adds eight sessions with 56 evidence references, including linked retests and different frozen configurations. All result events, protocols and companion logs are explicitly synthetic, and unavailable media paths remain optional.
 
 ## Browser runtime
 
@@ -84,7 +85,7 @@ A tree index makes traversal linear in component count. Total quantities multipl
 
 ## Distribution and updates
 
-The build creates `dist/index.html`, `app.js`, `app.css`, local assets, `sw.js`, `CNAME`, `.nojekyll`, `open-eskd.html` and `open-eskd-offline.zip`. The offline ZIP contains stable example data and engineer documentation. Developer documentation stays in the repository. Neither distribution rewrites source files.
+The build creates `dist/index.html`, `app.js`, `app.css`, local assets, `sw.js`, `CNAME`, `.nojekyll`, `open-eskd.html` and `open-eskd-offline.zip`. The offline ZIP contains stable example data, engineer documentation and every supplied synthetic text companion. A bounded, sorted walk reads only the example companion directory and an explicit text-extension whitelist; it rejects links, invalid UTF-8, binary controls and excessive sizes/counts/depth. Validated bytes are captured for both the build hash and ZIP. Original videos, images and engineering binaries are excluded. Developer documentation stays in the repository. Neither distribution rewrites source files.
 
 The service worker installs a complete application cache keyed by a hash of its assets and worker template. An active worker serves its matching asset set offline. A successfully installed new worker replaces the prior cache. Localhost previews prefer the network so refreshes show development changes, with the installed cache as an offline fallback. The service worker never stores or sends engineering project records. GitHub Actions uploads only the generated directory after validation.
 
@@ -96,14 +97,24 @@ The service worker installs a complete application cache keyed by a hash of its 
 
 ## External files and production
 
-`src/domain/file-paths.js` validates portable paths and inventories. `src/files/filesystem.js` generates Bash/PowerShell scripts, computes canonical configuration fingerprints and accepts verification reports. `src/files/report.js` orchestrates renderers under `src/files/report/` to create escaped standalone HTML with relative links/images and optional facility filtering. Report context captures the selected snapshot, batch and scalar metadata before asynchronous hashing; toolkit exports capture one project so all files describe the same configuration. UI orchestration lives in `src/ui/file-workspace.js`.
+`src/domain/file-paths.js` validates portable paths and inventories. `src/files/inventory.js` combines the current snapshot's documents with procedures/artifacts from every test session. Shared paths retain known hashes and combined requirements; conflicting non-null hashes are rejected. `src/files/filesystem.js` generates Bash/PowerShell scripts, computes canonical fingerprints over the configuration and complete verification profile, and accepts cloned file-check inputs. `src/files/report.js` orchestrates renderers under `src/files/report/` to create escaped standalone HTML with relative links/images and optional facility filtering. Report context captures the entire project and selected batch before asynchronous hashing; toolkit exports capture one project so all files describe the same configuration. UI orchestration lives in `src/ui/file-workspace.js`.
 
 `src/domain/production.js` owns batch/result mutations and immutable event merging; `production-validation.js` enforces quantities and dependency acceptance; `production-plan.js` derives indexed worklists and progress. File-check shape validation has its own module. `src/ui/production/view.js` renders the worklist and exports; `dialogs.js` renders batch/result forms; `src/application/production.js` validates cloned candidates before applying mutations. Production is outside engineering snapshots, while every batch stores its captured snapshot and baseline identity.
 
 Schema 6 has no runtime binary store or legacy format conversion. Compare-and-swap checks the raw record from the last acknowledged read. New browser tabs cannot silently overwrite unsupported records or another tab’s work.
 
+## Test sessions and evidence
+
+`src/domain/verification.js` appends sessions and merges immutable run identities. `verification-records.js` exposes profile records, resolves pinned commit/batch snapshots and collects file references. `verification-validation.js` owns run/artifact shapes, reference integrity, retest cycles and combined inventory checks; `verification-constants.js` owns enums, namespace and resource limits. The optional version-1 profile is interpreted only on the project envelope under `org.openeskd.verification`. It leaves schema 6 and projects without the profile intact.
+
+The journal is outside engineering snapshots. Each run retains a saved commit/branch and optional frozen batch, plus component/operation context. Saving or branching a product version does not duplicate test sessions. Merge unions independent runs and rejects changed content with an existing run ID. Retests append new records linked to their predecessors; they do not rewrite the earlier result or automatically change production quantities.
+
+`src/application/verification.js` coordinates commands and validates a cloned candidate before persistence. `verification-configuration.js` resolves form selections; `verification-query.js` filters sessions and artifacts; `verification-state.js` initializes independent journal filters and pagination. `src/ui/verification/view.js` displays the journal and session details, `dialogs.js` renders configuration-aware forms, and `evidence-editor.js` parses bulk paths and edits draft artifact metadata without reading file bytes. The report renderer keeps test evidence in a separate grouped section rather than repeating large collections under each operation. Batch filters require explicit batch assignment; facility filters resolve the pinned operation/component and exclude unscoped global sessions.
+
+Limits are 1,000 sessions, 1,000 artifacts per session, 10,000 artifacts overall and 16 MiB for this profile. Generic annotations retain their 64 KiB limit. Combined file checks support 21,000 paths before deduplication. Search and incremental display bound the visible journal and evidence tables; these metadata ceilings are not a claim of unlimited browser performance.
+
 ## Interoperability boundary
 
-`constraints.js` provides shared scalar checks and structured errors. Component, document, snapshot, catalog, production and file-check validators own separate concerns. `schema.js` is the single JSON Schema source, emitted by `scripts/schema.mjs`; Ajv is a development/tooling dependency only. The browser ships the domain semantic validator without an Ajv runtime. CLI validation combines structural and semantic validation, using the same source as the application.
+`constraints.js` provides shared scalar checks and structured errors. Component, document, snapshot, catalog, production, verification-profile and file-check validators own separate concerns. `schema.js` is the single JSON Schema source, emitted by `scripts/schema.mjs`; Ajv is a development/tooling dependency only. The browser ships the domain semantic validator without an Ajv runtime. CLI validation combines structural and semantic validation, using the same source as the application.
 
 `provenance.js` describes origin and verification for decomposition. `extensions.js` bounds namespaced JSON annotations; component/document definition signatures include annotations so pinned records cannot silently diverge. UI forms preserve fields outside their editable controls. No domain or file module imports UI, storage, application state or browser DOM services.

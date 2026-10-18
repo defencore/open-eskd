@@ -1,7 +1,11 @@
 import { assert, text } from './constraints.js';
+import {
+  VERIFICATION_NAMESPACE,
+  VERIFICATION_MAX_BYTES,
+} from './verification-constants.js';
 
 export const EXTENSION_NAMESPACE = /^(?:[a-z][a-z0-9-]*\.)+[a-z][a-z0-9-]*$/;
-export function validateExtensions(value) {
+export function validateExtensions(value, { verification = false } = {}) {
   if (value === undefined) return;
   assert(
     value &&
@@ -51,10 +55,25 @@ export function validateExtensions(value) {
       EXTENSION_NAMESPACE.test(namespace) && namespace.length <= 120,
       'Use a reverse-DNS extension namespace.',
     );
+    assert(
+      namespace !== VERIFICATION_NAMESPACE || verification,
+      'The verification profile is only valid on a project manifest.',
+    );
     json(payload);
+    if (namespace === VERIFICATION_NAMESPACE)
+      assert(
+        new TextEncoder().encode(JSON.stringify(payload)).length <=
+          VERIFICATION_MAX_BYTES,
+        'Verification profile exceeds 16 MiB.',
+      );
   }
+  const generic = Object.fromEntries(
+    Object.entries(value).filter(
+      ([namespace]) => namespace !== VERIFICATION_NAMESPACE,
+    ),
+  );
   assert(
-    new TextEncoder().encode(JSON.stringify(value)).length <= 65536,
+    new TextEncoder().encode(JSON.stringify(generic)).length <= 65536,
     'Extension payload exceeds 64 KiB.',
   );
 }

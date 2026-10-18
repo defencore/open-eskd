@@ -1,0 +1,2 @@
+synthetic,run,case,configuration,outcome,realApproval
+true,example-verification-bracket-replacement,NCR-001,example-commit-mvp-a,passed,false

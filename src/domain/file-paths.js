@@ -53,26 +53,35 @@ export function suggestedPath(component, kind = 'drawing') {
     : `${folder}/${code}_${kind}.${kind === 'model' ? 'step' : kind === 'instructions' ? 'md' : 'pdf'}`;
 }
 
-export function fileInventory(snapshot) {
+export function fileInventory(snapshot, references = []) {
   const paths = new Map();
-  for (const doc of snapshot.documents) {
-    const key = doc.path.toLowerCase().normalize('NFC');
+  function add(reference, documentId = null) {
+    if (!validFilePath(reference.path))
+      throw new Error('Invalid relative file path.');
+    const key = reference.path.toLowerCase().normalize('NFC');
     const item = paths.get(key);
     if (item) {
-      if (item.path !== doc.path || item.sha256 !== doc.sha256)
+      if (
+        item.path !== reference.path ||
+        (item.sha256 && reference.sha256 && item.sha256 !== reference.sha256)
+      )
         throw new Error(
-          'File paths conflict on a case-insensitive filesystem: ' + doc.path,
+          'File paths conflict on a case-insensitive filesystem: ' +
+            reference.path,
         );
-      item.required ||= doc.required;
-      item.documents.push(doc.id);
+      item.sha256 ||= reference.sha256;
+      item.required ||= reference.required;
+      if (documentId !== null) item.documents.push(documentId);
     } else
       paths.set(key, {
-        path: doc.path,
-        sha256: doc.sha256,
-        required: doc.required,
-        documents: [doc.id],
+        path: reference.path,
+        sha256: reference.sha256,
+        required: reference.required,
+        documents: documentId === null ? [] : [documentId],
       });
   }
+  for (const doc of snapshot.documents) add(doc, doc.id);
+  for (const reference of references) add(reference);
   const files = [...paths.values()].sort((a, b) =>
     a.path.localeCompare(b.path),
   );

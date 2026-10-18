@@ -49,5 +49,13 @@ export function localizeExampleIdentities(project, lang) {
     snapshot(batch.snapshot);
     for (const event of batch.results) event.id = scope(event.id);
   }
+  for (const run of project.extensions['org.openeskd.verification']?.runs ||
+    []) {
+    run.id = scope(run.id);
+    run.commitId = scope(run.commitId);
+    run.batchId = scope(run.batchId);
+    run.retestOf = scope(run.retestOf);
+    for (const artifact of run.artifacts) artifact.id = scope(artifact.id);
+  }
   return project;
 }

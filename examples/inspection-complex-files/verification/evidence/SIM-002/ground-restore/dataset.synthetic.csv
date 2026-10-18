@@ -1,0 +1,2 @@
+synthetic,run,case,configuration,outcome,realApproval
+true,example-verification-ground-restore,GST-001,example-commit-ground-variant,passed,false

@@ -5,6 +5,21 @@ import path from 'node:path';
 import { Script } from 'node:vm';
 import { buildSite, root, output } from '../scripts/build.mjs';
 import { read } from '../src/files/zip/reader.js';
+import { SUPPLIED_EXAMPLE_PATHS } from '../src/data/complex-example/constants.js';
+
+async function companionFiles(directory, relative = '') {
+  const files = [];
+  for (const entry of await readdir(path.join(directory, relative), {
+    withFileTypes: true,
+  })) {
+    const filename = relative ? relative + '/' + entry.name : entry.name;
+    if (entry.isDirectory())
+      files.push(...(await companionFiles(directory, filename)));
+    else if (entry.isFile()) files.push(filename);
+    else assert.fail('Example companions must be ordinary text files.');
+  }
+  return files.sort();
+}
 
 test('production artifacts are portable, deterministic and ready for the custom domain', async () => {
   const example = await readFile(path.join(root, 'examples/quick-start.json'));
@@ -63,6 +78,7 @@ test('production artifacts are portable, deterministic and ready for the custom 
   assert(
     zip.some((entry) => entry.name === 'open-eskd/docs/COMPLEX_EXAMPLE.md'),
   );
+  assert(zip.some((entry) => entry.name === 'open-eskd/docs/VERIFICATION.md'));
   for (const file of [
     'inspection-complex.json',
     'inspection-complex-files/README.md',
@@ -70,6 +86,54 @@ test('production artifacts are portable, deterministic and ready for the custom 
     'inspection-complex-files/verification/evidence/SIM-001/telemetry.synthetic.csv',
   ])
     assert(zip.some((entry) => entry.name === `open-eskd/examples/${file}`));
+  const companionRoot = path.join(root, 'examples/inspection-complex-files'),
+    companions = await companionFiles(companionRoot),
+    packagedCompanions = zip.filter((entry) =>
+      entry.name.startsWith('open-eskd/examples/inspection-complex-files/'),
+    );
+  assert(
+    companions.length >= 44,
+    'Both synthetic evidence collections must ship.',
+  );
+  assert.deepEqual(
+    packagedCompanions.map((entry) => entry.name).sort(),
+    companions.map(
+      (file) => `open-eskd/examples/inspection-complex-files/${file}`,
+    ),
+  );
+  for (const file of companions) {
+    const entry = packagedCompanions.find((item) =>
+      item.name.endsWith('/' + file),
+    );
+    assert.deepEqual(
+      Buffer.from(entry.data),
+      await readFile(path.join(companionRoot, file)),
+    );
+    assert.doesNotThrow(() =>
+      new TextDecoder('utf-8', { fatal: true }).decode(entry.data),
+    );
+  }
+  for (const file of SUPPLIED_EXAMPLE_PATHS)
+    assert(
+      companions.includes(file),
+      `The supplied fixture must ship: ${file}`,
+    );
+  const complex = JSON.parse(
+    await readFile(path.join(root, 'examples/inspection-complex.json'), 'utf8'),
+  );
+  for (const run of complex.extensions['org.openeskd.verification'].runs)
+    for (const artifact of run.artifacts.filter((item) => item.required))
+      assert(
+        companions.includes(artifact.path),
+        `Required synthetic evidence must ship: ${artifact.path}`,
+      );
+  assert(
+    !zip.some((entry) =>
+      /\.(?:mp4|mov|webm|mkv|jpe?g|png|gif|pdf|step|stp|bin)$/i.test(
+        entry.name,
+      ),
+    ),
+  );
   assert(
     zip.some((entry) => entry.name === 'open-eskd/examples/quick-start.json'),
   );

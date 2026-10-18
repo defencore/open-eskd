@@ -79,6 +79,33 @@ test('reopening the example preserves edits and imported example identity withou
   assert.equal(availableView('production', null), 'projects');
 });
 
+test('opening an updated learning example preserves earlier saved copies and their edits', async () => {
+  const old = createComplexExample('en');
+  old.id = 'earlier-example-copy';
+  old.extensions['org.openeskd.example'].version = 1;
+  delete old.extensions['org.openeskd.verification'];
+  old.branches.main.working.meta.name = 'My edited earlier example';
+  const state = createState();
+  state.projects = [old];
+  const context = createContext(state);
+  context.persist = async () => {};
+  context.selectProject = () => {};
+  const controller = createExamplesController(context, {
+    createExample: async () => createComplexExample('en'),
+  });
+  await controller.handleAction('demo');
+  assert.equal(state.projects.length, 2);
+  assert.equal(state.projects[0], old);
+  assert.equal(
+    old.branches.main.working.meta.name,
+    'My edited earlier example',
+  );
+  assert.equal(
+    state.projects[1].extensions['org.openeskd.verification'].runs.length,
+    8,
+  );
+});
+
 test('project selection resolves the root before its single navigation render', () => {
   const project = createComplexExample();
   const state = createState();

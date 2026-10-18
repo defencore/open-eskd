@@ -1,5 +1,9 @@
 import * as C from '../../domain/index.js';
-import { EXAMPLE_DATE, EXAMPLE_NAMESPACE } from './constants.js';
+import {
+  EXAMPLE_DATE,
+  EXAMPLE_NAMESPACE,
+  EXAMPLE_VERSION,
+} from './constants.js';
 
 export function createContext(lang) {
   const t = (en, uk) => (lang === 'uk' || lang === 'ua' ? uk : en);
@@ -212,7 +216,10 @@ export function initialProject(context) {
     production: [],
     fileCheck: null,
     extensions: {
-      [EXAMPLE_NAMESPACE]: { id: 'inspection-complex', version: 1 },
+      [EXAMPLE_NAMESPACE]: {
+        id: 'inspection-complex',
+        version: EXAMPLE_VERSION,
+      },
     },
   };
 }

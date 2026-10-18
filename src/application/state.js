@@ -1,8 +1,10 @@
 import { readPreference } from '../storage/preferences.js';
 import { strings } from '../i18n/index.js';
+import { createVerificationState } from './verification-state.js';
 export function createState() {
   const lang = readPreference('eskd-language', 'ua');
   return {
+    ...createVerificationState(),
     lang: Object.hasOwn(strings, lang) ? lang : 'ua',
     author: readPreference('eskd-author', ''),
     projects: [],

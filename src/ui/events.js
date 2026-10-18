@@ -90,6 +90,8 @@ export function createEvents(context) {
         return;
       }
       context.handleFileChange(event.target);
+      context.handleVerificationFormChange(event.target);
+      if (context.handleVerificationFilter(event.target)) return;
       context.updateFormGuidance(event.target);
       context.handleRouteLinkChange(event.target);
       context.updateRouteEditor(event.target.closest('form'));
@@ -133,6 +135,7 @@ export function createEvents(context) {
       }
     });
     document.addEventListener('input', (event) => {
+      if (context.updateVerificationSearch(event.target)) return;
       if (event.target.hasAttribute('data-production-search')) {
         state.productionSearch = event.target.value;
         state.productionLimit = 100;

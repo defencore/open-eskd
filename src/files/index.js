@@ -4,6 +4,7 @@ export * from './manufacturing.js';
 export * from './archive.js';
 export * from './references.js';
 export * from './filesystem.js';
+export * from './inventory.js';
 export * from './report.js';
 export * from './import.js';
 export * from './json.js';

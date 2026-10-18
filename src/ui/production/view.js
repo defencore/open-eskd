@@ -14,7 +14,7 @@ export function createProductionView(context) {
     const batch =
       p.production.find((batch) => batch.id === state.batchId) ||
       p.production.at(-1);
-    return `${context.titleRow('production', context.button('newBatch', 'new-batch', 'plus', true))}<p class="hint">${esc(t('productionHint'))}</p>${
+    return `${context.titleRow('production', context.button('newBatch', 'new-batch', 'plus', true) + (batch ? context.button('verification', 'verification-batch', 'file', false, extra(batch.id)) : ''))}<p class="hint">${esc(t('productionHint'))}</p>${
       p.production.length
         ? context.selectField(
             'productionBatch',

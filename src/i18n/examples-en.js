@@ -47,9 +47,9 @@ export default {
   exampleSectionSuppliers: 'Launch assistance and parachute suppliers',
   exampleSectionSuppliersDescription:
     'The catapult package and aircraft parachute package are managed as supplier-controlled equipment: component identity, revision, responsibility, interface documents and service status. Their internal designs and operating procedures remain with the supplier.',
-  exampleSectionVerification: 'Test plans, video paths and logs',
+  exampleSectionVerification: 'Many test attempts, videos, logs and protocols',
   exampleSectionVerificationDescription:
-    'Follow the requirements matrix, bench test plans and evidence index. Synthetic CSV and log examples illustrate recorded results; video and image paths are optional references to absent media. Check the tested hardware/software revisions before treating any real recording as evidence.',
+    'Explore eight separate test attempts with 56 evidence paths: multiple cameras, independent log streams, protocols, images and datasets. Compare a failed A attempt with its B retest without rewriting the frozen MVP. Supplied text fixtures are synthetic; videos and images are absent optional references.',
   exampleSectionReplacement: 'Replacing a component without losing history',
   exampleSectionReplacementDescription:
     'Compare telemetry catalog revisions A and B and the CHG-002 interface review. Main uses B for future work, while the issued MVP-001 order retains A and its original routes. A component revision change therefore does not rewrite an existing work order.',
@@ -72,7 +72,7 @@ export default {
   exampleOwnRoutes:
     'Describe preparation and ordered operations for each manufactured, supplied or verified item. Link input components, prerequisite operations and the exact document revisions. Assign locations and measurable acceptance criteria.',
   exampleOwnEvidence:
-    'Reference test plans and a requirements matrix. Record the hardware/software configuration being checked and store logs, recordings and inspection records at their registered paths. Keep missing evidence and unresolved checks visible.',
+    'Reference test plans and a requirements matrix. In the test journal, record each attempt against its saved hardware/software configuration and attach all related log, recording, protocol and dataset paths. Link a new retest to an earlier failure; keep missing evidence and unresolved checks visible.',
   exampleOwnHistory:
     'Save project versions with clear change descriptions. Publish reusable component revisions, explore alternatives in separate variants and review revision differences before replacing a component or merging changes.',
   exampleOwnProduction:

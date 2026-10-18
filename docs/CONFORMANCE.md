@@ -40,7 +40,9 @@ File paths MUST be relative, use `/`, contain no empty, `.` or `..` segments, an
 
 A file record describes expected bytes and required/optional status. A hash is `null` or lowercase SHA-256. It MUST NOT imply that the file exists or has engineering approval. Generated create scripts MUST only create absent directories/marker sidecars, MUST NOT replace files, and MUST reject symbolic links/reparse points in managed paths. Check scripts MUST be read-only. Markers MUST NOT masquerade as real engineering files.
 
-Verification imports MUST match the project ID, current configuration fingerprint and exact inventory coverage. The fingerprint is SHA-256 of UTF-8 serialized JSON for `{projectId, snapshot}`, recursively sorting object keys using JavaScript ordinal order and retaining array order. Independent producers MUST match reference serialization, including JSON number encoding; fixtures/reference tests are provided. This is a configuration check, not a digital signature or a universal JSON canonicalization standard.
+File-check imports MUST match the project ID, current configuration fingerprint and exact inventory coverage. The inventory MUST include current configuration documents and every verification session's procedure and artifact paths, including historical configurations. Exact shared paths MUST be checked once, combining required status with logical OR and retaining a known hash over `null`. Conflicting non-null hashes MUST be rejected.
+
+The fingerprint is SHA-256 of UTF-8 serialized JSON for `{projectId, snapshot, verification}`, recursively sorting object keys using JavaScript ordinal order and retaining array order. `verification` is the complete project verification profile, or `null` if absent. Independent producers MUST match reference serialization, including JSON number encoding; fixtures/reference tests are provided. Changes to the profile MUST invalidate a prior check. This is a configuration check, not a digital signature or a universal JSON canonicalization standard. A check from an earlier fingerprint definition is stale and requires regeneration.
 
 ## Production ledger
 
@@ -50,11 +52,23 @@ Merge MUST reject changed batch definitions, changed events sharing an ID, or ac
 
 ## Extensions and preservation
 
-Optional `extensions` maps are permitted only on the entities listed in [FORMAT.md](FORMAT.md). Namespace keys MUST be reverse-DNS names with at most 120 characters, such as `org.example.quality`; there are at most 16 namespaces per map. Payloads MUST be finite JSON values, without unsafe prototype keys or malformed Unicode, nesting at most 16 and total serialized size at most 65,536 UTF-8 bytes per map.
+Optional `extensions` maps are permitted only on the entities listed in [FORMAT.md](FORMAT.md). Namespace keys MUST be reverse-DNS names with at most 120 characters, such as `org.example.quality`; there are at most 16 namespaces per map. Payloads MUST be finite JSON values, without unsafe prototype keys or malformed Unicode, nesting at most 16. Generic annotations together MUST occupy at most 65,536 serialized UTF-8 bytes per map. The interpreted project-only verification profile has the separate limit below and counts toward the namespace limit.
 
 A conforming editor MUST preserve supported extension payloads through edits and whole-project exchange. It MUST NOT interpret an unknown payload as permission to relax core rules. An organization MUST publish its namespace, payload schema, version and semantics before requiring another tool to interpret it. Selective component exchange includes relevant component/document annotations; project-level annotations are not automatically transferred to an unrelated target project.
 
 Conflicting immutable annotations MUST cause an identity collision; conflicting editable annotations MUST require review or explicit resolution. Additional core requirements need a new schema version and published change proposal, not an undocumented extension override.
+
+## Verification profile version 1
+
+The optional `org.openeskd.verification` namespace is reserved for `{version: 1, runs: []}` on the project envelope. It MUST NOT appear on other entities. Its absence is valid in schema 6; consumers MUST NOT require a converter or insert an empty profile to load existing schema-6 projects. A consumer implementing this profile MUST validate its interpreted fields and relationships, in addition to generic extension safety.
+
+Runs MUST retain stable identities and immutable content during exchange. A run MUST reference an existing commit. With a batch ID, its commit and branch MUST match that frozen batch and its component/operation references MUST resolve in the batch snapshot; otherwise they MUST resolve in the saved commit snapshot. A null component denotes the complete configuration and cannot have an operation reference. Outcomes MUST be `passed`, `failed`, `blocked` or `inconclusive`; they MUST NOT implicitly add production acceptance or rejection events.
+
+Retests MUST reference an existing run for the same test case and component; links MUST be acyclic. A later outcome MUST NOT overwrite the earlier session or its evidence. Artifact identities and case-insensitive/NFC-normalized paths MUST be unique within a run. Every artifact MUST use a supported kind and a portable external path; hashes and requirements follow ordinary file-reference rules. Media bytes MUST NOT be embedded.
+
+Limits are 1,000 runs, 1,000 artifacts per run, 10,000 artifacts across the profile and 16,777,216 serialized UTF-8 bytes. File-check reports MUST contain no more than 21,000 entries. Project and batch reports SHOULD group sessions by test case and preserve the pinned configuration. Batch reports MUST distinguish batch-assigned evidence from unrelated historical tests; facility exports MUST NOT include unscoped global-session evidence as facility acceptance.
+
+The reference modules are `src/domain/verification.js`, `verification-validation.js`, `verification-records.js` and `verification-constants.js`; [VERIFICATION.md](VERIFICATION.md) defines field meanings and workflow. This profile records stated results, not signatures, engineering approval authority or certification.
 
 ## Reference fixtures and checks
 

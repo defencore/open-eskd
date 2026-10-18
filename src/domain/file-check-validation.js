@@ -10,7 +10,7 @@ export function validateFileCheck(project) {
         validHash(check.fingerprint) &&
         validDate(check.checkedAt) &&
         Array.isArray(check.files) &&
-        check.files.length <= 10000,
+        check.files.length <= 21000,
       'Invalid file verification report.',
     );
     const paths = new Set();

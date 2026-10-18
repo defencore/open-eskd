@@ -1,6 +1,9 @@
 import { COMPLEX_EXAMPLE_SECTIONS } from '../../data/demo.js';
 import { esc } from '../../shared/html.js';
-import { isExampleProject } from '../../application/example-project.js';
+import {
+  isExampleProject,
+  isCurrentExampleProject,
+} from '../../application/example-project.js';
 
 export function createExamplesView(context) {
   const t = (key) => context.t(key);
@@ -20,12 +23,13 @@ export function createExamplesView(context) {
     ];
     const destinations = [
       ['documents', 'file', 'exampleDocumentsDescription'],
+      ['verification', 'check', 'verificationExampleDescription'],
       ['manufacturing', 'factory', 'exampleManufacturingDescription'],
       ['history', 'history', 'exampleHistoryDescription'],
       ['catalog', 'box', 'exampleCatalogDescription'],
       ['production', 'check', 'exampleProductionDescription'],
     ];
-    return `${context.titleRow('exampleGuide', context.button('exampleCreateOwn', 'new-project', 'plus', true))}<div class="example-disclaimer">${esc(t('exampleSyntheticNotice'))}</div><div class="example-stats">${stats.map(([count, key]) => `<div><strong>${count}</strong><span>${esc(t(key))}</span></div>`).join('')}</div><section class="example-guide-section"><h2>${esc(t('exampleExploreTitle'))}</h2><p class="muted">${esc(t('exampleExploreDescription'))}</p><div class="example-grid">${COMPLEX_EXAMPLE_SECTIONS.map(
+    return `${context.titleRow('exampleGuide', context.button('exampleCreateOwn', 'new-project', 'plus', true))}<div class="example-disclaimer">${esc(t('exampleSyntheticNotice'))}</div>${!isCurrentExampleProject(project) ? `<div class="hint"><span>${esc(t('verificationOlderExample'))}</span>${context.button('verificationLatestExample', 'demo', 'plus')}</div>` : ''}<div class="example-stats">${stats.map(([count, key]) => `<div><strong>${count}</strong><span>${esc(t(key))}</span></div>`).join('')}</div><section class="example-guide-section"><h2>${esc(t('exampleExploreTitle'))}</h2><p class="muted">${esc(t('exampleExploreDescription'))}</p><div class="example-grid">${COMPLEX_EXAMPLE_SECTIONS.map(
       (section, index) => {
         const component = snapshot.components.find(
           (item) => item.id === section.componentId,

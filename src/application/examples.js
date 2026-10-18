@@ -1,5 +1,8 @@
 import { demoProject, COMPLEX_EXAMPLE_SECTIONS } from '../data/demo.js';
-import { isExampleProject } from './example-project.js';
+import {
+  isExampleProject,
+  isCurrentExampleProject,
+} from './example-project.js';
 
 export function createExamplesController(
   context,
@@ -8,7 +11,7 @@ export function createExamplesController(
   const { state } = context;
   async function handleAction(name, element) {
     if (name === 'demo') {
-      let project = state.projects.find(isExampleProject);
+      let project = state.projects.find(isCurrentExampleProject);
       if (!project) {
         project = await createExample(state.lang);
         state.projects.push(project);

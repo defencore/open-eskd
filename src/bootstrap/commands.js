@@ -1,6 +1,7 @@
 import { createCatalogController } from '../application/catalog/controller.js';
 import { createProductionController } from '../application/production.js';
 import { createExamplesController } from '../application/examples.js';
+import { createVerificationController } from '../application/verification.js';
 import { createDocumentsActions } from '../application/actions/documents.js';
 import { createExchangeActions } from '../application/actions/exchange.js';
 import { createWorkspaceActions } from '../application/actions/workspace.js';
@@ -79,10 +80,12 @@ export function createDispatchers(
 export function createCommands(context) {
   const catalog = createCatalogController(context);
   const production = createProductionController(context);
+  const verification = createVerificationController(context);
   return createDispatchers(context, {
     actions: [
       context.handleFileAction,
       production.handleAction,
+      verification.handleAction,
       context.handleRouteAction,
       context.handleManufacturingAction,
       catalog.handleAction,
@@ -95,6 +98,7 @@ export function createCommands(context) {
     ],
     forms: [
       production.handleForm,
+      verification.handleForm,
       catalog.handleForm,
       createDocumentsForms(context).handleForm,
       createHistoryForms(context).handleForm,

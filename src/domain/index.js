@@ -22,3 +22,4 @@ export * from './extensions.js';
 
 export * from './production-validation.js';
 export * from './file-check-validation.js';
+export * from './verification.js';

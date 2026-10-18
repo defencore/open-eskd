@@ -37878,7 +37878,660 @@
   "extensions": {
     "org.openeskd.example": {
       "id": "inspection-complex",
-      "version": 1
+      "version": 2
+    },
+    "org.openeskd.verification": {
+      "version": 1,
+      "runs": [
+        {
+          "id": "example-verification-com-a",
+          "name": "SYNTHETIC · Interface label mismatch on frozen A",
+          "testCase": "COM-003",
+          "procedurePath": "verification/system-bench-test-plan.md",
+          "performedAt": "2026-01-19T09:00:00.000Z",
+          "operator": "Training verification reviewer",
+          "componentId": "communications",
+          "commitId": "example-commit-mvp-a",
+          "branch": "main",
+          "batchId": "example-batch-mvp-001",
+          "operationId": "communications-op-4",
+          "retestOf": null,
+          "outcome": "failed",
+          "summary": "SYNTHETIC TRAINING ONLY. One fictional label mismatch remains rejected in MVP-001 at telemetry A. The later B retest has a different configuration and does not close this frozen work order.",
+          "artifacts": [
+            {
+              "id": "example-artifact-com-a-protocol",
+              "title": "Synthetic case protocol",
+              "kind": "protocol",
+              "path": "verification/evidence/SIM-002/com-a/protocol.synthetic.md",
+              "sha256": null,
+              "required": true,
+              "notes": "Supplied synthetic text fixture; not a real test record."
+            },
+            {
+              "id": "example-artifact-com-a-application",
+              "title": "Synthetic application log stream",
+              "kind": "log",
+              "path": "verification/evidence/SIM-002/com-a/application.synthetic.log",
+              "sha256": null,
+              "required": true,
+              "notes": "Supplied synthetic text fixture; not a real test record."
+            },
+            {
+              "id": "example-artifact-com-a-observer",
+              "title": "Synthetic observer log stream",
+              "kind": "log",
+              "path": "verification/evidence/SIM-002/com-a/observer.synthetic.log",
+              "sha256": null,
+              "required": true,
+              "notes": "Supplied synthetic text fixture; not a real test record."
+            },
+            {
+              "id": "example-artifact-com-a-dataset",
+              "title": "Synthetic evidence index dataset",
+              "kind": "dataset",
+              "path": "verification/evidence/SIM-002/com-a/dataset.synthetic.csv",
+              "sha256": null,
+              "required": true,
+              "notes": "Supplied synthetic text fixture; not a real test record."
+            },
+            {
+              "id": "example-artifact-com-a-camera-front",
+              "title": "Front camera reference — recording absent",
+              "kind": "video",
+              "path": "verification/evidence/SIM-002/com-a/video/camera-front.placeholder.mp4",
+              "sha256": null,
+              "required": false,
+              "notes": "Optional absent placeholder. No media file or reviewed recording is supplied."
+            },
+            {
+              "id": "example-artifact-com-a-camera-side",
+              "title": "Side camera reference — recording absent",
+              "kind": "video",
+              "path": "verification/evidence/SIM-002/com-a/video/camera-side.placeholder.mp4",
+              "sha256": null,
+              "required": false,
+              "notes": "Optional absent placeholder. No media file or reviewed recording is supplied."
+            },
+            {
+              "id": "example-artifact-com-a-overview",
+              "title": "Overview image reference — image absent",
+              "kind": "image",
+              "path": "verification/evidence/SIM-002/com-a/images/overview.placeholder.jpg",
+              "sha256": null,
+              "required": false,
+              "notes": "Optional absent placeholder. No media file or reviewed recording is supplied."
+            }
+          ]
+        },
+        {
+          "id": "example-verification-com-b",
+          "name": "SYNTHETIC · Separate retest after interface revision B",
+          "testCase": "COM-003",
+          "procedurePath": "verification/system-bench-test-plan.md",
+          "performedAt": "2026-01-24T09:00:00.000Z",
+          "operator": "Training verification reviewer",
+          "componentId": "communications",
+          "commitId": "example-commit-replacement-b",
+          "branch": "main",
+          "batchId": null,
+          "operationId": "communications-op-4",
+          "retestOf": "example-verification-com-a",
+          "outcome": "passed",
+          "summary": "SYNTHETIC TRAINING ONLY. Fictional document-label review passes for the saved B configuration. Retain the failed A run and both evidence collections. No actual radio test, compatibility approval or batch acceptance is represented.",
+          "artifacts": [
+            {
+              "id": "example-artifact-com-b-protocol",
+              "title": "Synthetic case protocol",
+              "kind": "protocol",
+              "path": "verification/evidence/SIM-002/com-b/protocol.synthetic.md",
+              "sha256": null,
+              "required": true,
+              "notes": "Supplied synthetic text fixture; not a real test record."
+            },
+            {
+              "id": "example-artifact-com-b-application",
+              "title": "Synthetic application log stream",
+              "kind": "log",
+              "path": "verification/evidence/SIM-002/com-b/application.synthetic.log",
+              "sha256": null,
+              "required": true,
+              "notes": "Supplied synthetic text fixture; not a real test record."
+            },
+            {
+              "id": "example-artifact-com-b-observer",
+              "title": "Synthetic observer log stream",
+              "kind": "log",
+              "path": "verification/evidence/SIM-002/com-b/observer.synthetic.log",
+              "sha256": null,
+              "required": true,
+              "notes": "Supplied synthetic text fixture; not a real test record."
+            },
+            {
+              "id": "example-artifact-com-b-dataset",
+              "title": "Synthetic evidence index dataset",
+              "kind": "dataset",
+              "path": "verification/evidence/SIM-002/com-b/dataset.synthetic.csv",
+              "sha256": null,
+              "required": true,
+              "notes": "Supplied synthetic text fixture; not a real test record."
+            },
+            {
+              "id": "example-artifact-com-b-camera-front",
+              "title": "Front camera reference — recording absent",
+              "kind": "video",
+              "path": "verification/evidence/SIM-002/com-b/video/camera-front.placeholder.mp4",
+              "sha256": null,
+              "required": false,
+              "notes": "Optional absent placeholder. No media file or reviewed recording is supplied."
+            },
+            {
+              "id": "example-artifact-com-b-camera-side",
+              "title": "Side camera reference — recording absent",
+              "kind": "video",
+              "path": "verification/evidence/SIM-002/com-b/video/camera-side.placeholder.mp4",
+              "sha256": null,
+              "required": false,
+              "notes": "Optional absent placeholder. No media file or reviewed recording is supplied."
+            },
+            {
+              "id": "example-artifact-com-b-overview",
+              "title": "Overview image reference — image absent",
+              "kind": "image",
+              "path": "verification/evidence/SIM-002/com-b/images/overview.placeholder.jpg",
+              "sha256": null,
+              "required": false,
+              "notes": "Optional absent placeholder. No media file or reviewed recording is supplied."
+            }
+          ]
+        },
+        {
+          "id": "example-verification-software",
+          "name": "SYNTHETIC · Software release reference replay",
+          "testCase": "SW-001",
+          "procedurePath": "verification/system-bench-test-plan.md",
+          "performedAt": "2026-01-24T10:00:00.000Z",
+          "operator": "Training verification reviewer",
+          "componentId": "firmware-release",
+          "commitId": "example-commit-replacement-b",
+          "branch": "main",
+          "batchId": null,
+          "operationId": "firmware-release-op-3",
+          "retestOf": null,
+          "outcome": "passed",
+          "summary": "SYNTHETIC TRAINING ONLY. Fictional release-manifest and dependency identifiers agree in this replay. Separate observer and application log streams accompany the protocol. No firmware was executed or approved.",
+          "artifacts": [
+            {
+              "id": "example-artifact-software-protocol",
+              "title": "Synthetic case protocol",
+              "kind": "protocol",
+              "path": "verification/evidence/SIM-002/software/protocol.synthetic.md",
+              "sha256": null,
+              "required": true,
+              "notes": "Supplied synthetic text fixture; not a real test record."
+            },
+            {
+              "id": "example-artifact-software-application",
+              "title": "Synthetic application log stream",
+              "kind": "log",
+              "path": "verification/evidence/SIM-002/software/application.synthetic.log",
+              "sha256": null,
+              "required": true,
+              "notes": "Supplied synthetic text fixture; not a real test record."
+            },
+            {
+              "id": "example-artifact-software-observer",
+              "title": "Synthetic observer log stream",
+              "kind": "log",
+              "path": "verification/evidence/SIM-002/software/observer.synthetic.log",
+              "sha256": null,
+              "required": true,
+              "notes": "Supplied synthetic text fixture; not a real test record."
+            },
+            {
+              "id": "example-artifact-software-dataset",
+              "title": "Synthetic evidence index dataset",
+              "kind": "dataset",
+              "path": "verification/evidence/SIM-002/software/dataset.synthetic.csv",
+              "sha256": null,
+              "required": true,
+              "notes": "Supplied synthetic text fixture; not a real test record."
+            },
+            {
+              "id": "example-artifact-software-camera-front",
+              "title": "Front camera reference — recording absent",
+              "kind": "video",
+              "path": "verification/evidence/SIM-002/software/video/camera-front.placeholder.mp4",
+              "sha256": null,
+              "required": false,
+              "notes": "Optional absent placeholder. No media file or reviewed recording is supplied."
+            },
+            {
+              "id": "example-artifact-software-camera-side",
+              "title": "Side camera reference — recording absent",
+              "kind": "video",
+              "path": "verification/evidence/SIM-002/software/video/camera-side.placeholder.mp4",
+              "sha256": null,
+              "required": false,
+              "notes": "Optional absent placeholder. No media file or reviewed recording is supplied."
+            },
+            {
+              "id": "example-artifact-software-overview",
+              "title": "Overview image reference — image absent",
+              "kind": "image",
+              "path": "verification/evidence/SIM-002/software/images/overview.placeholder.jpg",
+              "sha256": null,
+              "required": false,
+              "notes": "Optional absent placeholder. No media file or reviewed recording is supplied."
+            }
+          ]
+        },
+        {
+          "id": "example-verification-bracket-initial",
+          "name": "SYNTHETIC · Bracket preparation identity rejection",
+          "testCase": "NCR-001",
+          "procedurePath": "verification/system-bench-test-plan.md",
+          "performedAt": "2026-01-19T10:00:00.000Z",
+          "operator": "Training verification reviewer",
+          "componentId": "tracker-bracket",
+          "commitId": "example-commit-mvp-a",
+          "branch": "main",
+          "batchId": "example-batch-mvp-001",
+          "operationId": "tracker-bracket-op-1",
+          "retestOf": null,
+          "outcome": "failed",
+          "summary": "SYNTHETIC TRAINING ONLY. The training blank-label mismatch is preserved as its own failed run. Counts remain in the production ledger; a verification outcome never adds accepted or rejected quantities automatically.",
+          "artifacts": [
+            {
+              "id": "example-artifact-bracket-initial-protocol",
+              "title": "Synthetic case protocol",
+              "kind": "protocol",
+              "path": "verification/evidence/SIM-002/bracket-initial/protocol.synthetic.md",
+              "sha256": null,
+              "required": true,
+              "notes": "Supplied synthetic text fixture; not a real test record."
+            },
+            {
+              "id": "example-artifact-bracket-initial-application",
+              "title": "Synthetic application log stream",
+              "kind": "log",
+              "path": "verification/evidence/SIM-002/bracket-initial/application.synthetic.log",
+              "sha256": null,
+              "required": true,
+              "notes": "Supplied synthetic text fixture; not a real test record."
+            },
+            {
+              "id": "example-artifact-bracket-initial-observer",
+              "title": "Synthetic observer log stream",
+              "kind": "log",
+              "path": "verification/evidence/SIM-002/bracket-initial/observer.synthetic.log",
+              "sha256": null,
+              "required": true,
+              "notes": "Supplied synthetic text fixture; not a real test record."
+            },
+            {
+              "id": "example-artifact-bracket-initial-dataset",
+              "title": "Synthetic evidence index dataset",
+              "kind": "dataset",
+              "path": "verification/evidence/SIM-002/bracket-initial/dataset.synthetic.csv",
+              "sha256": null,
+              "required": true,
+              "notes": "Supplied synthetic text fixture; not a real test record."
+            },
+            {
+              "id": "example-artifact-bracket-initial-camera-front",
+              "title": "Front camera reference — recording absent",
+              "kind": "video",
+              "path": "verification/evidence/SIM-002/bracket-initial/video/camera-front.placeholder.mp4",
+              "sha256": null,
+              "required": false,
+              "notes": "Optional absent placeholder. No media file or reviewed recording is supplied."
+            },
+            {
+              "id": "example-artifact-bracket-initial-camera-side",
+              "title": "Side camera reference — recording absent",
+              "kind": "video",
+              "path": "verification/evidence/SIM-002/bracket-initial/video/camera-side.placeholder.mp4",
+              "sha256": null,
+              "required": false,
+              "notes": "Optional absent placeholder. No media file or reviewed recording is supplied."
+            },
+            {
+              "id": "example-artifact-bracket-initial-overview",
+              "title": "Overview image reference — image absent",
+              "kind": "image",
+              "path": "verification/evidence/SIM-002/bracket-initial/images/overview.placeholder.jpg",
+              "sha256": null,
+              "required": false,
+              "notes": "Optional absent placeholder. No media file or reviewed recording is supplied."
+            }
+          ]
+        },
+        {
+          "id": "example-verification-bracket-replacement",
+          "name": "SYNTHETIC · Independent replacement blank review",
+          "testCase": "NCR-001",
+          "procedurePath": "verification/system-bench-test-plan.md",
+          "performedAt": "2026-01-19T11:00:00.000Z",
+          "operator": "Training verification reviewer",
+          "componentId": "tracker-bracket",
+          "commitId": "example-commit-mvp-a",
+          "branch": "main",
+          "batchId": "example-batch-mvp-001",
+          "operationId": "tracker-bracket-op-1",
+          "retestOf": "example-verification-bracket-initial",
+          "outcome": "passed",
+          "summary": "SYNTHETIC TRAINING ONLY. The replacement identity review has a new run ID, protocol and logs at the same frozen configuration. The original rejection and its evidence remain unchanged. No real blank was inspected.",
+          "artifacts": [
+            {
+              "id": "example-artifact-bracket-replacement-protocol",
+              "title": "Synthetic case protocol",
+              "kind": "protocol",
+              "path": "verification/evidence/SIM-002/bracket-replacement/protocol.synthetic.md",
+              "sha256": null,
+              "required": true,
+              "notes": "Supplied synthetic text fixture; not a real test record."
+            },
+            {
+              "id": "example-artifact-bracket-replacement-application",
+              "title": "Synthetic application log stream",
+              "kind": "log",
+              "path": "verification/evidence/SIM-002/bracket-replacement/application.synthetic.log",
+              "sha256": null,
+              "required": true,
+              "notes": "Supplied synthetic text fixture; not a real test record."
+            },
+            {
+              "id": "example-artifact-bracket-replacement-observer",
+              "title": "Synthetic observer log stream",
+              "kind": "log",
+              "path": "verification/evidence/SIM-002/bracket-replacement/observer.synthetic.log",
+              "sha256": null,
+              "required": true,
+              "notes": "Supplied synthetic text fixture; not a real test record."
+            },
+            {
+              "id": "example-artifact-bracket-replacement-dataset",
+              "title": "Synthetic evidence index dataset",
+              "kind": "dataset",
+              "path": "verification/evidence/SIM-002/bracket-replacement/dataset.synthetic.csv",
+              "sha256": null,
+              "required": true,
+              "notes": "Supplied synthetic text fixture; not a real test record."
+            },
+            {
+              "id": "example-artifact-bracket-replacement-camera-front",
+              "title": "Front camera reference — recording absent",
+              "kind": "video",
+              "path": "verification/evidence/SIM-002/bracket-replacement/video/camera-front.placeholder.mp4",
+              "sha256": null,
+              "required": false,
+              "notes": "Optional absent placeholder. No media file or reviewed recording is supplied."
+            },
+            {
+              "id": "example-artifact-bracket-replacement-camera-side",
+              "title": "Side camera reference — recording absent",
+              "kind": "video",
+              "path": "verification/evidence/SIM-002/bracket-replacement/video/camera-side.placeholder.mp4",
+              "sha256": null,
+              "required": false,
+              "notes": "Optional absent placeholder. No media file or reviewed recording is supplied."
+            },
+            {
+              "id": "example-artifact-bracket-replacement-overview",
+              "title": "Overview image reference — image absent",
+              "kind": "image",
+              "path": "verification/evidence/SIM-002/bracket-replacement/images/overview.placeholder.jpg",
+              "sha256": null,
+              "required": false,
+              "notes": "Optional absent placeholder. No media file or reviewed recording is supplied."
+            }
+          ]
+        },
+        {
+          "id": "example-verification-battery",
+          "name": "SYNTHETIC · Battery asset evidence incomplete",
+          "testCase": "PWR-001",
+          "procedurePath": "verification/system-bench-test-plan.md",
+          "performedAt": "2026-01-24T11:00:00.000Z",
+          "operator": "Training verification reviewer",
+          "componentId": "power-service",
+          "commitId": "example-commit-replacement-b",
+          "branch": "main",
+          "batchId": null,
+          "operationId": "power-service-op-3",
+          "retestOf": null,
+          "outcome": "inconclusive",
+          "summary": "SYNTHETIC TRAINING ONLY. The fictional inventory evidence is incomplete, so no pass/fail conclusion is justified. This record contains no charging procedure, electrical parameters or battery service approval.",
+          "artifacts": [
+            {
+              "id": "example-artifact-battery-protocol",
+              "title": "Synthetic case protocol",
+              "kind": "protocol",
+              "path": "verification/evidence/SIM-002/battery/protocol.synthetic.md",
+              "sha256": null,
+              "required": true,
+              "notes": "Supplied synthetic text fixture; not a real test record."
+            },
+            {
+              "id": "example-artifact-battery-application",
+              "title": "Synthetic application log stream",
+              "kind": "log",
+              "path": "verification/evidence/SIM-002/battery/application.synthetic.log",
+              "sha256": null,
+              "required": true,
+              "notes": "Supplied synthetic text fixture; not a real test record."
+            },
+            {
+              "id": "example-artifact-battery-observer",
+              "title": "Synthetic observer log stream",
+              "kind": "log",
+              "path": "verification/evidence/SIM-002/battery/observer.synthetic.log",
+              "sha256": null,
+              "required": true,
+              "notes": "Supplied synthetic text fixture; not a real test record."
+            },
+            {
+              "id": "example-artifact-battery-dataset",
+              "title": "Synthetic evidence index dataset",
+              "kind": "dataset",
+              "path": "verification/evidence/SIM-002/battery/dataset.synthetic.csv",
+              "sha256": null,
+              "required": true,
+              "notes": "Supplied synthetic text fixture; not a real test record."
+            },
+            {
+              "id": "example-artifact-battery-camera-front",
+              "title": "Front camera reference — recording absent",
+              "kind": "video",
+              "path": "verification/evidence/SIM-002/battery/video/camera-front.placeholder.mp4",
+              "sha256": null,
+              "required": false,
+              "notes": "Optional absent placeholder. No media file or reviewed recording is supplied."
+            },
+            {
+              "id": "example-artifact-battery-camera-side",
+              "title": "Side camera reference — recording absent",
+              "kind": "video",
+              "path": "verification/evidence/SIM-002/battery/video/camera-side.placeholder.mp4",
+              "sha256": null,
+              "required": false,
+              "notes": "Optional absent placeholder. No media file or reviewed recording is supplied."
+            },
+            {
+              "id": "example-artifact-battery-overview",
+              "title": "Overview image reference — image absent",
+              "kind": "image",
+              "path": "verification/evidence/SIM-002/battery/images/overview.placeholder.jpg",
+              "sha256": null,
+              "required": false,
+              "notes": "Optional absent placeholder. No media file or reviewed recording is supplied."
+            }
+          ]
+        },
+        {
+          "id": "example-verification-ground-restore",
+          "name": "SYNTHETIC · Alternative ground station restore exercise",
+          "testCase": "GST-001",
+          "procedurePath": "verification/system-bench-test-plan.md",
+          "performedAt": "2026-01-21T10:00:00.000Z",
+          "operator": "Training verification reviewer",
+          "componentId": "ground-software",
+          "commitId": "example-commit-ground-variant",
+          "branch": "ground/rugged-station",
+          "batchId": null,
+          "operationId": "ground-software-op-3",
+          "retestOf": null,
+          "outcome": "passed",
+          "summary": "SYNTHETIC TRAINING ONLY. The fictional offline restore evidence belongs to the separate rugged-station branch, not main. Log filenames identify separate observer and application streams. No real workstation was restored.",
+          "artifacts": [
+            {
+              "id": "example-artifact-ground-restore-protocol",
+              "title": "Synthetic case protocol",
+              "kind": "protocol",
+              "path": "verification/evidence/SIM-002/ground-restore/protocol.synthetic.md",
+              "sha256": null,
+              "required": true,
+              "notes": "Supplied synthetic text fixture; not a real test record."
+            },
+            {
+              "id": "example-artifact-ground-restore-application",
+              "title": "Synthetic application log stream",
+              "kind": "log",
+              "path": "verification/evidence/SIM-002/ground-restore/application.synthetic.log",
+              "sha256": null,
+              "required": true,
+              "notes": "Supplied synthetic text fixture; not a real test record."
+            },
+            {
+              "id": "example-artifact-ground-restore-observer",
+              "title": "Synthetic observer log stream",
+              "kind": "log",
+              "path": "verification/evidence/SIM-002/ground-restore/observer.synthetic.log",
+              "sha256": null,
+              "required": true,
+              "notes": "Supplied synthetic text fixture; not a real test record."
+            },
+            {
+              "id": "example-artifact-ground-restore-dataset",
+              "title": "Synthetic evidence index dataset",
+              "kind": "dataset",
+              "path": "verification/evidence/SIM-002/ground-restore/dataset.synthetic.csv",
+              "sha256": null,
+              "required": true,
+              "notes": "Supplied synthetic text fixture; not a real test record."
+            },
+            {
+              "id": "example-artifact-ground-restore-camera-front",
+              "title": "Front camera reference — recording absent",
+              "kind": "video",
+              "path": "verification/evidence/SIM-002/ground-restore/video/camera-front.placeholder.mp4",
+              "sha256": null,
+              "required": false,
+              "notes": "Optional absent placeholder. No media file or reviewed recording is supplied."
+            },
+            {
+              "id": "example-artifact-ground-restore-camera-side",
+              "title": "Side camera reference — recording absent",
+              "kind": "video",
+              "path": "verification/evidence/SIM-002/ground-restore/video/camera-side.placeholder.mp4",
+              "sha256": null,
+              "required": false,
+              "notes": "Optional absent placeholder. No media file or reviewed recording is supplied."
+            },
+            {
+              "id": "example-artifact-ground-restore-overview",
+              "title": "Overview image reference — image absent",
+              "kind": "image",
+              "path": "verification/evidence/SIM-002/ground-restore/images/overview.placeholder.jpg",
+              "sha256": null,
+              "required": false,
+              "notes": "Optional absent placeholder. No media file or reviewed recording is supplied."
+            }
+          ]
+        },
+        {
+          "id": "example-verification-integration",
+          "name": "SYNTHETIC · Final integration held for unresolved prerequisites",
+          "testCase": "SYS-001",
+          "procedurePath": "verification/system-bench-test-plan.md",
+          "performedAt": "2026-01-24T12:00:00.000Z",
+          "operator": "Training verification reviewer",
+          "componentId": "verification",
+          "commitId": "example-commit-replacement-b",
+          "branch": "main",
+          "batchId": null,
+          "operationId": "verification-op-2",
+          "retestOf": null,
+          "outcome": "blocked",
+          "summary": "SYNTHETIC TRAINING ONLY. Final integration is blocked while controlled documentation and actual accepted subsystem evidence are missing. Optional absent videos are planned references, never reviewed recordings or proof of completion.",
+          "artifacts": [
+            {
+              "id": "example-artifact-integration-protocol",
+              "title": "Synthetic case protocol",
+              "kind": "protocol",
+              "path": "verification/evidence/SIM-002/integration/protocol.synthetic.md",
+              "sha256": null,
+              "required": true,
+              "notes": "Supplied synthetic text fixture; not a real test record."
+            },
+            {
+              "id": "example-artifact-integration-application",
+              "title": "Synthetic application log stream",
+              "kind": "log",
+              "path": "verification/evidence/SIM-002/integration/application.synthetic.log",
+              "sha256": null,
+              "required": true,
+              "notes": "Supplied synthetic text fixture; not a real test record."
+            },
+            {
+              "id": "example-artifact-integration-observer",
+              "title": "Synthetic observer log stream",
+              "kind": "log",
+              "path": "verification/evidence/SIM-002/integration/observer.synthetic.log",
+              "sha256": null,
+              "required": true,
+              "notes": "Supplied synthetic text fixture; not a real test record."
+            },
+            {
+              "id": "example-artifact-integration-dataset",
+              "title": "Synthetic evidence index dataset",
+              "kind": "dataset",
+              "path": "verification/evidence/SIM-002/integration/dataset.synthetic.csv",
+              "sha256": null,
+              "required": true,
+              "notes": "Supplied synthetic text fixture; not a real test record."
+            },
+            {
+              "id": "example-artifact-integration-camera-front",
+              "title": "Front camera reference — recording absent",
+              "kind": "video",
+              "path": "verification/evidence/SIM-002/integration/video/camera-front.placeholder.mp4",
+              "sha256": null,
+              "required": false,
+              "notes": "Optional absent placeholder. No media file or reviewed recording is supplied."
+            },
+            {
+              "id": "example-artifact-integration-camera-side",
+              "title": "Side camera reference — recording absent",
+              "kind": "video",
+              "path": "verification/evidence/SIM-002/integration/video/camera-side.placeholder.mp4",
+              "sha256": null,
+              "required": false,
+              "notes": "Optional absent placeholder. No media file or reviewed recording is supplied."
+            },
+            {
+              "id": "example-artifact-integration-overview",
+              "title": "Overview image reference — image absent",
+              "kind": "image",
+              "path": "verification/evidence/SIM-002/integration/images/overview.placeholder.jpg",
+              "sha256": null,
+              "required": false,
+              "notes": "Optional absent placeholder. No media file or reviewed recording is supplied."
+            }
+          ]
+        }
+      ]
     }
   }
 }

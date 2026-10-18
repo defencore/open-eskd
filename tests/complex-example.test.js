@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { access, readFile } from 'node:fs/promises';
 import * as C from '../src/domain/index.js';
 import * as E from '../src/files/index.js';
 import { checkConformance } from '../scripts/lib/conformance.mjs';
@@ -34,7 +34,7 @@ test('the complex example is deterministic, localized and matches the shipped JS
   assert.equal(english.createdAt, '2026-01-15T09:00:00.000Z');
   assert.deepEqual(english.extensions['org.openeskd.example'], {
     id: 'inspection-complex',
-    version: 1,
+    version: 2,
   });
 });
 
@@ -320,4 +320,118 @@ test('localized examples keep distinct immutable identities while their guide an
   const sameLocale = await demoProject('ua');
   assert.deepEqual(sameLocale.catalog, ukrainian.catalog);
   assert.deepEqual(sameLocale.commits, ukrainian.commits);
+});
+
+test('the learning verification journal keeps separate attempts and many evidence files at exact configurations', async () => {
+  const p = createComplexExample();
+  const { version, runs } = p.extensions['org.openeskd.verification'];
+  assert.equal(version, 1);
+  assert.equal(runs.length, 8);
+  assert.equal(new Set(runs.map((run) => run.id)).size, runs.length);
+  const artifacts = runs.flatMap((run) => run.artifacts);
+  assert.equal(artifacts.length, 56);
+  assert.equal(new Set(artifacts.map((artifact) => artifact.id)).size, 56);
+  assert.equal(
+    artifacts.filter((artifact) => artifact.kind === 'video').length,
+    16,
+  );
+  assert.equal(
+    artifacts.filter((artifact) => artifact.kind === 'log').length,
+    16,
+  );
+  assert.equal(
+    artifacts.filter((artifact) => artifact.kind === 'protocol').length,
+    8,
+  );
+  assert.deepEqual(
+    new Set(runs.map((run) => run.outcome)),
+    new Set(['failed', 'passed', 'inconclusive', 'blocked']),
+  );
+  for (const run of runs) {
+    const frozen = run.batchId
+      ? p.production.find((batch) => batch.id === run.batchId)
+      : null;
+    const snapshot = frozen?.snapshot || p.commits[run.commitId].snapshot;
+    assert.equal(frozen?.commitId || run.commitId, run.commitId);
+    const component = snapshot.components.find(
+      (item) => item.id === run.componentId,
+    );
+    assert(
+      component.manufacturing.steps.some(
+        (operation) => operation.id === run.operationId,
+      ),
+    );
+    assert.match(run.summary, /synthetic/i);
+    if (run.retestOf) {
+      const initial = runs.find((item) => item.id === run.retestOf);
+      assert.equal(initial.testCase, run.testCase);
+      assert.equal(initial.componentId, run.componentId);
+      assert.equal(initial.outcome, 'failed');
+    }
+    for (const artifact of run.artifacts) {
+      assert.equal(artifact.sha256, null);
+      assert(!artifact.path.includes('://'));
+      const path = new URL(
+        '../examples/inspection-complex-files/' + artifact.path,
+        import.meta.url,
+      );
+      if (artifact.required)
+        assert.match(await readFile(path, 'utf8'), /synthetic/i);
+      else {
+        assert.match(artifact.path, /\.placeholder\./);
+        await assert.rejects(access(path), { code: 'ENOENT' });
+      }
+    }
+  }
+  const failedA = runs.find((run) => run.id === 'example-verification-com-a');
+  const passedB = runs.find((run) => run.retestOf === failedA.id);
+  assert.equal(failedA.commitId, IDS.baseline);
+  assert.equal(failedA.batchId, IDS.batch);
+  assert.equal(passedB.commitId, IDS.replacement);
+  assert.equal(passedB.batchId, null);
+  assert.equal(passedB.outcome, 'passed');
+  assert.equal(
+    passedB.artifacts.some((artifact) =>
+      failedA.artifacts.some((original) => original.path === artifact.path),
+    ),
+    false,
+  );
+  const test = C.batchTasks(p.production[0]).find(
+    (task) =>
+      task.component.id === IDS.communications &&
+      task.step.operation === 'test',
+  );
+  assert.equal(C.taskResult(p.production[0], test.key).accepted, 1);
+  assert.equal(C.taskResult(p.production[0], test.key).rejected, 1);
+});
+
+test('localized verification identities keep configuration links and retest chains separate', () => {
+  const english = createComplexExample('en');
+  const ukrainian = createComplexExample('ua');
+  const source = english.extensions['org.openeskd.verification'].runs;
+  const localized = ukrainian.extensions['org.openeskd.verification'].runs;
+  assert.equal(localized.length, source.length);
+  for (const [index, run] of localized.entries()) {
+    assert.equal(run.id, source[index].id + '-uk');
+    assert.equal(run.commitId, source[index].commitId + '-uk');
+    assert.equal(
+      run.batchId,
+      source[index].batchId ? source[index].batchId + '-uk' : null,
+    );
+    assert.equal(
+      run.retestOf,
+      source[index].retestOf ? source[index].retestOf + '-uk' : null,
+    );
+    assert.equal(run.componentId, source[index].componentId);
+    assert.equal(run.operationId, source[index].operationId);
+    assert(ukrainian.commits[run.commitId]);
+    assert.deepEqual(
+      run.artifacts.map((artifact) => artifact.id),
+      source[index].artifacts.map((artifact) => artifact.id + '-uk'),
+    );
+    assert.deepEqual(
+      run.artifacts.map((artifact) => artifact.path),
+      source[index].artifacts.map((artifact) => artifact.path),
+    );
+  }
 });

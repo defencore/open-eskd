@@ -16,6 +16,7 @@ The canonical runtime uses schema version **6**, application version **3.0**. Al
 | `catalog`                 | Immutable independently reusable component revisions    |
 | `production`              | Frozen production batches and append-only result events |
 | `fileCheck`               | Latest imported file verification, or `null`            |
+| `extensions`              | Optional namespaced project profiles and annotations    |
 
 IDs are unique strings of at most 100 characters. Reserved prototype keys are rejected. Unknown schema fields fail validation outside the defined `extensions` maps. Object identity, revision labels and product-tree positions serve different purposes.
 
@@ -67,7 +68,19 @@ A result contains `id`, `createdAt`, `componentId`, `operationId`, `accepted`, `
 
 A verification result contains `schema: open-eskd-file-check-1`, `projectId`, `fingerprint`, `checkedAt`, `files`. File records contain only `path` and `status`. Allowed statuses are documented in [FILESYSTEM.md](FILESYSTEM.md).
 
-The SHA-256 fingerprint hashes canonical sorted-key JSON of `{projectId, snapshot}`. Import requires exact inventory coverage and current fingerprint. Stored results remain visible as stale after configuration changes. Reports are local observations, not signed attestations.
+The SHA-256 fingerprint hashes canonical sorted-key JSON of `{projectId, snapshot, verification}`. `verification` is the complete `org.openeskd.verification` payload, or `null` when absent. Import requires exact inventory coverage and current fingerprint. The inventory combines the current configuration's document paths with all test-session procedure and artifact paths. Stored results remain visible as stale after configuration or profile changes. Earlier file checks made with a different fingerprint definition must be regenerated. Reports are local observations, not signed attestations.
+
+## Optional verification profile
+
+`extensions['org.openeskd.verification']` is an interpreted project-only profile containing `{version: 1, runs: []}`. It adds no mandatory fields to schema 6; existing schema-6 projects without the profile remain valid without conversion. Test sessions are outside engineering snapshots, so saving or branching a configuration does not duplicate the journal.
+
+A run contains `id`, `name`, `testCase`, `procedurePath`, `performedAt`, `operator`, `componentId`, `commitId`, `branch`, `batchId`, `operationId`, `retestOf`, `outcome`, `summary` and `artifacts`. Nullable IDs are represented by `null`; an absent procedure uses `''`. Outcomes are `passed`, `failed`, `blocked` and `inconclusive`.
+
+Every run identifies a saved commit. A run with `batchId` uses that batch's frozen snapshot and matching commit/branch; otherwise it uses the commit snapshot. Its selected component and operation must resolve in that pinned configuration. `retestOf` identifies another run for the same case and component, and retest links must be acyclic. Sessions are append-only during exchange: matching IDs must have identical content.
+
+An artifact contains `id`, `title`, `kind`, `path`, `sha256`, `required` and `notes`. Kinds are `video`, `log`, `protocol`, `image`, `dataset` and `other`. IDs and paths are unique within a session. Paths and optional hashes use the ordinary portable file rules. Cross-session references to the same path are deduplicated in the file inventory: required status combines with logical OR, a known hash is retained over `null`, and different non-null hashes are rejected.
+
+Limits are 1,000 runs, 1,000 artifacts per run, 10,000 artifacts total and 16 MiB serialized UTF-8 for the profile. Combined file checks support 21,000 entries before deduplication: 10,000 current documents, 10,000 artifacts and 1,000 procedure paths. All evidence remains external; an outcome does not alter production accepted/rejected quantities. See [VERIFICATION.md](VERIFICATION.md) for the workflow and complete profile example.
 
 ## Exchange
 
@@ -79,6 +92,6 @@ ZIP readers accept stored and DEFLATE entries with CRC validation and safe relat
 
 ## Organizational extensions
 
-Optional `extensions` maps are allowed on the project, snapshot metadata, components, documents, routes, operations, commits, catalog revisions, batches and result events. Keys are reverse-DNS namespaces such as `org.example.quality`. Each map is bounded to 16 namespaces, 64 KiB serialized UTF-8 and nesting depth 16 per payload. Payloads contain finite JSON values; prototype keys and malformed Unicode are rejected. Extensions cannot override core fields or relax validation. Supported edits and exchanges preserve annotations; see [CONFORMANCE.md](CONFORMANCE.md).
+Optional `extensions` maps are allowed on the project, snapshot metadata, components, documents, routes, operations, commits, catalog revisions, batches and result events. Keys are reverse-DNS namespaces such as `org.example.quality`. Each map is bounded to 16 namespaces and nesting depth 16 per payload. Generic annotations together are limited to 64 KiB serialized UTF-8 per map. The interpreted project-only verification profile has its separate 16 MiB ceiling and counts toward the namespace limit; it is rejected on other entities. Payloads contain finite JSON values; prototype keys and malformed Unicode are rejected. Extensions cannot override core fields or relax validation. Supported edits and exchanges preserve annotations; see [CONFORMANCE.md](CONFORMANCE.md).
 
 ZIP import accepts one manifest with the generated metadata toolkit in the same root folder. Unexpected CAD or engineering payload entries are rejected instead of discarded. Local/directory header consistency, data descriptors, CRC and writer/reader size limits are checked against the supported subset of the [PKWARE ZIP specification](https://pkware.cachefly.net/webdocs/casestudies/APPNOTE.TXT). Encrypted, multi-volume, ZIP64 and signed-directory formats are outside this subset.

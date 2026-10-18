@@ -1,5 +1,6 @@
 export const EXAMPLE_DATE = '2026-01-15T09:00:00.000Z';
 export const EXAMPLE_NAMESPACE = 'org.openeskd.example';
+export const EXAMPLE_VERSION = 2;
 export const SUPPLIED_EXAMPLE_PATHS = Object.freeze([
   'verification/requirements-verification-matrix.csv',
   'verification/system-bench-test-plan.md',

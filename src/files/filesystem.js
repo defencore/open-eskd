@@ -2,6 +2,7 @@ import { generateBash } from './filesystem/bash.js';
 import { generatePowerShell } from './filesystem/powershell.js';
 import * as C from '../domain/index.js';
 import { hash, encoder } from './zip/index.js';
+import { projectFileInventory } from './inventory.js';
 
 export const MAX_VERIFICATION_SIZE = 32 * 1024 * 1024;
 
@@ -22,7 +23,14 @@ export async function configurationFingerprint(
 ) {
   return hash(
     encoder.encode(
-      JSON.stringify(canonical({ projectId: project.id, snapshot })),
+      JSON.stringify(
+        canonical({
+          projectId: project.id,
+          snapshot,
+          verification:
+            project.extensions?.['org.openeskd.verification'] ?? null,
+        }),
+      ),
     ),
   );
 }
@@ -35,7 +43,7 @@ export async function filesystemScripts(
   C.validateProject(project);
   if (!['bash', 'powershell'].includes(platform))
     throw new Error('Choose Bash or PowerShell.');
-  const inventory = C.fileInventory(C.working(project));
+  const inventory = projectFileInventory(project);
   const projectId = project.id;
   const fingerprint = await configurationFingerprint(project);
   return platform === 'powershell'
@@ -45,20 +53,20 @@ export async function filesystemScripts(
 
 export async function acceptFileCheck(project, report) {
   const candidate = C.clone(project);
-  candidate.fileCheck = report;
+  candidate.fileCheck = C.clone(report);
   C.validateProject(candidate);
-  const fingerprint = await configurationFingerprint(project);
-  if (report.fingerprint !== fingerprint)
+  const expected = projectFileInventory(candidate)
+    .files.map((file) => file.path)
+    .sort();
+  const fingerprint = await configurationFingerprint(candidate);
+  if (candidate.fileCheck.fingerprint !== fingerprint)
     throw new Error(
       'The verification report belongs to a different configuration. Generate and run the current check script.',
     );
-  const expected = C.fileInventory(C.working(project))
-    .files.map((file) => file.path)
-    .sort();
-  const actual = report.files.map((file) => file.path).sort();
+  const actual = candidate.fileCheck.files.map((file) => file.path).sort();
   if (!C.equal(expected, actual))
     throw new Error(
       'The verification report does not cover the expected files.',
     );
-  project.fileCheck = C.clone(report);
+  project.fileCheck = candidate.fileCheck;
 }

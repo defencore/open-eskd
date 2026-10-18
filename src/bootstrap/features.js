@@ -31,6 +31,9 @@ import { createSettingsView } from '../ui/views/settings.js';
 import { createProductionView } from '../ui/production/view.js';
 import { createProductionDialogs } from '../ui/production/dialogs.js';
 import { createExamplesView } from '../ui/views/examples.js';
+import { createVerificationView } from '../ui/verification/view.js';
+import { createVerificationDialogs } from '../ui/verification/dialogs.js';
+import { createVerificationEvidenceEditor } from '../ui/verification/evidence-editor.js';
 import { createNavigation } from '../application/navigation.js';
 import { createExchange } from '../application/exchange.js';
 import { attachFeature } from './context.js';
@@ -69,6 +72,9 @@ const features = [
   createProductionView,
   createProductionDialogs,
   createExamplesView,
+  createVerificationView,
+  createVerificationDialogs,
+  createVerificationEvidenceEditor,
   createNavigation,
   createExchange,
 ];

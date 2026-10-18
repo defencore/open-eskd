@@ -5,6 +5,7 @@ import { validateSnapshot } from './snapshot-validation.js';
 import { validateCatalog } from './catalog/validation.js';
 import { validateProduction } from './production-validation.js';
 import { validateFileCheck } from './file-check-validation.js';
+import { validateVerification } from './verification.js';
 import { SCHEMA, VERSION, STATUSES } from './constants.js';
 import { own } from './objects.js';
 
@@ -61,7 +62,7 @@ export function validateProject(project) {
       Object.keys(project.commits).length <= 5000,
     'Invalid version count.',
   );
-  validateExtensions(project.extensions);
+  validateExtensions(project.extensions, { verification: true });
   validateCatalog(project.catalog);
   for (const [id, commit] of Object.entries(project.commits)) {
     assert(
@@ -143,6 +144,7 @@ export function validateProject(project) {
     validateSnapshot(branch.working, project.catalog);
   }
   validateProduction(project);
+  validateVerification(project);
   validateFileCheck(project);
   return project;
 }

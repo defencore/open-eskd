@@ -1,0 +1,9 @@
+SYNTHETIC TRAINING STREAM - no real equipment or application execution.
+run=example-verification-com-a
+case=COM-003
+stream=application
+configuration=example-commit-mvp-a
+exampleOutcome=failed
+realEquipmentUsed=false
+realApproval=false
+Media references are absent placeholders; this stream is manually fabricated.

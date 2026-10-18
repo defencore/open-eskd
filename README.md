@@ -12,18 +12,21 @@ A client-only engineering project workspace with EN/UA UI, offline use, versione
 6. Generate a read-only check script, capture its JSON result and import it. Export a local HTML report with relative images and links. A metadata ZIP bundles the JSON, scripts, report and manufacturing inventory.
 7. Save project versions and design variants. Export **project JSON** regularly and transfer the referenced files separately.
 8. Issue an MVP or series batch. The work order freezes the active configuration, multiplies quantities and tracks accepted units, rejected attempts, inspection notes and evidence paths. Export work orders by facility.
+9. Use **Test journal** for repeated test sessions. Choose a saved version or frozen batch, select a component and optional operation, and record the case, procedure, operator and outcome. Paste many relative paths at once to attach videos, logs, protocols, images or datasets. Record a retest as a new linked session so failed attempts and their evidence remain available.
 
 The browser needs no access to CAD file bytes. File verification is an imported observation of the local filesystem. File presence does not approve design or manufacturing correctness. Production tracking is a basic quantity ledger; individual serial pairing, inventory, scheduling and signatures are not included.
 
-[Local-file workflow](docs/FILESYSTEM.md) · [Production](docs/PRODUCTION.md) · [Manufacturing](docs/MANUFACTURING.md) · [Staged assembly example](docs/STAGED_ASSEMBLY.md)
+[Local-file workflow](docs/FILESYSTEM.md) · [Tests and evidence](docs/VERIFICATION.md) · [Production](docs/PRODUCTION.md) · [Manufacturing](docs/MANUFACTURING.md) · [Staged assembly example](docs/STAGED_ASSEMBLY.md)
+
+The test journal searches sessions and evidence paths, filters by outcome, component or batch, and displays evidence in searchable pages. A session can contain many camera recordings, several independent logs and a protocol. The file scripts include every recorded session's paths, including historical versions. Reports group evidence by test case and retain the exact configuration tested. Recording a passed test does not automatically accept production quantities.
 
 ## Learn with a complete complex
 
 Choose **Explore the example** on the project screen. Its EN/UA learning guide links directly to a civilian inspection UAV, control console, ground station, communications, antenna tracker, battery service, purchased launch-assist and recovery systems, software configurations and verification evidence.
 
-The example has 54 elements, 75 file references, four saved versions, two branches, two published component revisions and a synthetic MVP work order. Follow a telemetry component replacement from revision A to B while the earlier batch retains its original configuration. Software manifests, requirements, test plans, optional video paths and explicitly synthetic logs show how to organize evidence without loading large files into the browser.
+The example has 54 elements, 75 document references, four saved versions, two branches, two published component revisions, a synthetic MVP work order and eight test sessions with 56 evidence references. Follow a telemetry component replacement from revision A to B while the earlier batch retains its original configuration and failed session. Software manifests, requirements, test plans, multi-camera paths, protocols and explicitly synthetic logs show how to organize evidence without loading large files into the browser.
 
-The guide explains how to create your own project from an empty structure. Opening the example again preserves your edits; every saved example copy remains selectable in the project list. The offline package includes the guide, stable JSON and small synthetic text fixtures. Media and engineering binaries are not supplied.
+The guide explains how to create your own project from an empty structure. Reopening the current example selects its saved copy without replacing edits. When example content is updated, a new copy opens and earlier copies remain selectable in the project list. The offline package includes the guide, stable JSON and small synthetic text fixtures. Media and engineering binaries are not supplied.
 
 [Complex example walkthrough](docs/COMPLEX_EXAMPLE.md) · [Example JSON](examples/inspection-complex.json) · [Synthetic companion files](examples/inspection-complex-files/README.md)
 
@@ -40,6 +43,8 @@ A component package includes the selected revision, ancestry, dependency closure
 The hosted application caches its local assets after a successful visit. `dist/open-eskd.html` is a standalone build that can be opened locally without installation or a server. `dist/open-eskd-offline.zip` bundles that app, documentation and stable examples. Browser-origin workspaces are separate; export JSON before changing browser or address.
 
 Only the current schema is accepted. Unsupported or damaged stored records remain untouched and can be exported for external recovery. Clearing browser data removes local workspaces; export first.
+
+Test sessions use the optional `org.openeskd.verification` version-1 profile within schema 6. Existing schema-6 projects without it remain valid and require no conversion. Metadata limits are 1,000 sessions, 1,000 artifacts per session, 10,000 artifacts total and 16 MiB for the profile; the combined file-check inventory supports 21,000 entries. External video and log sizes do not consume these metadata limits.
 
 [Offline guide](docs/OFFLINE.md)
 
